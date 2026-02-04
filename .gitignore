@@ -1,0 +1,4 @@
+project/models/migrations/*
+*__pycache__*
+project/static/admin/
+project/db.sqlite3

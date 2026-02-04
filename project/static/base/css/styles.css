@@ -1,0 +1,121 @@
+:root {
+  --text-color: black;
+  --muted-text-color: rgb(130, 130, 130);
+  --link-color: rgb(90, 90, 255); 
+  --link-hover-color: rgb(70, 70, 220);
+
+  --nav-background-color: rgb(208, 210, 218);
+  --menu-background-color: rgb(213, 215, 223);
+  --page-header-background-color: rgb(226, 225, 221);
+  --background-color: rgb(255, 250, 235);
+  --border-color: rgb(184, 184, 184);
+
+  --content-background-color: rgb(225, 225, 227);
+  --menu-link-hover-background-color: #00000026;
+
+  --nav-height: 3.5rem;
+  --sidebar-width: 14.5rem;
+  --main-gap: 4rem;
+
+  --border-radius: 3px;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+ 
+}
+
+html * {
+  margin: 0;
+  padding: 0;
+  font-size: 14.25px;
+  line-height: 1.4;
+  letter-spacing: 0.1px;
+  box-sizing: border-box; 
+}
+
+body {
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+.profile-image-container {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eee;
+}
+
+.profile-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.contact-info-table table {
+  width: 400px;
+}
+
+.contact-info-table th,
+.contact-info-table td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.contact-info-table th {
+  background-color: #f4f4f4;
+  width: 120px;
+}
+
+/* My Events Table */
+.my-events-table {
+  width: 100%;
+  max-width: 700px;
+  margin: 20px 0;
+}
+
+.info-list-table th,
+.info-list-table td {
+  font-size: 0.8rem; 
+  border: 1px solid rgb(204, 204, 204);
+  padding: 2px 4px;
+  text-align: left;
+}
+
+.info-list-table th {
+  background-color: rgb(219, 219, 229);
+}
+
+.info-list-table tbody {
+  background-color: rgb(255, 255, 255);
+}
+
+.info-list-table tbody tr {
+  background-color: rgb(240, 240, 250);
+}
+
+.info-list-table tbody tr:nth-child(odd) {
+  background-color: rgb(250, 250, 250);
+}
+
+.info-list-table tbody tr:hover {
+  background-color: red;
+}
+
+@media (max-width: 1200px) {
+}
+
+@media (max-width: 900px) {
+}
+
+@media (max-width: 650px) {
+}

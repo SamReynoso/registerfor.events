@@ -1,0 +1,46 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+<p> This is the you events page.</p>
+<a href="{% url 'create:events' %}">Create Event</a>
+
+<table class="info-list-table">
+  <thead>
+    <tr>
+      <th>Event Name</th>
+      <th>Host</th>
+      <th>My Team</th>
+      <th>City</th>
+      <th>State</th>
+      <th>ZIP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Spring Cup</td>
+      <td>City Sports Club</td>
+      <td>Falcons</td>
+      <td>New York</td>
+      <td>NY</td>
+      <td>10001</td>
+    </tr>
+    <tr>
+      <td>Summer Tournament</td>
+      <td>Downtown Athletics</td>
+      <td>Sharks</td>
+      <td>Los Angeles</td>
+      <td>CA</td>
+      <td>90001</td>
+    </tr>
+    <tr>
+      <td>Autumn League</td>
+      <td>Metro Sports</td>
+      <td>Tigers</td>
+      <td>Chicago</td>
+      <td>IL</td>
+      <td>60601</td>
+    </tr>
+  </tbody>
+</table>
+
+{% endblock %}

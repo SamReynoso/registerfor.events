@@ -1,0 +1,12 @@
+{% extends "create/base.html" %}
+
+{% block content %}
+  <p>Create an Event.</p>
+
+  the form should be here
+  <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Create Event</button>
+  </form>
+{% endblock %}

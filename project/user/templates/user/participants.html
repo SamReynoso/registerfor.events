@@ -1,0 +1,33 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+<p>Events you have hosted.</p>
+<a href="{% url 'user:hosting' %}">Hosting</a>
+<br>
+<a href="{% url 'create:events' %}">Create Event</a>
+
+
+<table class="info-list-table">
+  <thead>
+    <tr>
+      <th>Contact</th>
+      <th>Event</th>
+      <th>Attended</th>
+      <th>Invoice</th>
+      <th>Paid</th>
+      <th>Cancelled</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Best Team</td>
+      <td>Summer Tournament</td>
+      <td>True</td>
+      <td>000001</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+
+{% endblock %}

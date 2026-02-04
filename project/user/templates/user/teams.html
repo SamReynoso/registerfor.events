@@ -1,0 +1,28 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+<p> This is the your teams page.</p>
+<a href="{% url 'create:teams' %}">Create Teams</a>
+<table class="info-list-table">
+  <thead>
+    <tr>
+      <th>Team Name</th>
+      <th>Gender</th>
+      <th>Division</th>
+      <th>Sport</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for team in teams %}
+    <tr>
+      <td>{{ team.name }}</td>
+      <td>{{ team.gender }}</td>
+      <td>{{ team.division }}</td>
+      <td>{{ team.sport }}</td>
+    </tr>
+  {% endfor %}
+
+  </tbody>
+</table>
+
+{% endblock %}
