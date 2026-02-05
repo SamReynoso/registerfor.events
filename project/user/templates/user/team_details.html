@@ -2,5 +2,60 @@
 
 {% block content %}
 <p>Teams Details.</p>
+
+<div class="profile-image-container">
+  <p>placeholder</p>
+</div>
+
+<a href="#">Add team photo </a>
+
+<ul>
+  <li>
+    {{ team.name }}
+  </li>
+  <li>
+    {{ team.gender }}
+  </li>
+  <li>
+    {{ team.division }}
+  </li>
+  <li>
+    {{ team.sport }}
+  </li>
+</ul>
+
+<h2>Upcoming Events </h2>
+
+<table class="info-list-table">
+  <thead>
+    <tr>
+      <th>Event Name</th>
+      <th>Host</th>
+      <th>My Team</th>
+      <th>City</th>
+      <th>State</th>
+      <th>ZIP</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for registration in registrations %}
+    <tr>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="#">Past Events</a>
+<a href="#">Pending Actions</a>
+<a href="#">Delete Team</a>
+
 {% endblock %}
 

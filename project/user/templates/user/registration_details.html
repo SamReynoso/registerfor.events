@@ -1,0 +1,41 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+<p>Registration Details.</p>
+<ul>
+  <li>
+    {{ registration.event.name }}
+  </li>
+  <li>
+    {{ registration.event.status }}
+  </li>
+  <li>
+    {{ registration.event.sport }}
+  </li>
+  <li>
+    {{ registration.event.owner }}
+  </li>
+  <li>
+    {{ registration.event.city}}
+  </li>
+  <li>
+    {{ registration.event.state}}
+  </li>
+</ul>
+
+<ul>
+  <li>
+    {{ registration.team.name }}
+  </li>
+  <li>
+    {{ registration.team.division }}
+  </li>
+  <li>
+    {{ registration.team.gender }}
+  </li>
+</ul>
+
+<a href="#">Withdraw</a>
+
+{% endblock %}
+

@@ -24,7 +24,7 @@ class Gender(models.TextChoices):
     ALL = 'all', 'All'
 
 
-class Division(models.TextChoices):
+class DivisionChoices(models.TextChoices):
     U6 = "U6"
     U8 = "U8"
     U10 = "u10", "U10"
@@ -41,11 +41,43 @@ class Division(models.TextChoices):
     MASTERS70 = "masters70", "Masters70"
 
 
+class State(models.TextChoices):
+    CALIFONIA = "calilfornia", "California"
+
+
 class Event(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='events',
                               on_delete=models.CASCADE)
     name = models.CharField(max_length=150, unique=True)
+    city = models.CharField(max_length=150, unique=True)
+    state = models.CharField(max_length=20,
+                             choices=State.choices,
+                             default=State.CALIFONIA)
+    sport = models.CharField(max_length=20,
+                             choices=Sports.choices,
+                             default=Sports.BASKETBALL)
+    # start_date = models.DateField()
+    # end_date = models.DateField()
+    public = models.BooleanField(default=False)
+
+    def upcoming(self):
+        return True
+
+    def status(self):
+        cancelled = False
+        if cancelled:
+            return "Cancelled"
+        if self.upcoming():
+            return "Upcoming"
+        return "Completed"
+
+
+class Division(models.Model):
+    name = models.CharField(max_length=20, choices=DivisionChoices.choices)
+    event = models.ForeignKey(Event,
+                              related_name='divisions',
+                              on_delete=models.CASCADE)
 
 
 class Team(models.Model):
@@ -55,7 +87,20 @@ class Team(models.Model):
     name = models.CharField(max_length=150, unique=True)
     gender = models.CharField(max_length=20, choices=Gender.choices)
     division = models.CharField(max_length=20,
-                                choices=Division.choices,)
+                                choices=DivisionChoices.choices,)
     sport = models.CharField(max_length=20,
                              choices=Sports.choices,
                              default=Sports.BASKETBALL)
+
+
+class Registration(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
+                              related_name='registrations',
+                              on_delete=models.CASCADE)
+    event = models.ForeignKey(Event,
+                              related_name='registrations',
+                              on_delete=models.CASCADE)
+    team = models.ForeignKey(Team,
+                             related_name='registrations',
+                             on_delete=models.CASCADE)
+

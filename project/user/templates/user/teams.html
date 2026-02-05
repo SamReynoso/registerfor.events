@@ -1,8 +1,11 @@
 {% extends "user/base.html" %}
 
 {% block content %}
+
 <p> This is the your teams page.</p>
+
 <a href="{% url 'create:teams' %}">Create Teams</a>
+
 <table class="info-list-table">
   <thead>
     <tr>
@@ -10,6 +13,7 @@
       <th>Gender</th>
       <th>Division</th>
       <th>Sport</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -19,6 +23,7 @@
       <td>{{ team.gender }}</td>
       <td>{{ team.division }}</td>
       <td>{{ team.sport }}</td>
+      <td><a href="{% url 'user:team_details' team_id=team.id %}">view</a></td>
     </tr>
   {% endfor %}
 

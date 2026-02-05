@@ -1,6 +1,48 @@
 {% extends "base/base.html" %}
 
 {% block content %}
-<p> This is the events page.</p>
+
 <a href="{% url 'create:events' %}">Create</a>
+
+<div>
+  <h2>Local search and sign-up</h2>
+  Search and join sporting event in your area.
+</div>
+
+<table class="info-list-table">
+  <thead>
+    <tr>
+      <th>Event Name</th>
+      <th>Host</th>
+      <th>Sport</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for event in events %}
+    <tr>
+      <td>
+        {{ event.name }}
+      </td>
+      <td>
+        {{ event.owner }}
+      </td>
+      <td>
+        {{ event.sport }}
+      </td>
+      <td>
+        {{ event.city }}
+      </td>
+      <td>
+        {{ event.state }}
+      </td>
+      <td>
+        <a href="{% url "details:event" event_id=event.id %}">View</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

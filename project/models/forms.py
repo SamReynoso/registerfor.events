@@ -21,7 +21,7 @@ class ProfileForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['name']
+        fields = ['name', 'sport', 'city', 'state']
 
     def form_valid(self, form):
         form.instance.owner = self.request.user

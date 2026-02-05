@@ -19,4 +19,8 @@ urlpatterns = [
     path('team-details/<int:team_id>',
          views.team_details,
          name='team_details'),
+
+    path('registration_details/<int:registration_id>',
+         views.registration_details,
+         name='registration_details'),
 ]

@@ -1,0 +1,78 @@
+{% extends "create/base.html" %}
+
+
+{% block content %}
+<div class="profile-image-container">
+  <p>placeholder</p>
+</div>
+
+<ul>
+  <li>
+    {{ event.name }}
+  </li>
+  <li>
+    {{ event.city }}
+  </li>
+  <li>
+    {{ event.state}}
+  </li>
+  <li>
+    {{ event.sport }}
+  </li>
+</ul>
+
+<form method="post">
+    {% csrf_token %}
+  <table class="info-list-table">
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Gender</th>
+        <th>Division</th>
+        <th>Sport</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for team in teams %}
+      <tr>
+        <td>{{ team.name }}</td>
+        <td>{{ team.gender }}</td>
+        <td>{{ team.division }}</td>
+        <td>{{ team.sport }}</td>
+        <td>
+          <input type="checkbox" name="team{{ team.id }}"></input>
+        </td>
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+  <button type=submit>Register These Teams</button>
+</form>
+
+<h1>Teams already registered</h1>
+  <table class="info-list-table">
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Gender</th>
+        <th>Division</th>
+        <th>Sport</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for registration in registered_teams %}
+      <tr>
+        <td>{{ registration.team.name }}</td>
+        <td>{{ registration.team.gender }}</td>
+        <td>{{ registration.team.division }}</td>
+        <td>{{ registration.team.sport }}</td>
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+  <a href="#">Manage Registrations</button>
+</form>
+{% endblock %}

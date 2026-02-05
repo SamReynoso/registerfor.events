@@ -1,13 +1,15 @@
 from django.contrib.auth import logout, authenticate, login
 from django.shortcuts import render, redirect
 from models.forms import RegisterForm
+from models.models import Event, Profile
 
 
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            Profile.objects.create(user=user)
             return redirect('base:login')
     else:
         form = RegisterForm()
@@ -42,7 +44,9 @@ def home(request):
 
 
 def events(request):
-    return render(request, 'base/events.html')
+    events = Event.objects.all()
+    context = {'events': events}
+    return render(request, 'base/events.html', context)
 
 
 def hosts(request):

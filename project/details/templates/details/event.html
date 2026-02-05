@@ -1,4 +1,4 @@
-{% extends "user/base.html" %}
+{% extends "details/base.html" %}
 
 {% block content %}
 <p>Event Details.</p>
@@ -8,8 +8,6 @@
 <div class="profile-image-container">
   <p>placeholder</p>
 </div>
-
-<a href="#">Add Event Poster</a>
 
 <ul>
   <li>
@@ -24,10 +22,9 @@
   <li>
     {{ event.sport }}
   </li>
-  <li>
-    {{ event.public }}
-  </li>
 </ul>
+
+<a href="{% url 'create:register_for_event' event_id=event.id %}">Join</a>
 
 <h2>Divisions</h2>
 
@@ -45,13 +42,12 @@
       <td>{{ team.name }}</td>
       <td>{{ team.gender }}</td>
       <td>{{ team.division }}</td>
-      <td><a href="{% url 'details:team_details' team_id=team.id %}">view</a></td>
+      <td><a href="{% url 'user:team_details' team_id=team.id %}">view</a></td>
     </tr>
   {% endfor %}
 
   </tbody>
 </table>
-<a href="#">edit division options</a>
 <h2>Participants</h2>
 
 <table class="info-list-table">
@@ -64,20 +60,16 @@
     </tr>
   </thead>
   <tbody>
-
   {% for registration in registrations %}
     <tr>
       <td>{{ registration.team.name }}</td>
-      <td>{{ registration.team.gender }}</td>
-      <td>{{ registration.team.division }}</td>
+      <td>{{  registration.team.gender }}</td>
+      <td>{{  registration.team.division }}</td>
       <td><a href="{% url 'details:team' team_id=registration.team.id %}">view</a></td>
     </tr>
   {% endfor %}
 
-
   </tbody>
 </table>
-
-<a href="#">Cancel this event</a>
 
 {% endblock %}

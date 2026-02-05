@@ -31,11 +31,44 @@ html * {
   box-sizing: border-box; 
 }
 
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.4rem;
+}
+
 body {
   color: var(--text-color);
   background-color: var(--background-color);
   font-family: Arial, sans-serif;
   overflow-x: hidden;
+}
+
+.header {
+  margin: 2rem;
+}
+
+.container {
+  margin: .5rem;
+  padding: .5rem;
+  padding-bottom: 5rem;
+  background-color:rgb(245, 245, 245); 
+  border-radius: 0.25rem;
+}
+
+.back-button {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.sports-card {
+  background-color: rgb(248, 248, 485);
+  width: fit-content;
+  padding: 0.5rem;
+  box-shadow: 1px 2px 3px rgba(136, 136, 136, 0.5);
+  border-radius: 0.25rem;
 }
 
 .profile-image-container {
@@ -47,6 +80,37 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #eee;
+}
+
+
+.sport-ball-image-container {
+  width: 120px;
+  height: 120px;
+
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(119, 119, 119);
+}
+
+.navigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: var(--nav-background-color);
+
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.navigation a {
+  color: #111827;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navigation a:hover {
+  text-decoration: underline;
 }
 
 .profile-image-container img {

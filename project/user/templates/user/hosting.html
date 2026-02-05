@@ -10,38 +10,24 @@
   <thead>
     <tr>
       <th>Event Name</th>
-      <th>Host</th>
-      <th>My Team</th>
       <th>City</th>
       <th>State</th>
-      <th>ZIP</th>
+      <th>Sport</th>
+      <th>Status</th>
+      <th>Details</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Spring Cup</td>
-      <td>City Sports Club</td>
-      <td>Falcons</td>
-      <td>New York</td>
-      <td>NY</td>
-      <td>10001</td>
-    </tr>
-    <tr>
-      <td>Summer Tournament</td>
-      <td>Downtown Athletics</td>
-      <td>Sharks</td>
-      <td>Los Angeles</td>
-      <td>CA</td>
-      <td>90001</td>
-    </tr>
-    <tr>
-      <td>Autumn League</td>
-      <td>Metro Sports</td>
-      <td>Tigers</td>
-      <td>Chicago</td>
-      <td>IL</td>
-      <td>60601</td>
-    </tr>
+    {% for event in events.all %}
+      <tr>
+        <td>{{ event.name }}</td>
+        <td>{{ event.city }}</td>
+        <td>{{ event.state }}</td>
+        <td>{{ event.sport }}</td>
+        <td>{{ event.status }}</td>
+        <td><a href="{% url "user:event_details" event_id=event.id %}">View</td>
+      </tr>
+    {% endfor %}
   </tbody>
 </table>
 
