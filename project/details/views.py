@@ -3,7 +3,7 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
-from models.models import Event, Registration, Team, Profile
+from models.models import Division, Event, Registration, Team, Profile
 
 
 def profile(request, profile_id: int):
@@ -15,7 +15,6 @@ def profile(request, profile_id: int):
 def event(request, event_id: int):
     event = Event.objects.get(id=event_id)
     registrations = Registration.objects.filter(event=event).all()
-    print(registrations)
     context = {
             'event': event,
             'registrations': registrations
@@ -27,3 +26,50 @@ def team(request, team_id: int):
     team = get_object_or_404(Team, id=team_id)
     context = {'team': team}
     return render(request, 'details/team.html', context)
+
+
+def division(request, division_id: int):
+    division = get_object_or_404(Division, id=division_id)
+    context = {'division': division}
+    return render(request, 'details/division.html', context)
+
+
+def search_results(request):
+    context = {}
+    if request.method == 'GET':
+        query = request.GET
+        sport = query.get('sport')
+        city = query.get('city')
+        state = query.get('state')
+        # radius = 'all'
+        # date_range = query.get('city')
+        gender = query.get('gender')
+        divisions = query.getlist('division[]')
+
+        qs = Event.objects.all()
+
+        if sport != 'all':
+            qs = qs.filter(sport=sport)
+
+        if city != 'all':
+            qs = qs.filter(city__iexact=city)
+
+        if state != 'all':
+            qs = qs.filter(state=state)
+
+        if gender != 'all':
+            qs = qs.filter(divisions__gender=gender)
+
+        if 'all' not in divisions:
+            if gender == 'all':
+                qs = qs.filter(divisions__name__in=divisions)
+            else:
+                qs = qs.filter(divisions__name__in=divisions,
+                               divisions__gender=gender)
+
+#
+#        if start_date:
+#            qs = qs.filter(start_date__gte=start_date)
+
+        context = {'events': qs.all()}
+    return render(request, 'details/search_results.html', context)

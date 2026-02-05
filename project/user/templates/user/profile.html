@@ -2,6 +2,7 @@
 
 {% block content %}
 <p> This is the your profile.</p>
+<a href="{% url 'details:profile' profile_id=user.profile.id%}">View public profile</a>
 
 <div class="profile-image-container">
   <p>placeholder</p>

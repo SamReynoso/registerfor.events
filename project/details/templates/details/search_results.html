@@ -1,14 +1,6 @@
-{% extends "base/base.html" %}
+{% extends "details/base.html" %}
 
 {% block content %}
-
-<a href="{% url 'create:events' %}">Create</a>
-
-<div>
-  <h2>Local search and sign-up</h2>
-  Search and join sporting event in your area.
-</div>
-
 <form method="get" action="/details/search" class="event-search-form">
 
   <h2>Find a Game to Join</h2>
@@ -99,7 +91,8 @@
   </details>
   <button type="submit">Search Events</button>
 </form>
-
+<h2>Search Results.</h2>
+ 
 <table class="info-list-table">
   <thead>
     <tr>

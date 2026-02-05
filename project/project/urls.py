@@ -7,4 +7,5 @@ urlpatterns = [
     path('account/', include('user.urls')),
     path('create/', include('create.urls')),
     path('details/', include('details.urls')),
+    path('notifications/', include('notifications.urls')),
 ]

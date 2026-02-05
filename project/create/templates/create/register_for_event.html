@@ -21,6 +21,34 @@
   </li>
 </ul>
 
+<a href="{% url 'details:event' event_id=event.id %}">View Details</a>
+
+<h3>Available Divisions</h3>
+  <table class="info-list-table">
+    <thead>
+      <tr>
+        <th>Gender</th>
+        <th>Division</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    {% for division in event.divisions.all %}
+      <tr>
+        <td>{{ division.gender }}</td>
+        <td>{{ division.name }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  {% for reg in regs %}
+    {{ reg }}
+  {% endfor %}
+
+{{ registered_team_ids }}
+
+<h2>Register Your Teams</h2>
 <form method="post">
     {% csrf_token %}
   <table class="info-list-table">
@@ -30,49 +58,39 @@
         <th>Gender</th>
         <th>Division</th>
         <th>Sport</th>
-        <th></th>
+        <th>Select</th>
       </tr>
     </thead>
     <tbody>
     {% for team in teams %}
+    {% with key=team.gender|add:"-"|add:team.division %}
       <tr>
         <td>{{ team.name }}</td>
         <td>{{ team.gender }}</td>
         <td>{{ team.division }}</td>
         <td>{{ team.sport }}</td>
         <td>
-          <input type="checkbox" name="team{{ team.id }}"></input>
+          {% if team.id in registered_team_ids %}
+            check mark
+          {% else %}
+            {% if key in available_division_keys %}
+              <input type="checkbox" name="team{{ team.id }}"></input>
+            {% else %}
+              Nope
+              <input type="checkbox" name="team{{ team.id }}" disabled></input>
+            {% endif %}
+          {% endif %}
         </td>
       </tr>
+      {% endwith %}
     {% endfor %}
 
     </tbody>
   </table>
-  <button type=submit>Register These Teams</button>
+  <button type=submit>Register Teams</button>
 </form>
 
-<h1>Teams already registered</h1>
-  <table class="info-list-table">
-    <thead>
-      <tr>
-        <th>Team Name</th>
-        <th>Gender</th>
-        <th>Division</th>
-        <th>Sport</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for registration in registered_teams %}
-      <tr>
-        <td>{{ registration.team.name }}</td>
-        <td>{{ registration.team.gender }}</td>
-        <td>{{ registration.team.division }}</td>
-        <td>{{ registration.team.sport }}</td>
-      </tr>
-    {% endfor %}
+<a href="#">Create Teams</a></br>
+<a href="#">Manage Registrations</a>
 
-    </tbody>
-  </table>
-  <a href="#">Manage Registrations</button>
-</form>
 {% endblock %}

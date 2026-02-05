@@ -28,6 +28,7 @@
   <div style="display: flex; flex-direction: row; gap: 1rem; align-items: center">
     {% if request.user.is_authenticated %}
     <a href="{% url 'user:account' %}">Account</a>
+      <a href="{% url 'notifications:notifications' %}">Notifications</a>
       <a href="{% url 'base:logout' %}">Logout</a>
     {% else %}
       <a href="{% url 'base:login' %}">Login</a>

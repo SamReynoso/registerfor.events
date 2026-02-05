@@ -2,7 +2,7 @@
 
 {% block content %}
 <p>Event Details.</p>
-<h1>Visability: {{ event.public }}</h1>
+<h1>Visibility: {{ event.public }}</h1>
 <h1>Status: {{ event.status }}</h1>
 
 <div class="profile-image-container">
@@ -40,18 +40,17 @@
     </tr>
   </thead>
   <tbody>
-  {% for team in teams %}
+  {% for division in event.divisions.all %}
     <tr>
-      <td>{{ team.name }}</td>
-      <td>{{ team.gender }}</td>
-      <td>{{ team.division }}</td>
-      <td><a href="{% url 'details:team_details' team_id=team.id %}">view</a></td>
+      <td>{{ division.gender }}</td>
+      <td>{{ division.name }}</td>
+      <td>{{ division.reg_count }}</td>
     </tr>
   {% endfor %}
 
   </tbody>
 </table>
-<a href="#">edit division options</a>
+<a href="{% url 'user:event_divisions' event_id=event.id %}">edit division options</a>
 <h2>Participants</h2>
 
 <table class="info-list-table">

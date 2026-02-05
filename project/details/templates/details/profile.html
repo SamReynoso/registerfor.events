@@ -1,0 +1,6 @@
+{% extends "details/base.html" %}
+
+{% block content %}
+{{ profile }}
+<a href="{% url 'notifications:conversation' profile_id=profile.id %}">Direct Message</a>
+{% endblock content %}

@@ -44,24 +44,39 @@ def teams(request):
 @login_required(login_url='/login/')
 def register_for_event(request, event_id: int):
     event = get_object_or_404(Event, id=event_id)
-    registered_teams = Registration.objects.filter(event=event)
-    print('---->', registered_teams)
-    registered_team_ids = registered_teams.values_list('team_id', flat=True)
-    available_teams = Team.objects.filter(owner=request.user).exclude(
-        id__in=registered_team_ids)
 
-    # Possible add a check here that all teams can be create before committing
-    # anting to the database
+    teams = Team.objects.filter(owner=request.user).all()
+
+    available_division_keys = [
+            f'{division.gender}-{division.name}'
+            for division in event.divisions.all()
+            ]
+
+    registered_team_ids = [
+            reg.team.id
+            for reg in Registration.objects.filter(
+                owner=request.user, event=event)
+            ]
+
     if request.method == 'POST':
-        for team in available_teams:
+        for team in teams:
             if request.POST.get(f'team{team.pk}') == 'on':
-                Registration.objects.create(owner=request.user,
-                                            event=event,
-                                            team=team)
-        return redirect('user:event_details', event_id=event_id)
+                Registration.objects.create(
+                        owner=request.user,
+                        event=event,
+                        team=team,
+                        assigned_division=event.divisions.get(
+                            gender=team.gender,
+                            name=team.division)
+                        )
+
+        return redirect('details:event', event_id=event_id)
+
     context = {
             'event': event,
-            'teams': available_teams,
-            'registered_teams': registered_teams
+            'available_division_keys': available_division_keys,
+            'registered_team_ids': registered_team_ids,
+            'teams': teams,
             }
+
     return render(request, 'create/register_for_event.html', context)

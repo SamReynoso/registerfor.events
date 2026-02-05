@@ -5,23 +5,27 @@ import secrets
 
 
 class Profile(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             related_name='user',
-                             on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                related_name='profile',
+                                on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return 'this is a profile'
+
 
 class Sports(models.TextChoices):
     BASKETBALL = 'basketball', 'Basketball'
+    SOCCER = 'soccer', 'Soccer'
 
 
 class Gender(models.TextChoices):
     MALE = 'male', 'Male'
     FEMALE = 'female', 'Female'
-    ALL = 'all', 'All'
+    MIXED = 'mixed', 'Mixed'
 
 
 class DivisionChoices(models.TextChoices):
@@ -43,6 +47,10 @@ class DivisionChoices(models.TextChoices):
 
 class State(models.TextChoices):
     CALIFONIA = "calilfornia", "California"
+
+
+class Cities(models.TextChoices):
+    BAKERSFIELD = "bakersfield", "Bakersfield"
 
 
 class Event(models.Model):
@@ -74,10 +82,19 @@ class Event(models.Model):
 
 
 class Division(models.Model):
-    name = models.CharField(max_length=20, choices=DivisionChoices.choices)
     event = models.ForeignKey(Event,
                               related_name='divisions',
                               on_delete=models.CASCADE)
+    gender = models.CharField(max_length=20, choices=Gender.choices)
+    name = models.CharField(max_length=20, choices=DivisionChoices.choices)
+
+    class Meta:
+        constraints = [
+                models.UniqueConstraint(
+                    fields=['event', 'gender', 'name'],
+                    name='unique_age_gender_combination'
+                    )
+                ]
 
 
 class Team(models.Model):
@@ -89,18 +106,24 @@ class Team(models.Model):
     division = models.CharField(max_length=20,
                                 choices=DivisionChoices.choices,)
     sport = models.CharField(max_length=20,
-                             choices=Sports.choices,
-                             default=Sports.BASKETBALL)
+                             choices=Sports.choices,)
 
 
 class Registration(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='registrations',
                               on_delete=models.CASCADE)
+    assigned_division = models.ForeignKey(Division,
+                                          related_name='registrations',
+                                          on_delete=models.CASCADE)
+    # attended = model...
     event = models.ForeignKey(Event,
                               related_name='registrations',
                               on_delete=models.CASCADE)
     team = models.ForeignKey(Team,
                              related_name='registrations',
-                             on_delete=models.CASCADE)
-
+                             on_delete=models.CASCADE,
+                             blank=True
+                             )
+    # canceled = model...
+    # withdrawn = model...

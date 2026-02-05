@@ -34,15 +34,16 @@
       <th>Gender</th>
       <th>Division</th>
       <th>Entries</th>
+      <th>Details</th>
     </tr>
   </thead>
   <tbody>
-  {% for team in teams %}
+  {% for division in event.divisions.all %}
     <tr>
-      <td>{{ team.name }}</td>
-      <td>{{ team.gender }}</td>
-      <td>{{ team.division }}</td>
-      <td><a href="{% url 'user:team_details' team_id=team.id %}">view</a></td>
+      <td>{{ division.gender }}</td>
+      <td>{{ division.name }}</td>
+      <td>{{ division.registrations.count }}</td>
+      <td><a href="{% url 'details:division' division_id=division.id %}">View</a></td>
     </tr>
   {% endfor %}
 

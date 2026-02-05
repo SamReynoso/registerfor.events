@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'create',
     'models',
     'details',
+    'notifications',
 ]
 
 

@@ -1,7 +1,7 @@
 from django.contrib.auth import logout, authenticate, login
 from django.shortcuts import render, redirect
 from models.forms import RegisterForm
-from models.models import Event, Profile
+from models.models import Event, Profile, Sports, DivisionChoices, Gender, State, Cities
 
 
 def register(request):
@@ -9,7 +9,10 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            Profile.objects.create(user=user)
+            user.save()
+            user.refresh_from_db()
+            profile = Profile.objects.create(user=user)
+            profile.save()
             return redirect('base:login')
     else:
         form = RegisterForm()
@@ -45,7 +48,17 @@ def home(request):
 
 def events(request):
     events = Event.objects.all()
-    context = {'events': events}
+    search_options = {
+            'sports': Sports,
+            'divisions': DivisionChoices,
+            'genders': Gender,
+            'cities': Cities,
+            'states': State
+            }
+    context = {
+            'events': events,
+            'search_options': search_options
+            }
     return render(request, 'base/events.html', context)
 
 

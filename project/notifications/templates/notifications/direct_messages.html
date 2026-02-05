@@ -1,0 +1,16 @@
+{% extends "notifications/base.html" %}
+
+
+{% block working %}
+<table>
+  <tbody>
+    {% for convo in conversation %}
+    <tr>
+      <td>
+        {{ convo }}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,5 +1,5 @@
 from django import forms
-from models.models import Profile, Event, Team
+from models.models import Division, Profile, Event, Team
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -38,3 +38,9 @@ class TeamForm(forms.ModelForm):
         self.object.owner = self.request.user
         self.object.save()
         return super().form_valid(form)
+
+
+class DivisionForm(forms.ModelForm):
+    class Meta:
+        model = Division
+        fields = ['gender', 'name']

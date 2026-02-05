@@ -1,0 +1,42 @@
+{% extends "details/base.html" %}
+
+{% block content %}
+<h2>Event Division Details.</h2>
+<h3>{{ division.event.name }}</h3>
+
+
+<h3>division info</h3>
+<ul>
+  <li>
+    {{ division.name }}
+  </li>
+  <li>
+    {{ division.gender }}
+  </li>
+</ul>
+
+<h2>Participants</h2>
+<table class="info-list-table">
+  <thead>
+    <tr>
+      <th>Team Name</th>
+      <th>Gender</th>
+      <th>Division</th>
+      <th>Sport</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for registration in division.registrations.all %}
+    <tr>
+      <td>{{ registration.team.name }}</td>
+      <td>{{ registration.team.gender }}</td>
+      <td>{{ registration.team.division }}</td>
+      <td>{{ registration.team.sport }}</td>
+      <td><a href="{% url 'details:team' team_id=registration.team.id %}">view</a></td>
+    </tr>
+  {% endfor %}
+
+  </tbody>
+</table>
+{% endblock %}

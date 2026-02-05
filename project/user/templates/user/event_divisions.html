@@ -1,0 +1,61 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+<ul>
+  <li>
+    {{ event.name }}
+  </li>
+  <li>
+    {{ event.city }}
+  </li>
+  <li>
+    {{ event.state}}
+  </li>
+  <li>
+    {{ event.sport }}
+  </li>
+  <li>
+    {{ event.public }}
+  </li>
+</ul>
+<a href="{% url 'user:event_details' event_id=event.id %}">View details</a>
+
+<h2>Manage Divisions</h2>
+<p>Divisions with active registrations are protected and can not be removed. Cancel the all registrations for the
+divisions before removing them.</p>
+
+<form method='post' class="divisions-checkbox-form">
+  {% csrf_token %}
+  {% for gender in division_options.genders %}
+  <fieldset>
+    <legend>{{ gender }}</legend>
+    {% for division in division_options.divisions %}
+      {% with key=gender|add:"-"|add:division %}
+      <label
+        {% if key in protected_keys %}
+        style="background-color: rgb(100, 100, 255); border-radius: 3px;"
+        {% endif %}
+        >
+            
+          <input 
+            type="checkbox"
+            name="division[]"
+            value="{{ key }}"
+            {% if key in existing_keys %}
+            checked
+            {% endif %}
+            {% if key in protected_keys %}
+            disabled
+            {% endif %}
+            >
+          {{ division }}
+        </label>
+        {% endwith %}
+    {% endfor %}
+  </fieldset>
+  {% endfor %}
+  <button type="submit">Save</button>
+
+</form>
+
+{% endblock %}
