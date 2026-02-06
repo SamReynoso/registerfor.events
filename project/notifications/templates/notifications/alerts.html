@@ -1,0 +1,24 @@
+{% extends "notifications/base.html" %}
+
+
+{% block working %}
+
+<h2>Alerts</h2>
+
+{% for alert in new_alerts %}
+<div class="alert-div">
+  new alert
+  {{ alert.id }}
+  {{ alert.type }}
+  <a href="{% url 'user:profile' profile_id=alert.target.id %}"{{ alert.target }}>view profile</a>
+</div>
+{% endfor %}
+
+{% for alert in old_alerts %}
+<div class="alert-div">
+  {{ alert.id }}
+  {{ alert.type }}
+  <a href="{% url 'user:profile' %}"{{ alert.target }}>view profile</a>
+</div>
+{% endfor %}
+{% endblock %}

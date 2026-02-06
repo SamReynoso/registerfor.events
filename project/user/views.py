@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import F, Q, Count, IntegerField, OuterRef, Subquery
+from django.db.models import Count, IntegerField, OuterRef, Subquery
 from django.http import HttpResponseForbidden
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 
 from django.shortcuts import render
 from models.models import Division, Event, Team, Registration, Gender, DivisionChoices
+from models.forms import ProfileForm
 
 
 @login_required(login_url='/login/')
@@ -41,8 +42,26 @@ def participants(request):
 
 @login_required(login_url='/login/')
 def profile(request):
-    print(request.user.profile, '------')
     return render(request, 'user/profile.html')
+
+
+@login_required(login_url='/login/')
+def profile_update(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect('user:profile')
+    else:
+        form = ProfileForm(instance=request.user.profile)
+    context = {'form': form}
+    return render(request, 'user/profile_update.html', context)
+
+
+@login_required(login_url='/login/')
+def profile_picture_update(request):
+    del request
+    return redirect('user:profile')
 
 
 @login_required(login_url='/login/')

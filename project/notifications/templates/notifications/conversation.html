@@ -2,27 +2,34 @@
 
 
 {% block working %}
+
+<p> participants</p>
+{% for participant in conversation.participants.all %}
+ {{ participants }}
+{% endfor %}
+{{ conversation.participants }}<br>
+
+sender: <a href="{% url 'details:profile' profile_id=sender.id %}">{{ sender }}</a><br>
+{% for part in conversation.participants.all %}
+  convo participants: <a href="{% url 'details:profile' profile_id=part.id %}">{{ part }}</a><br>
+{% endfor %}
+
 <div>
-    <div class="header">Viewing Conversation: {{ other_user.username }}</div>
-    
-    <table class="msg-table">
-        {% for msg in announcements %}
-        <tr class="{% cycle 'msg-row' 'msg-row-alt' %}">
-            <td class="user-info">
-                <b>{{ msg.sender.username|default:"SYSTEM" }}</b><br>
-                <div class="avatar"></div> <!-- 2004 needs an avatar placeholder -->
-                <small>Posts: 42</small>
-            </td>
-            <td class="msg-body">
-                <div class="msg-date">Sent on: {{ msg.created_at|date:"M d, Y @ H:i" }}</div>
-                {{ msg.body|linebreaks }}
-            </td>
-        </tr>
+    <ul class="direct-message-list">
+        {% for msg in conversation.direct_messages.all %}
+          {% if msg.sender == sender %}
+            <li class="direct-message-list__message sent">
+              {{ msg.body}}
+            </li>
+          {% else %}
+            <li class="direct-message-list__memessage received">
+              left {{ msg.body}}
+            </li>
+          {% endif %}
         {% endfor %}
-    </table>
+    </ul>
 
     <div class="reply-box">
-        <b>Quick Reply:</b><br>
         <form method="post">
             {% csrf_token %}
             <textarea name="body" rows="4"></textarea><br>

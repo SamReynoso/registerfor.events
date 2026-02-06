@@ -1,0 +1,13 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+<p> This is the your profile.</p>
+<a href="{% url 'details:profile' profile_id=user.profile.id%}">View public profile</a>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save</button>
+<form>
+
+{% endblock %}

@@ -175,6 +175,45 @@ table {
   background-color: red;
 }
 
+.direct-message-list{
+  background-color: rgb(160, 160, 160);
+  list-style-type: none;
+  width: 100%;
+  min-height: 20rem;
+  padding: .75rem;
+  border-radius: 3px;
+}
+
+.direct-message-list__message {
+  width: 70%;
+  color: white;
+  font-weight: 800;
+  padding: .25rem;
+  margin: .25rem;
+  margin-left: 30%;
+  border-radius: 3px;
+}
+
+.direct-message-list__message.sent {
+  background-color: rgb(70, 70, 255);
+}
+
+.direct-message-list__message.received {
+  background-color: rgb(70, 70, 255);
+}
+
+
+.direct-message-list__message {
+  background-color: rgb(140, 140, 140);
+}
+
+div.alert-div {
+  padding: 1rem;
+  margin: 1rem;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
 .event-search-form {
   display: flex;
   flex-direction: column;

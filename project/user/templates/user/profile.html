@@ -7,31 +7,20 @@
 <div class="profile-image-container">
   <p>placeholder</p>
 </div>
-<a href="#">change</a>
+<a href="{% url 'user:profile_picture_update' %}">change</a>
 <a href="#">remove</a>
 
 
 <table class='contact-info-table'>
   <tr>
-    <th>Name</th>
-    <td>Jane Doe</td>
+    <th>First Name</th>
+    <td>{{ user.profile.first_name }}</td>
   </tr>
   <tr>
-    <th>Email</th>
-    <td>jane.doe@example.com</td>
+    <th>Last Name</th>
+    <td>{{ user.profile.last_name}}</td>
   </tr>
   <tr>
-    <th>Location</th>
-    <td>United States</td>
-  </tr>
-  <tr>
-    <th>City</th>
-    <td>New York</td>
-  </tr>
-  <tr>
-    <th>ZIP</th>
-    <td>10001</td>
-  </tr>
 </table>
-<a href="#">edit</a>
+<a href="{% url 'user:profile_update' %}">edit</a>
 {% endblock %}

@@ -14,7 +14,10 @@ class Profile(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return 'this is a profile'
+        full_name = self.first_name + self.last_name
+        if full_name != '':
+            return full_name
+        return self.user.username
 
 
 class Sports(models.TextChoices):
@@ -116,7 +119,6 @@ class Registration(models.Model):
     assigned_division = models.ForeignKey(Division,
                                           related_name='registrations',
                                           on_delete=models.CASCADE)
-    # attended = model...
     event = models.ForeignKey(Event,
                               related_name='registrations',
                               on_delete=models.CASCADE)
@@ -127,3 +129,4 @@ class Registration(models.Model):
                              )
     # canceled = model...
     # withdrawn = model...
+    # attended = model...

@@ -4,12 +4,18 @@
 {% block working %}
 <table>
   <tbody>
-    {% for convo in conversation %}
-    <tr>
-      <td>
-        {{ convo }}
-      </td>
-    </tr>
+    {% for convo in conversations %}
+    --> {{ convo }}</br>
+      {% for part in convo.participants.all %}
+      -------> {{ part }}<br>
+        {% if part != user.profile %}
+        <tr>
+          <td>
+            <a href="{% url 'notifications:conversation' profile_id=part.id %}">{{ part }}</a>
+          </td>
+        </tr>
+        {% endif %}
+      {% endfor %}
     {% endfor %}
   </tbody>
 </table>

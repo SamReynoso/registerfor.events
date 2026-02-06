@@ -10,6 +10,11 @@ urlpatterns = [
     path('teams/', views.teams, name='teams'),
     path('hosting/', views.hosting, name='hosting'),
     path('participants/', views.participants, name='participants'),
+
+    path('profile/update', views.profile_update, name='profile_update'),
+    path('profile/update-picture',
+         views.profile_picture_update,
+         name='profile_picture_update'),
     path('profile/', views.profile, name='profile'),
 
     path('event-divisions/<int:event_id>',
