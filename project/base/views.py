@@ -44,27 +44,3 @@ def logout_view(request):
 
 def home(request):
     return render(request, 'base/home.html')
-
-
-def events(request):
-    events = Event.objects.all()
-    search_options = {
-            'sports': Sports,
-            'divisions': DivisionChoices,
-            'genders': Gender,
-            'cities': Cities,
-            'states': State
-            }
-    context = {
-            'events': events,
-            'search_options': search_options
-            }
-    return render(request, 'base/events.html', context)
-
-
-def hosts(request):
-    return render(request, 'base/hosts.html')
-
-
-def teams(request):
-    return render(request, 'base/teams.html')

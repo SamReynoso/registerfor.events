@@ -6,31 +6,23 @@ app_name = 'user'
 
 urlpatterns = [
     path('', views.account, name='account'),
-    path('events/', views.events, name='events'),
-    path('teams/', views.teams, name='teams'),
-    path('hosting/', views.hosting, name='hosting'),
-    path('participants/', views.participants, name='participants'),
-
-    path('profile/update', views.profile_update, name='profile_update'),
-    path('profile/update-picture',
-         views.profile_picture_update,
-         name='profile_picture_update'),
     path('profile/', views.profile, name='profile'),
 
-    path('event-divisions/<int:event_id>',
-         views.event_divisions,
-         name='event_divisions'),
-
-
-    path('event-details/<int:event_id>',
-         views.event_details,
-         name='event_details'),
-
-    path('team-details/<int:team_id>',
+    path('events/', views.events, name='events'),
+    path('teams/', views.teams, name='teams'),
+    path('teams/<int:team_id>',
          views.team_details,
          name='team_details'),
-
-    path('registration_details/<int:registration_id>',
+    path('registration/<int:registration_id>',
          views.registration_details,
          name='registration_details'),
+
+    path('hosting/', views.hosting, name='hosting'),
+    path('hosting/event/<int:event_id>',
+         views.hosting_event,
+         name='event_details'),
+    path('hosting/event/<int:event_id>/participants/',
+         views.hosting_participants,
+         name='hosting_participants'),
+
 ]

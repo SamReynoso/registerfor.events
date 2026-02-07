@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
-import hashlib
-import secrets
+
+from project.utils.on_delete import on_team_delete
 
 
 class Profile(models.Model):
@@ -124,9 +124,10 @@ class Registration(models.Model):
                               on_delete=models.CASCADE)
     team = models.ForeignKey(Team,
                              related_name='registrations',
-                             on_delete=models.CASCADE,
-                             blank=True
+                             blank=True,
+                             null=True,
+                             on_delete=on_team_delete
                              )
-    # canceled = model...
-    # withdrawn = model...
-    # attended = model...
+    canceled = models.BooleanField(default=False)
+    withdrawn = models.BooleanField(default=False)
+    attended = models.BooleanField(default=False)

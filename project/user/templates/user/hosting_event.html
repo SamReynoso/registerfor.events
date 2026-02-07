@@ -30,7 +30,7 @@
 </ul>
 
 <h2>Divisions</h2>
-
+<a href="{% url 'app:event_divisions' event_id=event.id %}">edit division options</a>
 <table class="info-list-table">
   <thead>
     <tr>
@@ -50,9 +50,8 @@
 
   </tbody>
 </table>
-<a href="{% url 'user:event_divisions' event_id=event.id %}">edit division options</a>
 <h2>Participants</h2>
-
+<a href="{% url 'user:hosting_participants' event_id=event.id %}">Manage participants</a>
 <table class="info-list-table">
   <thead>
     <tr>

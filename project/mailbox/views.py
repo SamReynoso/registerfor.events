@@ -1,6 +1,6 @@
 from django.db.models import Count
 from django.shortcuts import render
-from notifications.models import Alerts, Conversation, DirectMessage
+from mailbox.models import Alerts, Conversation, DirectMessage
 from models.models import Profile
 
 
@@ -17,22 +17,22 @@ def alerts_view(request):
         'old_alerts': old_alerts,
     }
 
-    return render(request, 'notifications/alerts.html', context)
+    return render(request, 'mailbox/alerts.html', context)
 
 
 def announcements_view(request):
-    return render(request, 'notifications/announcements.html')
+    return render(request, 'mailbox/announcements.html')
 
 
-def notifications_view(request):
-    return render(request, 'notifications/notifications.html')
+def mailbox(request):
+    return render(request, 'mailbox/mailbox.html')
 
 
 def direct_messages_view(request):
     conversations = Conversation.objects.filter(
             participants=request.user.profile).all()
     context = {'conversations': conversations}
-    return render(request, 'notifications/direct_messages.html', context)
+    return render(request, 'mailbox/direct_messages.html', context)
 
 
 def get_convo_helper(sender: Profile, recipient: Profile) -> Conversation:
@@ -69,4 +69,4 @@ def conversation_view(request, profile_id: int):
             'sender': sender,
             'conversation': convo,
             }
-    return render(request, 'notifications/conversation.html', context)
+    return render(request, 'mailbox/conversation.html', context)

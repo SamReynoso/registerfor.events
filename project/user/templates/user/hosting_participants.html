@@ -1,10 +1,8 @@
 {% extends "user/base.html" %}
 
 {% block content %}
-<p>Events you have hosted.</p>
-<a href="{% url 'user:hosting' %}">Hosting</a>
-<br>
-<a href="{% url 'create:events' %}">Create Event</a>
+<h2>Manage Participants.</h2>
+{{ event.name }}
 
 
 <table class="info-list-table">
@@ -16,17 +14,22 @@
       <th>Invoice</th>
       <th>Paid</th>
       <th>Cancelled</th>
+      <th>Edit</th>
+
     </tr>
   </thead>
   <tbody>
+    {% for registration in event.registrations.all %}
     <tr>
-      <td>Best Team</td>
+      <td>{{ registration.team.name }}</td>
       <td>Summer Tournament</td>
-      <td>True</td>
-      <td>000001</td>
-      <td>False</td>
-      <td>False</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><a href="{% url 'app:participant_edit' registration_id=registration.id %}">edit</td>
     </tr>
+    {% endfor %}
   </tbody>
 </table>
 

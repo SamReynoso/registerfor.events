@@ -1,5 +1,3 @@
-''' details app'''
-
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
@@ -37,39 +35,38 @@ def division(request, division_id: int):
 def search_results(request):
     context = {}
     if request.method == 'GET':
-        query = request.GET
-        sport = query.get('sport')
-        city = query.get('city')
-        state = query.get('state')
-        # radius = 'all'
-        # date_range = query.get('city')
-        gender = query.get('gender')
-        divisions = query.getlist('division[]')
-
         qs = Event.objects.all()
+        query = request.GET
+        if query:
+            sport = query.get('sport')
+            city = query.get('city')
+            state = query.get('state')
+            gender = query.get('gender')
+            divisions = query.getlist('division[]')
+            # radius = 'all'
+            # date_range = query.get('city')
 
-        if sport != 'all':
-            qs = qs.filter(sport=sport)
+            all_or_none = ['all', None]
+            if sport not in all_or_none:
+                qs = qs.filter(sport=sport)
 
-        if city != 'all':
-            qs = qs.filter(city__iexact=city)
+            if city not in all_or_none:
+                qs = qs.filter(city__iexact=city)
 
-        if state != 'all':
-            qs = qs.filter(state=state)
+            if state not in all_or_none:
+                qs = qs.filter(state=state)
 
-        if gender != 'all':
-            qs = qs.filter(divisions__gender=gender)
+            if gender not in all_or_none:
+                qs = qs.filter(divisions__gender=gender)
 
-        if 'all' not in divisions:
-            if gender == 'all':
-                qs = qs.filter(divisions__name__in=divisions)
-            else:
-                qs = qs.filter(divisions__name__in=divisions,
-                               divisions__gender=gender)
-
-#
-#        if start_date:
-#            qs = qs.filter(start_date__gte=start_date)
-
+            if 'all' not in divisions or len(divisions) != 0:
+                if gender == 'all':
+                    qs = qs.filter(divisions__name__in=divisions)
+                else:
+                    qs = qs.filter(divisions__name__in=divisions,
+                                   divisions__gender=gender)
+    #        if start_date:
+    #            qs = qs.filter(start_date__gte=start_date)
+        print(qs)
         context = {'events': qs.all()}
     return render(request, 'details/search_results.html', context)

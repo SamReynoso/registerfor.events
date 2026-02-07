@@ -1,11 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, IntegerField, OuterRef, Subquery
 from django.http import HttpResponseForbidden
-from django.shortcuts import get_object_or_404, redirect
-
-from django.shortcuts import render
-from models.models import Division, Event, Team, Registration, Gender, DivisionChoices
-from models.forms import ProfileForm
+from django.shortcuts import get_object_or_404, render
+from models.models import Division, Event, Team, Registration
 
 
 @login_required(login_url='/login/')
@@ -14,9 +11,13 @@ def account(request):
 
 
 @login_required(login_url='/login/')
+def profile(request):
+    return render(request, 'user/profile.html')
+
+
+@login_required(login_url='/login/')
 def events(request):
     registrations = Registration.objects.filter(owner=request.user)
-    print(registrations)
     context = {'registrations': registrations}
     return render(request, 'user/events.html', context)
 
@@ -36,36 +37,7 @@ def hosting(request):
 
 
 @login_required(login_url='/login/')
-def participants(request):
-    return render(request, 'user/participants.html')
-
-
-@login_required(login_url='/login/')
-def profile(request):
-    return render(request, 'user/profile.html')
-
-
-@login_required(login_url='/login/')
-def profile_update(request):
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=request.user.profile)
-        if form.is_valid():
-            form.save()
-            return redirect('user:profile')
-    else:
-        form = ProfileForm(instance=request.user.profile)
-    context = {'form': form}
-    return render(request, 'user/profile_update.html', context)
-
-
-@login_required(login_url='/login/')
-def profile_picture_update(request):
-    del request
-    return redirect('user:profile')
-
-
-@login_required(login_url='/login/')
-def event_details(request, event_id: int):
+def hosting_event(request, event_id: int):
     event = get_object_or_404(Event, id=event_id)
     if event.owner != request.user:
         return HttpResponseForbidden("You don't own this event.")
@@ -88,57 +60,14 @@ def event_details(request, event_id: int):
             'registrations': registrations,
             'divisions': divisions,
             }
-    return render(request, 'user/event_details.html', context)
+    return render(request, 'user/hosting_event.html', context)
 
 
 @login_required(login_url='/login/')
-def event_divisions(request, event_id: int):
-    event = get_object_or_404(Event, id=event_id)
-    existing_keys = [
-            f"{division.gender}-{division.name}"
-            for division in event.divisions.all()
-            ]
-
-    if event.owner != request.user:
-        return HttpResponseForbidden("You don't own this event.")
-    if request.method == "POST":
-        posted_keys = request.POST.getlist('division[]')
-
-        for k in posted_keys:
-            gender, division_name = k.split('-')
-            if k not in existing_keys:
-                new_division = Division.objects.create(event=event,
-                                                       gender=gender,
-                                                       name=division_name)
-                existing_keys.append(
-                        f'{new_division.gender}-{new_division.name}')
-                print(k, 'was added')
-        for k in existing_keys:
-            gender, division_name = k.split('-')
-            if k not in posted_keys:
-                Division.objects.get(event=event,
-                                     gender=gender,
-                                     name=division_name).delete()
-                existing_keys.remove(k)
-                print(k, 'was deleted')
-
-    division_options = {
-            'genders': Gender,
-            'divisions': DivisionChoices,
-            }
-
-    protected_keys = set()
-    for registration in event.registrations.all():
-        k = f'{registration.team.gender}-{registration.team.division}'
-        protected_keys.add(k)
-    context = {
-            'event': event,
-            'division_options': division_options,
-            'existing_keys': existing_keys,
-            'protected_keys': protected_keys,
-            }
-
-    return render(request, 'user/event_divisions.html', context)
+def hosting_participants(request, event_id: int):
+    event = Event.objects.get(id=event_id)
+    context = {'event': event}
+    return render(request, 'user/hosting_participants.html', context)
 
 
 @login_required(login_url='/login/')

@@ -1,0 +1,9 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+  <p>Withdraw from this Event.</p>
+  <form method="post">
+      {% csrf_token %}
+      <button type="submit">Withdraw</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base/base.html" %}
+
+{% block header%}
+  <h1>Mailbox</h1>
+{% endblock %}
+
+{% block content %}
+<ul>
+  <li><a href="{% url 'mailbox:mailbox'%}">Mailbox</a></li>
+  <li><a href="{% url 'mailbox:direct_messages'%}">Direct Messages</a></li>
+  <li><a href="{% url 'mailbox:announcements'%}">Announcements</a></li>
+  <li><a href="{% url 'mailbox:alerts'%}">Alerts</a></li>
+<ul>
+  {% block working %}{% endblock %}
+{% endblock %}

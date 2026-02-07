@@ -2,19 +2,20 @@
 
 
 ## Backend Notes.
-- [ ] Rename notifications app to mailbox.
-- [ ] Handle team deletion with existing registrations.
-- [ ] Do a full ownership check audit on every view in every app.
-- [ ] Think about removing or moving events hosts and teams views from base views.
-- [ ] Rename create app to 'app' and create two views pages.
-- [ ] Create three views files in app. (user_views, host_view, participant_views)
-- [ ] Move all crude endpoint to the 'app' app.
+- [x] Rename notifications app to mailbox.
+- [x] Handle team deletion with existing registrations.
+- [x] Think about removing or moving events hosts and teams views from base views.
+- [x] Rename create app to 'app' and create two views pages.
+- [x] Create three views files in app. (user_views, host_view, participant_views)
+- [x] Move all crude endpoint to the 'app' app.
+- [ ] Do a full ownership check audit ~~on every view in every app~~.
+- [x] Add redirect after updating event divisions.
 
 ## List of things I think I should do tomorrow. (on day 4)
 ### Status related
-- [ ] Add withdraw logic to registration view.
-- [ ] Add registration status to event host view.
-- [ ] Add a event host registration management view.
+- [x] ~~Add withdraw logic to registration view.~~ Just delete the registrations for now.
+- [x] ~~Add registration status to event host view.~~
+- [x] Add a event host registration management view.
 - [ ] Add event status update view.
 - [ ] Add event cacelation view, and logical ramifications of such an action.
 - [ ] Add team deleat view, and handle logic for its registrations.
@@ -55,6 +56,7 @@
 - [ ] Map support on event details page.
 
 ## Frontend notes.
+- [ ] Fix all links from create app refactor.
 - [ ] Minimal search bar on landing page.
 - [ ] Division details is bare.
 - [ ] Team details is very very bare.
@@ -66,6 +68,8 @@
 - [ ] Finish Upcoming Event/Past Events table on team account view.
 - [ ] Delete on other options for account control to the profile account page.
 - [ ] Add footer to all pages except for in messaging.
+- [ ] Change text input to dropdown in create event form.
+- [ ] Add links from owner detail view to public detail view. i.e. events.
 ### Messageing
 - [ ] Create mailbox root page for direct messages, announecments, and alerts.
 - [ ] Create conversations list card for direct messages.
@@ -81,6 +85,7 @@
 - [ ] Add event creation form styling.
 - [ ] Add event details styling.
 - [ ] Fix width of event details page tables. (possibly just setting globally)
+- [ ] Add styling to team create form.
 - [ ] Add styling to team account view.
 - [ ] Add styling to profile update form.
 

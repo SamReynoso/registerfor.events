@@ -1,33 +1,13 @@
 from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import render, redirect
-from models.forms import EventForm, TeamForm
+from models.forms import TeamForm
 from django.shortcuts import get_object_or_404
 from models.models import Event, Registration, Team
 
 
 @login_required(login_url='/login/')
-def create(request):
-    return render(request, 'create/create.html')
-
-
-@login_required(login_url='/login/')
-def events(request):
-    if request.method == 'POST':
-        form = EventForm(request.POST)
-        if form.is_valid():
-            event = form.save(commit=False)
-            event.owner = request.user
-            event = form.save()
-            return redirect('user:event_details', event_id=event.id)
-    else:
-        form = EventForm()
-    context = {'form': form}
-    return render(request, 'create/events.html', context)
-
-
-@login_required(login_url='/login/')
-def teams(request):
+def team_create(request):
     if request.method == 'POST':
         form = TeamForm(request.POST)
         if form.is_valid():
@@ -38,7 +18,7 @@ def teams(request):
     else:
         form = TeamForm()
     context = {'form': form}
-    return render(request, 'create/teams.html', context)
+    return render(request, 'app/team_create.html', context)
 
 
 @login_required(login_url='/login/')
@@ -70,7 +50,7 @@ def register_for_event(request, event_id: int):
                             name=team.division)
                         )
 
-        return redirect('details:event', event_id=event_id)
+        return redirect('user:events')
 
     context = {
             'event': event,
@@ -79,4 +59,14 @@ def register_for_event(request, event_id: int):
             'teams': teams,
             }
 
-    return render(request, 'create/register_for_event.html', context)
+    return render(request, 'app/register_for_event.html', context)
+
+
+@login_required(login_url='/login/')
+def registration_withdraw(request, registration_id: int):
+    registration = get_object_or_404(Registration, id=registration_id)
+    if request.method == 'POST':
+        registration.delete()
+        return redirect('user:events')
+    context = {'registration': registration}
+    return render(request, 'app/registration_withdraw.html', context)

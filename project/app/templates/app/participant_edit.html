@@ -1,0 +1,10 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+  <p>Participant edit.</p>
+  {{ registration }}
+  <form method="post">
+      {% csrf_token %}
+      <button type="submit">Cancel</button>
+  </form>
+{% endblock %}

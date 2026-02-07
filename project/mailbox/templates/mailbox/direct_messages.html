@@ -1,4 +1,4 @@
-{% extends "notifications/base.html" %}
+{% extends "mailbox/base.html" %}
 
 
 {% block working %}
@@ -11,7 +11,7 @@
         {% if part != user.profile %}
         <tr>
           <td>
-            <a href="{% url 'notifications:conversation' profile_id=part.id %}">{{ part }}</a>
+            <a href="{% url 'mailbox:conversation' profile_id=part.id %}">{{ part }}</a>
           </td>
         </tr>
         {% endif %}
