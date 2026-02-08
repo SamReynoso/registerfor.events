@@ -2,19 +2,28 @@
 
 
 {% block working %}
-<table>
-  <tbody>
-    {% for convo in conversations %}
+<h1>Direct Messages</h1>
+<div class="direct-message-conversations-list__container">
+  <ul class="direct-message-conversations-list">
+      {% for convo in conversations %}
       {% for part in convo.participants.all %}
-        {% if part != user.profile %}
-        <tr>
-          <td>
-            <a href="{% url 'mailbox:conversation' user_id=part.id %}">{{ part }}</a>
-          </td>
-        </tr>
-        {% endif %}
+      {% if part != user.profile %}
+      <li>
+        <a href="{% url 'mailbox:conversation' user_id=part.id %}">
+          <div class="convo-card">
+            <img src="{{ part.profile.get_avatar_url }}" class="icon-size">
+            <div>
+              <span class="convo-meta">{{ part.profile.name }}</span>
+              <hr>
+              <span class="convo-preview">{{ convo.direct_messages.first.body }}</span>
+            </div>
+          </div>
+        </a>
+      </li>
+
+      {% endif %}
       {% endfor %}
-    {% endfor %}
-  </tbody>
-</table>
+      {% endfor %}
+  </ul>
+</div>
 {% endblock %}

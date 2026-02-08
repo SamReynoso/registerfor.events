@@ -48,6 +48,9 @@ urlpatterns = [
     path('event/<int:event_id>/status/',
          host_views.event_status,
          name='event_status'),
+    path('event/<int:event_id>/announcement/',
+         host_views.event_announcement,
+         name='event_announcement'),
 
 
 

@@ -50,6 +50,11 @@ button:disabled,
   pointer-events: none;
 }
 
+.icon-size { 
+  height: 3rem;
+  width: 3rem;
+}
+
 .icon-button { 
   display: inline-block;
   height: 3rem;
@@ -103,4 +108,56 @@ dt {
 .event-poster-thumbnail {
   width: 150px;
   border-radius: 3px;
+}
+
+.direct-message-conversations-list__container {
+  background-color: rgb(65, 65, 65);
+  min-height: 50vh;
+  padding: 1rem;
+  border-radius: 3px;
+}
+
+.direct-message-conversations-list {
+  list-style: none;
+}
+
+.convo-card {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  background-color: rgb(80, 80, 80);
+  padding: .5rem;
+  margin-bottom: .5rem;
+  border-radius: 3px;
+  border: 1px solid rgb(50, 50, 50);
+  color: white;
+}
+
+.convo-card div {
+  display: flex;
+  flex-direction: column;
+}
+
+.announcement-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  background-color: rgb(80, 80, 80);
+  padding: .5rem;
+  margin-bottom: .5rem;
+  border-radius: 3px;
+  border: 1px solid rgb(50, 50, 50);
+  color: white;
+}
+
+.convo-meta {
+  font-size: .9rem;
+  color: rgb(247, 247, 247);
+
+}
+
+.convo-preview {
+  color: rgb(230, 230, 230);
 }

@@ -1,0 +1,15 @@
+{% extends "mailbox/base.html" %}
+
+
+{% block working %}
+<h1>Announcement</h1>
+{% include 'components/event_details_card.html' with event=announcement.event %}
+<div class="direct-message-conversations-list__container">
+  <h3 style="color: white; "> title</h3>
+    <h2 style="color: white; margin-bottom: 1rem; padding">{{ announcement.title }}</h2>
+    <h3 style="color: white; ">body</h3>
+    <div class="announcement-card">
+      {{ announcement.body}}
+    </div>
+</div>
+{% endblock %}

@@ -2,32 +2,23 @@
 
 
 {% block working %}
-<div>
-    <div class="header">Viewing Conversation: {{ other_user.username }}</div>
-    
-    <table class="msg-table">
-        {% for msg in announcements %}
-        <tr class="{% cycle 'msg-row' 'msg-row-alt' %}">
-            <td class="user-info">
-                <b>{{ msg.sender.username|default:"SYSTEM" }}</b><br>
-                <div class="avatar"></div> <!-- 2004 needs an avatar placeholder -->
-                <small>Posts: 42</small>
-            </td>
-            <td class="msg-body">
-                <div class="msg-date">Sent on: {{ msg.created_at|date:"M d, Y @ H:i" }}</div>
-                {{ msg.body|linebreaks }}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <div class="reply-box">
-        <b>Quick Reply:</b><br>
-        <form method="post">
-            {% csrf_token %}
-            <textarea name="body" rows="4"></textarea><br>
-            <input type="submit" class="btn" value="Send">
-        </form>
-    </div>
+<h1>Announcements</h1>
+<div class="direct-message-conversations-list__container">
+  <ul class="direct-message-conversations-list">
+      {% for an in announcements %}
+      <li>
+        <a href="{% url 'mailbox:announcement' announcement_id=an.id %}">
+          <div class="convo-card">
+            <img src="{{ an.evenet.get_poster_url }}" class="icon-size">
+            <div>
+              <span class="convo-meta">{{ an.event.name }}</span>
+              <hr>
+              <span class="convo-preview">{{ an.title }}</span>
+            </div>
+          </div>
+        </a>
+      </li>
+      {% endfor %}
+  </ul>
 </div>
 {% endblock %}

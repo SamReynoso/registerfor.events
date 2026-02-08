@@ -8,6 +8,7 @@
   <li><a href="{% url 'details:event' event_id=event.id %}">View</a></li>
   <li><a href="{% url 'app:event_status' event_id=event.id %}">Change Status</a></li>
   <li><a href="{% url 'app:event_delete' event_id=event.id %}">Cancel Event</a></li>
+  <li><a href="{% url 'app:event_announcement' event_id=event.id %}">Announcement</a></li>
 </ul>
 
 <h2>Name: '{{ event.name }}'</h2>

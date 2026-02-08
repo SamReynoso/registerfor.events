@@ -1,0 +1,12 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+  <h1>Event Announcement</h1>
+  {% include "components/event_details_card.html" %}
+  <form method="post">
+    <h2>Make an announcement to all participants</h2>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Create Event</button>
+  </form>
+{% endblock %}

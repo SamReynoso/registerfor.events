@@ -4,7 +4,8 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
 from models.forms import EventForm, EventPosterForm
 from models.models import (
-        Division, DivisionChoices, Event, Genders, Registration)
+        Announcement, Division, DivisionChoices, Event, Genders, Registration)
+from mailbox.forms import AnnouncementForm
 from project.utils.alerts import host_canceled_registration_alert_team_owner
 
 
@@ -165,3 +166,30 @@ def event_status(request, event_id: int):
         event.save()
     context = {'event': event}
     return render(request, 'app/event_status.html', context)
+
+
+@login_required(login_url='/login/')
+def event_announcement(request, event_id: int):
+    event = get_object_or_404(Event, id=event_id)
+    if event.owner != request.user:
+        return HttpResponseForbidden("You don't own this event.")
+
+    announcements = []
+    if request.method == 'POST':
+        form = AnnouncementForm(request.POST)
+        if form.is_valid():
+            for reg in event.registrations.all():
+                announcements.append(
+                    Announcement(
+                        sender=request.user,
+                        recipient=reg.owner,
+                        title=form.cleaned_data['title'],
+                        body=form.cleaned_data['body'],
+                        event=event,
+                        )
+                        )
+            Announcement.objects.bulk_create(announcements)
+            return redirect('user:hosting_event', event_id=event_id)
+    form = AnnouncementForm()
+    context = {'event': event, 'form': form}
+    return render(request, 'app/event_announcement.html', context)

@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 
 from django.db.models import Count
 from mailbox.models import Alert, Conversation, DirectMessage
+from models.models import Announcement
 
 
 def alerts_view(request):
@@ -22,7 +23,16 @@ def alerts_view(request):
 
 
 def announcements_view(request):
-    return render(request, 'mailbox/announcements.html')
+    announcements = Announcement.objects.filter(recipient=request.user).all()
+    announcements = Announcement.objects.all()
+    context = {'announcements': announcements}
+    return render(request, 'mailbox/announcements.html', context)
+
+
+def announcement_view(request, announcement_id: int):
+    announcement = Announcement.objects.get(id=announcement_id)
+    context = {'announcement': announcement}
+    return render(request, 'mailbox/announcement.html', context)
 
 
 def mailbox(request):
