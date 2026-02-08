@@ -2,22 +2,10 @@
 
 
 {% block content %}
-<img src="{{ event.get_poster_url }}" class="event-poster">
 
-<h2>{{ event.name }}</h2>
-<a href="{% url 'details:event' event_id=event.id %}">View</a>
-<ul>
-  <li>
-    {{ event.city }}
-  </li>
-  <li>
-    {{ event.state}}
-  </li>
-  <li>
-    {{ event.sport }}
-  </li>
-</ul>
+<h1>Register Your Teams</h1>
 
+{% include "components/event_details_card.html" %}
 
 <h3>Available Divisions</h3>
   <table class="info-list-table">
@@ -42,9 +30,9 @@
     {{ reg }}
   {% endfor %}
 
-<h2>Register Your Teams</h2>
-<a href="{% url 'app:team_create' %}?next={{ request.path }}">Create Teams</a></br>
+<a href="{% url 'app:team_create' %}?next={{ request.path }}">Create Team</a></br>
 <form method="post">
+  <h2>Select Teams</h2>
     {% csrf_token %}
   <table class="info-list-table">
     <thead>

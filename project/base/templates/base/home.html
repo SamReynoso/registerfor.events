@@ -1,15 +1,18 @@
 {% extends "base/base.html" %}
 
 {% block content %}
-<div class="sports-card">
-  <div class="sport-ball-image-container">
-    <img src="/assets/sport-icons/basketball.webp" class="thumbnail">
+<a href="{% url 'details:search_results' %}?sport=basketball">
+  <div class="sports-card">
+
+    <div class="sport-ball-image-container">
+      <img src="/assets/sport-icons/basketball.webp" class="thumbnail">
+    </div>
+
+    <div>
+        <p class="sports-card__text">Basketball</p>
+    </div>
+
   </div>
-  <div sports-card__text>
-    <p>
-      <a href="{% url 'details:search_results' %}">Basketball</a>
-    </p>
-  <div>
-</div>
+</a>
 {% endblock %}
 

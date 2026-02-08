@@ -1,0 +1,61 @@
+<div class="event-details-card">
+
+  <div class="event-details-card__content">
+
+    <div style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 1rem;">
+
+      <div>
+        <h2>Team Info</h2>
+        <img src="{{ registration.team.get_photo_url }}" class="event-poster-thumbnail">
+        <dl>
+          <dt>Name</dt>
+          <dd>
+            <a href="{% url 'user:team_details' team_id=registration.team.id %}">
+              {{ registration.team.name }}
+            </a>
+          </dd>
+          <dt>Sport</dt><dd>{{ registration.team.sport }}</dd>
+          <dt>Gender</dt><dd>{{ registration.team.gender }}</dd>
+          <dt>Division</dt><dd>{{ registration.team.division }}</dd>
+        </dl>
+      </div>
+
+      <div>
+        <h2>Event Info</h2>
+        <img src="{{ registration.event.get_poster_url }}" class="event-poster-thumbnail">
+        <dl>
+          <dt>Name</dt>
+          <dd>
+            <a href="{% url 'details:event' event_id=registration.event.id %}">
+              {{ registration.event.name }}
+            </a>
+          </dd>
+
+          <dt>Sport</dt><dd>{{ registration.event.sport }}</dd>
+          <dt>Starts</dt><dd>{{ registration.event.start_date }}</dd>
+          <dt>Ends</dt><dd>{{ registration.event.end_date }}</dd>
+          <dt>Host</dt>
+          <dd>
+            <a href="{% url 'details:profile' registration.event.owner.profile.id %}">
+              {{ registration.event.owner.profile }}
+            </a>
+          </dd>
+          <dt>Status</dt><dd>{{ registration.event.status }}</dd>
+        </dl>
+      </div>
+
+    </div>
+
+    <div style="margin: 1rem;">
+      <h3>Event Address<h3>
+      <dl>
+
+        <dt>Address</dt><dd>{{ registration.event.address }}</dd>
+        <dt>City</dt><dd>{{ registration.event.city }}</dd>
+        <dt>State</dt><dd>{{ registration.event.state }}</dd>
+        <dt>Email</dt><dd>email@fake.com</dd>
+        <dt>Phone</dt><dd>555-123-1234</dd>
+      </dl>
+    </div>
+  </div>
+</div>

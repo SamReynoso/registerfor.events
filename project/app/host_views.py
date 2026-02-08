@@ -4,7 +4,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
 from models.forms import EventForm, EventPosterForm
 from models.models import (
-        Division, DivisionChoices, Event, Gender, Registration)
+        Division, DivisionChoices, Event, Genders, Registration)
 from project.utils.alerts import host_canceled_registration_alert_team_owner
 
 
@@ -67,7 +67,7 @@ def event_poster_update(request, event_id: int):
                 )
         if form.is_valid():
             form.save()
-            return redirect('user:event_details', event_id=event_id)
+            return redirect('user:hosting_event', event_id=event_id)
     else:
         form = EventPosterForm(instance=event)
     context = {
@@ -86,7 +86,7 @@ def event_poster_delete(request, event_id: int):
     if request.method == 'POST':
         event.poster = None
         event.save()
-        return redirect('user:event_details', event_id=event_id)
+        return redirect('user:hosting_event', event_id=event_id)
     context = {'current': event.get_poster_url()}
     return render(request, 'app/picture_delete.html', context)
 
@@ -125,7 +125,7 @@ def event_divisions(request, event_id: int):
         return redirect('user:hosting_event', event_id=event.id)
 
     division_options = {
-            'genders': Gender,
+            'genders': Genders,
             'divisions': DivisionChoices,
             }
 

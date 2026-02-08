@@ -15,7 +15,7 @@ class RegisterForm(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name']
+        fields = ['first_name', 'last_name', 'email', 'phone']
 
 
 class ProfileAvatarForm(forms.ModelForm):
@@ -27,7 +27,7 @@ class ProfileAvatarForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['name', 'sport', 'city', 'state']
+        fields = ['name', 'sport', 'city', 'state', 'start_date', 'end_date']
 
     def form_valid(self, form):
         form.instance.owner = self.request.user

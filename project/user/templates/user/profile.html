@@ -1,16 +1,25 @@
 {% extends "user/base.html" %}
 
 {% block content %}
-<p> This is the your profile.</p>
-<a href="{% url 'details:profile' profile_id=user.profile.id%}">View public profile</a>
+<h1>Your Profile</h1>
+<a href="{% url 'details:profile' profile_id=user.profile.id%}">View profile</a>
+<br>
 
-<div class="profile-image-container">
+<div>
   <img src="{{ user.profile.get_avatar_url }}" class="thumbnail">
 </div>
-  <a href="{% url 'app:profile_avatar_update' %}">change</a>
-  <a href="{% url 'app:profile_avatar_delete' %}">delete</a>
+
+<ul class="nav-list">
+  <li>
+    <a href="{% url 'app:profile_avatar_update' %}">change</a>
+  </li>
+  <li>
+    <a href="{% url 'app:profile_avatar_delete' %}">delete</a>
+  </li>
+</ul>
 
 
+<h2>Public Contact Information</h2>
 <table class='contact-info-table'>
   <tr>
     <th>First Name</th>
@@ -21,6 +30,14 @@
     <td>{{ user.profile.last_name}}</td>
   </tr>
   <tr>
+    <th>Email</th>
+    <td>{{ user.profile.email }}</td>
+  </tr>
+  <tr>
+    <th>Phone number</th>
+    <td>{{ user.profile.phone }}</td>
+  </tr>
+  <tr>
 </table>
-<a href="{% url 'app:profile_update' %}">edit</a>
+<a href="{% url 'app:profile_update' %}">Edit Contact Info</a>
 {% endblock %}

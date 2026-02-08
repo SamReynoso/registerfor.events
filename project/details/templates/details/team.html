@@ -1,19 +1,40 @@
 {% extends "details/base.html" %}
 
 {% block content %}
-<p>Team Details.</p>
-<ul>
-  <li>
-    {{ team.name }}
-  <li>
-  </li>
-    {{ team.owner }}
-  <li>
-  </li>
-    {{ team.gender }}
-  <li>
-  </li>
-    {{ team.divsision }}
-  </li>
-</ul>
+<h1>Team Details</h1>
+{% include "components/team_details_card.html" %}
+<h2>Events</h2>
+<table class="info-list-table">
+  <thead>
+    <tr>
+      <th>Event Name</th>
+      <th>Host</th>
+      <th>Divisions</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for registration in team.registrations.all %}
+    <tr>
+      <td>
+        <a href="{% url "details:event" event_id=registration.event.id %}">
+          {{ registration.event.name }}
+        </a>
+      </td>
+      <td>
+        <a href="{% url "details:profile" profile_id=registration.owner.id %}">
+          {{ registration.event.owner}}
+        </a>
+      </td>
+      <td>
+        {{ registration.team.division}}
+        {{ registration.team.gender}}
+      </td>
+      <td>
+        {{ registration.event.status }}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

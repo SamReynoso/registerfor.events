@@ -1,0 +1,50 @@
+<div class="event-details-card">
+  <div class="event-details-card__content">
+
+    <div style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 1rem;">
+
+      <div>
+        <h2>Event</h2>
+        <img src="{{ event.get_poster_url }}" class="event-poster-thumbnail">
+      </div>
+
+      <div>
+        <h2>Info</h2>
+        <dl>
+          <dt>Name</dt><dd>'{{ event.name }}'</dd>
+          <dt>Sport</dt><dd>{{ event.sport }}</dd>
+          <dt>Starts</dt><dd>{{ event.start_date }}</dd>
+          <dt>Ends</dt><dd>{{ event.end_date }}</dd>
+          <dt>Host</dt><dd><a href="{% url 'details:profile' event.owner.profile.id %}">{{ event.owner.profile }}</a></dd>
+          <dt>Status</dt><dd>{{ event.status }}</dd>
+        </dl>
+      </div>
+
+    </div>
+
+    <div style="margin: 1rem;">
+      <h3>Event address<h3>
+      <dl>
+        <dt>City</dt><dd>{{ event.city }}</dd>
+        <dt>State</dt><dd>{{ event.state}}</dd>
+        <dt>Address</dt><dd>{{ event.address }}</dd>
+      </dl>
+    </div>
+
+    <div style="margin: 1rem;">
+      <h3>Contact info<h3>
+      <dl>
+        <dt>Email</dt><dd>{{ event.owner.profile.email }}</dd>
+        <dt>Phone</dt><dd>{{ event.owner.profile.phone }}</dd>
+      </dl>
+    </div>
+
+    {% with event.id|stringformat:"s" as id_str %}
+      {% if request.path != "/details/event/"|add:id_str %}
+        <div style="margin: 1rem;">
+          <a href="{% url 'details:event' event_id=event.id %}">View Event</a>
+        </div>
+      {% endif %}
+    {% endwith %}
+  </div>
+</div>

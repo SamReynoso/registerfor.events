@@ -1,9 +1,10 @@
 {% extends "user/base.html" %}
 
 {% block content %}
-<h2>Manage Participants.</h2>
-{{ event.name }}
 
+{% include "components/event_details_card.html" %}
+
+<h1>Manage Participants</h1>
 
 <table class="info-list-table">
   <thead>

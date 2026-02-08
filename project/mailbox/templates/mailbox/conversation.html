@@ -3,15 +3,10 @@
 
 {% block working %}
 
-<p> participants</p>
-{% for participant in conversation.participants.all %}
- {{ participants }}
-{% endfor %}
-{{ conversation.participants }}<br>
+  <a href="{% url 'mailbox:conversation_delete' user_id=recipient.id %}">Delete</a><br>
 
-sender: <a href="{% url 'details:profile' profile_id=sender.id %}">{{ sender }}</a><br>
 {% for part in conversation.participants.all %}
-  convo participants: <a href="{% url 'details:profile' profile_id=part.id %}">{{ part }}</a><br>
+  convo with: <a href="{% url 'details:profile' profile_id=part.id %}">{{ part }}</a><br>
 {% endfor %}
 
 <div>
@@ -23,7 +18,7 @@ sender: <a href="{% url 'details:profile' profile_id=sender.id %}">{{ sender }}<
             </li>
           {% else %}
             <li class="direct-message-list__memessage received">
-              left {{ msg.body}}
+              {{ msg.body}}
             </li>
           {% endif %}
         {% endfor %}

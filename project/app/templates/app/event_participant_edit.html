@@ -1,20 +1,10 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-  <h2>Participant edit.</h2>
-  <a href="{% url 'user:hosting_event' event_id=registration.event.id %}">View</a>
-  <h3>
-      {{ registration.event.name }}
-  </h3>
-  <ul>
-    <li>
-      {{ registration.team.name }}
-    </li>
-    <li>
-      {{ registration.team.gender}} {{ registration.team.division }}
-    </li>
-  </ul>
+  <h1>Participant edit</h1>
+  {% include 'components/registration_details_card.html' %}
   <form method="post">
+    <h2>Are you sure you want to cancel this registration?</h2>
       {% csrf_token %}
       <button type="submit">Cancel Registration</button>
   </form>

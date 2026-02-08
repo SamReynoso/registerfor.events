@@ -1,7 +1,8 @@
+from django.shortcuts import redirect, render
+from django.contrib.auth import get_user_model
+
 from django.db.models import Count
-from django.shortcuts import render
 from mailbox.models import Alert, Conversation, DirectMessage
-from models.models import Profile
 
 
 def alerts_view(request):
@@ -35,13 +36,11 @@ def direct_messages_view(request):
     return render(request, 'mailbox/direct_messages.html', context)
 
 
-def get_convo_helper(sender: Profile, recipient: Profile) -> Conversation:
+def get_convo_helper(sender, recipient) -> Conversation:
     convo = (
             Conversation.objects
             .filter(participants=sender)
             .filter(participants=recipient)
-            .annotate(num=Count('participants'))
-            .filter(num=2)
             .first()
             )
 
@@ -50,13 +49,13 @@ def get_convo_helper(sender: Profile, recipient: Profile) -> Conversation:
         convo.participants.add(sender)
         convo.participants.add(recipient)
         convo.save()
-    convo.refresh_from_db()
     return convo
 
 
-def conversation_view(request, profile_id: int):
+def conversation_view(request, user_id: int):
     sender = request.user
-    recipient = Profile.objects.get(id=profile_id)
+    User = get_user_model()
+    recipient = User.objects.get(id=user_id)
     convo = get_convo_helper(sender, recipient)
 
     if request.method == 'POST':
@@ -67,6 +66,20 @@ def conversation_view(request, profile_id: int):
         convo.refresh_from_db()
     context = {
             'sender': sender,
+            'recipient': recipient,
             'conversation': convo,
             }
     return render(request, 'mailbox/conversation.html', context)
+
+
+def conversation_delete_view(request, user_id: int):
+    sender = request.user
+    User = get_user_model()
+    recipient = User.objects.get(id=user_id)
+    convo = get_convo_helper(sender, recipient)
+    if request.method == 'POST':
+        convo.delete()
+        print('convo deleted')
+        return redirect('mailbox:direct_messages')
+    return render(request, 'mailbox/conversation_delete.html')
+

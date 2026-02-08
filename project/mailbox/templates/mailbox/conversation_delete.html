@@ -1,0 +1,11 @@
+{% extends "mailbox/base.html" %}
+
+
+{% block working %}
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Delete</button>
+</form>
+
+{% endblock %}

@@ -1,6 +1,9 @@
-from re import L
+from datetime import date
+from django.utils import timezone
+
 from django.conf import settings
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 from project.utils.alerts import (
         host_canceled_event_alert_team_owner,
@@ -21,6 +24,9 @@ class Profile(models.Model):
                                 on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
+    email = models.EmailField(blank=True, null=True)
+    phone = PhoneNumberField(blank=True, null=True)
+
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
     avatar = models.ImageField(
@@ -28,7 +34,8 @@ class Profile(models.Model):
             blank=True,
             null=True)
 
-    def __str__(self):
+    @property
+    def name(self) -> str:
         full_name = self.first_name + self.last_name
         if full_name != '':
             return full_name
@@ -39,13 +46,16 @@ class Profile(models.Model):
             return self.avatar.url
         return ''
 
+    def __str__(self):
+        return self.name
+
 
 class Sports(models.TextChoices):
     BASKETBALL = 'basketball', 'Basketball'
     SOCCER = 'soccer', 'Soccer'
 
 
-class Gender(models.TextChoices):
+class Genders(models.TextChoices):
     MALE = 'male', 'Male'
     FEMALE = 'female', 'Female'
     MIXED = 'mixed', 'Mixed'
@@ -68,7 +78,7 @@ class DivisionChoices(models.TextChoices):
     MASTERS70 = "masters70", "Masters70"
 
 
-class State(models.TextChoices):
+class States(models.TextChoices):
     CALIFONIA = "calilfornia", "California"
 
 
@@ -80,16 +90,17 @@ class Event(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='events',
                               on_delete=models.CASCADE)
-    name = models.CharField(max_length=150, unique=True)
+    name = models.CharField(max_length=150)
+    address = models.CharField(max_length=150, blank=True)
     city = models.CharField(max_length=150, unique=True)
     state = models.CharField(max_length=20,
-                             choices=State.choices,
-                             default=State.CALIFONIA)
+                             choices=States.choices,
+                             default=States.CALIFONIA)
     sport = models.CharField(max_length=20,
                              choices=Sports.choices,
                              default=Sports.BASKETBALL)
-    # start_date = models.DateField()
-    # end_date = models.DateField()
+    start_date = models.DateField()
+    end_date = models.DateField()
     public = models.BooleanField(default=False)
 
     poster = models.ImageField(
@@ -97,16 +108,13 @@ class Event(models.Model):
             blank=True,
             null=True)
 
-    def upcoming(self):
-        return True
-
     def status(self):
-        cancelled = False
-        if cancelled:
-            return "Cancelled"
-        if self.upcoming():
-            return "Upcoming"
-        return "Completed"
+        today = timezone.localdate()
+        if today < self.start_date:
+            return 'Upcoming'
+        if today <= self.end_date:
+            return 'Running'
+        return 'Completed'
 
     def get_poster_url(self):
         if self.poster:
@@ -123,7 +131,7 @@ class Division(models.Model):
     event = models.ForeignKey(Event,
                               related_name='divisions',
                               on_delete=models.CASCADE)
-    gender = models.CharField(max_length=20, choices=Gender.choices)
+    gender = models.CharField(max_length=20, choices=Genders.choices)
     name = models.CharField(max_length=20, choices=DivisionChoices.choices)
 
     class Meta:
@@ -140,7 +148,7 @@ class Team(models.Model):
                               related_name='teams',
                               on_delete=models.CASCADE)
     name = models.CharField(max_length=150)
-    gender = models.CharField(max_length=20, choices=Gender.choices)
+    gender = models.CharField(max_length=20, choices=Genders.choices)
     division = models.CharField(max_length=20,
                                 choices=DivisionChoices.choices,)
     sport = models.CharField(max_length=20,

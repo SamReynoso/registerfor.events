@@ -51,7 +51,6 @@ class DirectMessage(models.Model):
     class Meta:
         ordering = ['-created_at']
 
-
 # class Announcement(models.Model):
 #     sender = models.ForeignKey(
 #             settings.AUTH_USER_MODEL,

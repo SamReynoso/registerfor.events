@@ -5,13 +5,11 @@
 <table>
   <tbody>
     {% for convo in conversations %}
-    --> {{ convo }}</br>
       {% for part in convo.participants.all %}
-      -------> {{ part }}<br>
         {% if part != user.profile %}
         <tr>
           <td>
-            <a href="{% url 'mailbox:conversation' profile_id=part.id %}">{{ part }}</a>
+            <a href="{% url 'mailbox:conversation' user_id=part.id %}">{{ part }}</a>
           </td>
         </tr>
         {% endif %}

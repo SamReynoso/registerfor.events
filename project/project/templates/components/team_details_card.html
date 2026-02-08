@@ -1,0 +1,45 @@
+<div class="event-details-card">
+  <div class="event-details-card__content">
+
+    <div style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 1rem;">
+
+      <div>
+        <h2>Team</h2>
+        <img src="{{ team.get_photo_url }}" class="event-poster-thumbnail">
+      </div>
+
+      <div>
+        <h2>Info</h2>
+        <dl>
+          <dt>Name</dt><dd>'{{ team.name }}'</dd>
+          <dt>Sport</dt><dd>{{ team.sport }}</dd>
+          <dt>Gender</dt><dd>{{ team.gender }}</dd>
+          <dt>Division</dt><dd>{{ team.division }}</dd>
+        </dl>
+      </div>
+
+    </div>
+
+    <div style="margin: 1rem;">
+      <h3>Contact info<h3>
+      <dl>
+
+        <dt>Contact</dt>
+        <dd>
+          <a href="{% url 'details:profile' profile_id=team.owner.profile.id %}">
+            {{ team.owner.profile }}
+          </a>
+        </dd>
+        <dt>Email</dt><dd>email@fake.com</dd>
+        <dt>Phone</dt><dd>555-123-1234</dd>
+      </dl>
+    </div>
+
+    {% with event.id|stringformat:"s" as id_str %}
+      {% if request.path != "/details/event/"|add:id_str %}
+        <div style="margin: 1rem;">
+        </div>
+      {% endif %}
+    {% endwith %}
+  </div>
+</div>

@@ -1,3 +1,7 @@
+img {
+  border-radius: 3px;
+}
+
 .profile-image-container {
   width: 120px;
   height: 120px;
@@ -18,8 +22,24 @@
   border: 1px solid rgb(119, 119, 119);
 }
 
+.sport-ball-image-container:hover {
+  background-color: var(--background-color);
+  font-size: 1.1rem;
+}
+
+.event-poster__container {
+  padding: 0;
+  width: 350px;
+  min-height: 350px;
+  background-color: var(--content-background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  margin-bottom: 1rem;
+}
+
 .event-poster {
   width: 350px;
+  object-fit: cover;
 }
 
 .thumbnail {

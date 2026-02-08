@@ -1,7 +1,17 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
-from models.models import Division, Event, Registration, Team, Profile
+from models.models import (
+        Profile,
+        Event,
+        Team,
+        Division,
+        Registration,
+        Genders,
+        DivisionChoices,
+        Sports,
+        States,
+        )
 
 
 def profile(request, profile_id: int):
@@ -34,6 +44,12 @@ def division(request, division_id: int):
 
 def search_results(request):
     context = {}
+    search_options = {
+            'sports': Sports,
+            'divisions': DivisionChoices,
+            'genders': Genders,
+            'states': States,
+            }
     if request.method == 'GET':
         qs = Event.objects.all()
         query = request.GET
@@ -68,5 +84,8 @@ def search_results(request):
     #        if start_date:
     #            qs = qs.filter(start_date__gte=start_date)
         print(qs)
-        context = {'events': qs.all()}
+        context = {
+                'search_options': search_options,
+                'events': qs.all()
+                }
     return render(request, 'details/search_results.html', context)

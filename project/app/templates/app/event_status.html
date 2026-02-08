@@ -1,15 +1,11 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-  <h2>Event Status</h2>
-  <h3>{{ event.name }}</h3>
-  <a href="{% url 'user:hosting_event' event_id=event.id %}">View</a>
-  <ul>
-    <li>
-      public: {{ event.public }}
-    </li>
-  </ul>
+
+{% include "components/event_details_card.html" %}
+
   <form method="post">
+      public: {{ event.public }}
       {% csrf_token %}
       <button type="submit">Toggle Visibility</button>
   </form>

@@ -38,7 +38,7 @@ def profile_avatar_update(request):
     else:
         form = ProfileAvatarForm(instance=request.user.profile)
     context = {
-            'current': request.user.porfile.get_avatar_url(),
+            'current': request.user.profile.get_avatar_url(),
             'form': form
                }
     return render(request, 'app/picture_update.html', context)

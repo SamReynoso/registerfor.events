@@ -1,26 +1,10 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-<ul>
-  <li>
-    {{ event.name }}
-  </li>
-  <li>
-    {{ event.city }}
-  </li>
-  <li>
-    {{ event.state}}
-  </li>
-  <li>
-    {{ event.sport }}
-  </li>
-  <li>
-    {{ event.public }}
-  </li>
-</ul>
-<a href="{% url 'user:hosting_event' event_id=event.id %}">View details</a>
 
-<h2>Manage Divisions</h2>
+{% include "components/event_details_card.html" %}
+
+<h1>Manage Divisions</h1>
 <p>Divisions with active registrations are protected and can not be removed. Cancel the all registrations for the
 divisions before removing them.</p>
 

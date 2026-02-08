@@ -1,28 +1,13 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-<ul>
-  <li>
-    {{ event.name }}
-  </li>
-  <li>
-    {{ event.city }}
-  </li>
-  <li>
-    {{ event.state}}
-  </li>
-  <li>
-    {{ event.sport }}
-  </li>
-  <li>
-    {{ event.public }}
-  </li>
-</ul>
-<a href="{% url 'user:hosting_event' event_id=event.id %}">View Event</a>
 
-<h2>Cancel Event</h2>
+<h1>Cancel Event</h1>
+
+{% include "components/event_details_card.html" %}
 
 <form method='post' class="divisions-checkbox-form">
+  <h3>Are you sure you want to cancel this event?</h3>
   {% csrf_token %}
   <button type="submit">Cancel</button>
 

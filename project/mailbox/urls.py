@@ -8,8 +8,11 @@ urlpatterns = [
     path('', views.mailbox, name='mailbox'),
     path('alerts/', views.alerts_view, name='alerts'),
     path('announcements/', views.announcements_view, name='announcements'),
-    path('convo/<int:profile_id>',
+    path('convo/<int:user_id>',
          views.conversation_view,
          name='conversation'),
+    path('convo/<int:user_id>/delete',
+         views.conversation_delete_view,
+         name='conversation_delete'),
     path('dm/', views.direct_messages_view, name='direct_messages'),
 ]

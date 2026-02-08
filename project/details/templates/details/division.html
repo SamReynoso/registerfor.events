@@ -2,18 +2,10 @@
 
 {% block content %}
 <h2>Event Division Details.</h2>
-<h3>{{ division.event.name }}</h3>
+
+{% include "components/event_details_card.html" with event=division.event %}
 
 
-<h3>division info</h3>
-<ul>
-  <li>
-    {{ division.name }}
-  </li>
-  <li>
-    {{ division.gender }}
-  </li>
-</ul>
 
 <h2>Participants</h2>
 <table class="info-list-table">
