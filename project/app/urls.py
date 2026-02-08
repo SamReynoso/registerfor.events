@@ -52,8 +52,6 @@ urlpatterns = [
          host_views.event_announcement,
          name='event_announcement'),
 
-
-
     path('team/create',
          participant_views.team_create,
          name='team_create'),
@@ -76,5 +74,11 @@ urlpatterns = [
          name='register_for_event'),
     path('registration/withdraw/<int:registration_id>',
          participant_views.registration_withdraw,
-         name='registration_withdraw')
+         name='registration_withdraw'),
+    path('/announcement/<int:announcement_id>/delete/',
+         participant_views.announcement_delete,
+         name='announcement_delete'),
+
+
+
 ]

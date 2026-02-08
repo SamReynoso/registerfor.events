@@ -9,7 +9,7 @@
       <li>
         <a href="{% url 'mailbox:announcement' announcement_id=an.id %}">
           <div class="convo-card">
-            <img src="{{ an.evenet.get_poster_url }}" class="icon-size">
+            <img src="{{ an.event.get_poster_url }}" class="icon-size">
             <div>
               <span class="convo-meta">{{ an.event.name }}</span>
               <hr>

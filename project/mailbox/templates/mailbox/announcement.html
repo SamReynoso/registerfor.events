@@ -4,9 +4,12 @@
 {% block working %}
 <h1>Announcement</h1>
 {% include 'components/event_details_card.html' with event=announcement.event %}
+<a href="{% url 'app:announcement_delete' announcement_id=announcement.id%}">Delete Announcement</a>
 <div class="direct-message-conversations-list__container">
   <h3 style="color: white; "> title</h3>
-    <h2 style="color: white; margin-bottom: 1rem; padding">{{ announcement.title }}</h2>
+    <div class="announcement-card">
+      <h2>{{ announcement.title }}</h2>
+    </div>
     <h3 style="color: white; ">body</h3>
     <div class="announcement-card">
       {{ announcement.body}}

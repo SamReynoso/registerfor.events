@@ -5,7 +5,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from models.forms import TeamForm, TeamPhotoForm
 from django.shortcuts import get_object_or_404
-from models.models import Event, Registration, Team
+from models.models import Announcement, Event, Registration, Team
 from project.utils.alerts import registration_withdrawn_alert_event_owner
 
 
@@ -142,3 +142,15 @@ def registration_withdraw(request, registration_id: int):
         return redirect('user:events')
     context = {'registration': registration}
     return render(request, 'app/registration_withdraw.html', context)
+
+
+@login_required(login_url='/login/')
+def announcement_delete(request, announcement_id: int):
+    announcement = get_object_or_404(Announcement, id=announcement_id)
+    if announcement.recipient != request.user:
+        return HttpResponseForbidden("You don't own this announcement.")
+    if request.method == 'POST':
+        announcement.delete()
+        return redirect('mailbox:announcements')
+    context = {'announcement': announcement}
+    return render(request, 'app/announcement_delete.html', context)

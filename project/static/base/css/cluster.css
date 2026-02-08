@@ -140,16 +140,12 @@ dt {
 }
 
 .announcement-card {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
   background-color: rgb(80, 80, 80);
-  padding: .5rem;
+  color: white;
+  padding: .5rem 1rem;
   margin-bottom: .5rem;
   border-radius: 3px;
   border: 1px solid rgb(50, 50, 50);
-  color: white;
 }
 
 .convo-meta {
