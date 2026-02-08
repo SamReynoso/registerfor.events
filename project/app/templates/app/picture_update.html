@@ -1,0 +1,11 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+  <img src="{{ current }}" class="img-fullsize">
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save</button>
+<form>
+
+{% endblock %}

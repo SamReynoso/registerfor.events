@@ -2,5 +2,5 @@
 
 {% block content %}
 {{ profile }}
-<a href="{% url 'notifications:conversation' profile_id=profile.id %}">Direct Message</a>
+<a href="{% url 'mailbox:conversation' profile_id=profile.id %}">Direct Message</a>
 {% endblock content %}

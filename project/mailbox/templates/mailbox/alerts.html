@@ -5,20 +5,119 @@
 
 <h2>Alerts</h2>
 
-{% for alert in new_alerts %}
-<div class="alert-div">
-  new alert
-  {{ alert.id }}
-  {{ alert.type }}
-  <a href="{% url 'user:profile' profile_id=alert.target.id %}"{{ alert.target }}>view profile</a>
-</div>
-{% endfor %}
+<form method="post">
+  {% csrf_token %}
+  <button type="submit"
+  <button>Clear Alerts</button>
+</form>
 
-{% for alert in old_alerts %}
-<div class="alert-div">
-  {{ alert.id }}
-  {{ alert.type }}
-  <a href="{% url 'user:profile' %}"{{ alert.target }}>view profile</a>
+<div class="alert-container">
+
+  <h2>New alerts</h2>
+
+  {% for alert in new_alerts %}
+
+    {% if alert.type == 'new_registration' %}
+      <div class="alert-card">
+        <h3>New Registration</h3>
+        <h4>{{ alert.title }}</h4>
+        <p>{{ alert.body }}</p>
+        <a href="{% url 'user:hosting' %}">Hosting</a>
+      </div>
+    {% endif %}
+
+    {% if alert.type == 'team_withdran' %}
+      <div class="alert-card">
+        <h3>Team withdrew from an event</h3>
+        <h4>{{ alert.title }}</h4>
+        <p>{{ alert.body }}</p>
+        <a href="{% url 'user:hosting' %}">Hosting</a>
+      </div>
+    {% endif %}
+
+    {% if alert.type == 'team_withdran_by_deletion' %}
+      <div class="alert-card">
+        <h3>Participating team deleted</h3>
+        <h4>{{ alert.title }}</h4>
+        <p>{{ alert.body }}</p>
+        <a href="{% url 'user:hosting' %}">Hosting</a>
+      </div>
+    {% endif %}
+
+    {% if alert.type == 'host_canceled_registration' %}
+      <div class="alert-card">
+        <h3>Host canceled registration</h3>
+        <h4>{{ alert.title }}</h4>
+        <p>{{ alert.body }}</p>
+        <a href="{% url 'user:events' %}">My Events</a>
+      </div>
+    {% endif %}
+
+    {% if alert.type == 'host_canceled_event' %}
+      <div class="alert-card">
+        <h3>Event Cancellation</h3>
+        <h4>{{ alert.title }}</h4>
+        <p>{{ alert.body }}</p>
+        <a href="{% url 'user:events' %}">My Events</a>
+      </div>
+    {% endif %}
+
+  {% endfor %}
+
+  <hr>
+
+
+  <h2>Read alerts</h2>
+
+  <hr>
+
+  {% for alert in old_alerts %}
+    {% if alert.type == 'new_registration' %}
+      <details class="alert-card">
+        <summary>New Registration</summary>
+        <h4>{{ alert.title }}</h4>
+        <p>{{ alert.body }}</p>
+        <a href="{% url 'user:hosting' %}">Hosting</a>
+      </details>
+    {% endif %}
+
+    {% if alert.type == 'team_withdran' %}
+      <details class="alert-card">
+        <summary>Team withdrew from an event</summary>
+        <h4>{{ alert.title }}</h4>
+        <p>{{ alert.body }}</p>
+        <a href="{% url 'user:hosting' %}">Hosting</a>
+      </details>
+    {% endif %}
+
+    {% if alert.type == 'team_withdran_by_deletion' %}
+      <details class="alert-card">
+        <summary>Participating team deleted</summary>
+        <h4>{{ alert.title }}</h4>
+        <p>{{ alert.body }}</p>
+        <a href="{% url 'user:hosting' %}">Hosting</a>
+      </details>
+    {% endif %}
+
+    {% if alert.type == 'host_canceled_registration' %}
+      <details class="alert-card">
+        <summary>Event Canceled</summary>
+        <h4>{{ alert.title }}</h4>
+        <p>{{ alert.body }}</p>
+        <a href="{% url 'user:events' %}">Hosting</a>
+      </details>
+    {% endif %}
+
+    {% if alert.type == 'host_canceled_event' %}
+      <details class="alert-card">
+        <summary>Event  Cancellation</summary>
+        <h4>{{ alert.title }}</h4>
+        <p>{{ alert.body }}</p>
+        <a href="{% url 'user:events' %}">My Events</a>
+      </details>
+    {% endif %}
+  {% endfor %}
+
 </div>
-{% endfor %}
+
 {% endblock %}

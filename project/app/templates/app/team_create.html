@@ -4,6 +4,7 @@
   <p>Create a Team.</p>
   <form method="post">
       {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.GET.next }}">
       {{ form.as_p }}
       <button type="submit">Create Team</button>
   </form>

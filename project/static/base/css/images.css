@@ -1,0 +1,50 @@
+.profile-image-container {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eee;
+}
+
+
+.sport-ball-image-container {
+  width: 120px;
+  height: 120px;
+
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(119, 119, 119);
+}
+
+.event-poster {
+  width: 350px;
+}
+
+.thumbnail {
+  width: 120px;
+  height: 120px;
+}
+
+.icon {
+  width: 3rem;
+  height: 3rem;
+}
+
+.nav__logo {
+  width: 10rem;
+  height: 5rem;
+  margin-top: .25rem;
+}
+
+.profile-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.img-fullsize {
+  width: 80%;
+}

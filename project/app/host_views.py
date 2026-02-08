@@ -2,8 +2,10 @@ from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
-from models.forms import EventForm
-from models.models import Division, DivisionChoices, Event, Gender, Registration
+from models.forms import EventForm, EventPosterForm
+from models.models import (
+        Division, DivisionChoices, Event, Gender, Registration)
+from project.utils.alerts import host_canceled_registration_alert_team_owner
 
 
 @login_required(login_url='/login/')
@@ -14,11 +16,79 @@ def event_create(request):
             event = form.save(commit=False)
             event.owner = request.user
             event = form.save()
-            return redirect('user:event_details', event_id=event.id)
+            return redirect('user:hosting_event', event_id=event.id)
     else:
         form = EventForm()
     context = {'form': form}
     return render(request, 'app/event_create.html', context)
+
+
+@login_required(login_url='/login/')
+def event_update(request, event_id: int):
+    event = get_object_or_404(Event, id=event_id)
+    if event.owner != request.user:
+        return HttpResponseForbidden("You don't own this event.")
+
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            return redirect('user:event_details', event_id=event_id)
+    else:
+        form = EventForm(instance=event)
+    context = {'event': event, 'form': form}
+    return render(request, 'app/event_update.html', context)
+
+
+@login_required(login_url='/login/')
+def event_delete(request, event_id: int):
+    event = get_object_or_404(Event, id=event_id)
+    if event.owner != request.user:
+        return HttpResponseForbidden("You don't own this event.")
+
+    if request.method == 'POST':
+
+        event.delete()
+        return redirect('user:hosting')
+    context = {'event': event}
+    return render(request, 'app/event_delete.html', context)
+
+
+@login_required(login_url='/login/')
+def event_poster_update(request, event_id: int):
+    event = get_object_or_404(Event, id=event_id)
+    if event.owner != request.user:
+        return HttpResponseForbidden("You don't own this event.")
+    if request.method == 'POST':
+        form = EventPosterForm(
+                request.POST,
+                request.FILES,
+                instance=event
+                )
+        if form.is_valid():
+            form.save()
+            return redirect('user:event_details', event_id=event_id)
+    else:
+        form = EventPosterForm(instance=event)
+    context = {
+            'current': event.get_poster_url(),
+            'form': form
+               }
+    return render(request, 'app/picture_update.html', context)
+
+
+@login_required(login_url='/login/')
+def event_poster_delete(request, event_id: int):
+    event = get_object_or_404(Event, id=event_id)
+    if event.owner != request.user:
+        return HttpResponseForbidden("You don't own this event.")
+
+    if request.method == 'POST':
+        event.poster = None
+        event.save()
+        return redirect('user:event_details', event_id=event_id)
+    context = {'current': event.get_poster_url()}
+    return render(request, 'app/picture_delete.html', context)
 
 
 @login_required(login_url='/login/')
@@ -52,7 +122,7 @@ def event_divisions(request, event_id: int):
                                      name=division_name).delete()
                 existing_keys.remove(k)
                 print(k, 'was deleted')
-        return redirect('user:event_details', event_id=event.id)
+        return redirect('user:hosting_event', event_id=event.id)
 
     division_options = {
             'genders': Gender,
@@ -70,7 +140,7 @@ def event_divisions(request, event_id: int):
             'protected_keys': protected_keys,
             }
 
-    return render(request, 'user/event_divisions.html', context)
+    return render(request, 'app/event_divisions.html', context)
 
 
 @login_required(login_url='/login/')
@@ -78,7 +148,20 @@ def participant_edit(request, registration_id: int):
     registration = get_object_or_404(Registration, id=registration_id)
     if request.method == 'POST':
         event_id = registration.event.id
+        host_canceled_registration_alert_team_owner(registration)
         registration.delete()
         return redirect('user:hosting_participants', event_id=event_id)
     context = {'registration': registration}
-    return render(request, 'app/participant_edit.html', context)
+    return render(request, 'app/event_participant_edit.html', context)
+
+
+@login_required(login_url='/login/')
+def event_status(request, event_id: int):
+    event = get_object_or_404(Event, id=event_id)
+    if event.owner != request.user:
+        return HttpResponseForbidden("You don't own this event.")
+    if request.method == 'POST':
+        event.public = not event.public
+        event.save()
+    context = {'event': event}
+    return render(request, 'app/event_status.html', context)

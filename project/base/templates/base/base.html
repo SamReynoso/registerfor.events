@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="{% static 'base/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/images.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/mailbox.css' %}">
 
     <title>Sports Bulletin Board</title>
 
@@ -20,12 +22,11 @@
 
 <nav class="navigation">
 
-  <div style="display: flex; flex-direction: row; gap: 1rem; align-items: center">
-    <button class="back-button" id="backButton"> < </button>
-    <a href="{% url 'base:home' %}">Home</a>
+  <div style="display: flex; flex-direction: row; gap: 1rem; align-items: center; padding-left: 1rem">
+    <a href="{% url 'base:home' %}"><img src="/assets/images/site-logo-with-text.svg" class="nav__logo"></a>
   </div>
 
-  <div style="display: flex; flex-direction: row; gap: 1rem; align-items: center">
+  <div style="display: flex; flex-direction: row; gap: 1rem; align-items: center; padding: 1rem">
     {% if request.user.is_authenticated %}
     <a href="{% url 'user:account' %}">Account</a>
       <a href="{% url 'mailbox:mailbox' %}">Mailbox</a>
@@ -39,6 +40,7 @@
 </nav>
 
 <main>
+    <button class="back-button" id="backButton"> < </button>
 
     <header class="header">
       {% block header%}

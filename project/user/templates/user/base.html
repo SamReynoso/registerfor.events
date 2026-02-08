@@ -2,18 +2,24 @@
 
 {% block header%}
 
-  <h1>User Account</h1>
-  <p>Manage your events, teams, and hosted events.</p>
+  <h1>Explore</h1>
 
-  <h2>Navigate you Activities</h2>
-
-  <a href="{% url 'user:events' %}">My Events</a>
-  <a href="{% url 'user:teams' %}">My Teams</a>
-  <a href="{% url 'user:hosting' %}">Hosting</a>
-  <a href="{% url 'user:profile' %}">Profile</a>
+  <ul class="nav-list">
+    <li>
+      <a href="{% url 'user:events' %}">My Events</a>
+    </li>
+    <li>
+      <a href="{% url 'user:teams' %}">My Teams</a>
+    </li>
+    <li>
+      <a href="{% url 'user:hosting' %}">Hosting</a>
+    </li>
+    <li>
+      <a href="{% url 'user:profile' %}">Profile</a>
+    </li>
+  </ul>
 
 {% endblock %}
 
 {% block content %}
-  <p> This is the profile page.</p>
 {% endblock %}

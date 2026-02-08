@@ -1,0 +1,21 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+  <h2>Participant edit.</h2>
+  <a href="{% url 'user:hosting_event' event_id=registration.event.id %}">View</a>
+  <h3>
+      {{ registration.event.name }}
+  </h3>
+  <ul>
+    <li>
+      {{ registration.team.name }}
+    </li>
+    <li>
+      {{ registration.team.gender}} {{ registration.team.division }}
+    </li>
+  </ul>
+  <form method="post">
+      {% csrf_token %}
+      <button type="submit">Cancel Registration</button>
+  </form>
+{% endblock %}

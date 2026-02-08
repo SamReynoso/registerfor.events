@@ -5,10 +5,10 @@
 <a href="{% url 'details:profile' profile_id=user.profile.id%}">View public profile</a>
 
 <div class="profile-image-container">
-  <p>placeholder</p>
+  <img src="{{ user.profile.get_avatar_url }}" class="thumbnail">
 </div>
-<a href="{% url 'user:profile_picture_update' %}">change</a>
-<a href="#">remove</a>
+  <a href="{% url 'app:profile_avatar_update' %}">change</a>
+  <a href="{% url 'app:profile_avatar_delete' %}">delete</a>
 
 
 <table class='contact-info-table'>
@@ -22,5 +22,5 @@
   </tr>
   <tr>
 </table>
-<a href="{% url 'user:profile_update' %}">edit</a>
+<a href="{% url 'app:profile_update' %}">edit</a>
 {% endblock %}

@@ -1,0 +1,47 @@
+div.mailbox-card__container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+}
+
+div.mailbox-card {
+  padding: 1rem;
+  background-color: rgb(220, 220, 220);
+  min-height: 8rem;
+  border-radius: 3px;
+  border: 1px solid rgb(190, 190, 190);
+}
+div.alert-container {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  background-color: rgb(190, 190, 190);
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: calc(3px + .5rem)
+
+}
+
+.alert-card {
+  padding: .5rem;
+  border: 1px solid black;
+  border-radius: 3px;
+  background-color: rgb(225, 225, 225);
+}
+
+div.alert-card {
+}
+
+details.alert-card {
+}
+
+ul.nav-list {
+    display: flex; /* Makes the ul a flex container */
+    list-style: none; /* Removes bullet points */
+    padding: 0; /* Removes default left padding */
+    margin: 0; /* Removes default margins */
+    gap: 20px; /* Adds space between items */
+}
+
+

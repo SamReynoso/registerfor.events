@@ -10,29 +10,30 @@
 - [x] Move all crude endpoint to the 'app' app.
 - [ ] Do a full ownership check audit ~~on every view in every app~~.
 - [x] Add redirect after updating event divisions.
+- [ ] Add unique constraints to models.
 
 ## List of things I think I should do tomorrow. (on day 4)
 ### Status related
 - [x] ~~Add withdraw logic to registration view.~~ Just delete the registrations for now.
 - [x] ~~Add registration status to event host view.~~
 - [x] Add a event host registration management view.
-- [ ] Add event status update view.
-- [ ] Add event cacelation view, and logical ramifications of such an action.
-- [ ] Add team deleat view, and handle logic for its registrations.
+- [x] Add event status update view.
+- [x] Add event cacelation view, and logical ramifications of such an action.
+- [x] Add team deleat view, and handle logic for its registrations.
+### Media related
+- [x] Add profile picture upload feature.
+- [x] Add event poster upload feature. 
 ### Alert related
-- [ ] Add new registration alert.
-- [ ] Add new registration withdraw alert.
-- [ ] Add event cancellation alert.
-- [ ] Add registration cancellation alert from the host side.
+- [x] Add new registration alert.
+- [x] Add new registration withdraw alert.
+- [x] Add event cancellation alert.
+- [x] Add registration cancellation alert from the host side.
 - [ ] Add new message alert.
 - [ ] Add new announcement alert.
-### Media related
-- [ ] Add profile picture upload feature.
-- [ ] Add event post upload feature. 
 ### Message related
 - [ ] Add host/event announcement creation view.
 - [ ] Add participant announcement mailbox view.
-- [ ] Remove notifications in favor of alerts.
+- [x] Remove notifications in favor of alerts.
 
 ## Possible must have features that will need to be added.
 - [ ] Add additional contact information requirements to registration.
@@ -54,8 +55,10 @@
 ## Possible nice touches if free.
 - [ ] Optional fine grain address for events.
 - [ ] Map support on event details page.
+- [ ] Request a division be added to an event.
 
 ## Frontend notes.
+- [ ] Add a sport photo to the header in details if you sport is known.
 - [ ] Fix all links from create app refactor.
 - [ ] Minimal search bar on landing page.
 - [ ] Division details is bare.

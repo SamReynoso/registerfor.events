@@ -5,11 +5,10 @@
 {% endblock %}
 
 {% block content %}
-<ul>
-  <li><a href="{% url 'mailbox:mailbox'%}">Mailbox</a></li>
+<ul class="nav-list">
   <li><a href="{% url 'mailbox:direct_messages'%}">Direct Messages</a></li>
   <li><a href="{% url 'mailbox:announcements'%}">Announcements</a></li>
   <li><a href="{% url 'mailbox:alerts'%}">Alerts</a></li>
-<ul>
+</ul>
   {% block working %}{% endblock %}
 {% endblock %}

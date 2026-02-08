@@ -1,20 +1,31 @@
 {% extends "user/base.html" %}
 
 {% block content %}
-<p>Event Details.</p>
-<h1>Visibility: {{ event.public }}</h1>
-<h1>Status: {{ event.status }}</h1>
+<h2>{{ event.name }}</h2>
+<ul class="nav-list">
+  <li>
+    <a href="{% url 'details:event' event_id=event.id %}">View</a><br>
+  </li>
+  <li>
+    <a href="{% url 'app:event_status' event_id=event.id %}">Change Status</a><br>
+  </li>
+  <li>
+    <a href="{% url 'app:event_delete' event_id=event.id %}">Cancel Event</a><br>
+  </li>
+</ul>
 
-<div class="profile-image-container">
-  <p>placeholder</p>
+<h3>Visibility: {{ event.public }}</h3>
+<h3>Status: {{ event.status }}</h3>
+
+<div>
+  <img src="{{ event.get_poster_url }}" class="event-poster">
 </div>
 
-<a href="#">Add Event Poster</a>
+<a href="{% url 'app:event_poster_update' event_id=event.id %}">Change Poster</a><br>
+<a href="{% url 'app:event_poster_delete' event_id=event.id %}">Delete Poster</a>
 
+<h3>Event Info</h3>
 <ul>
-  <li>
-    {{ event.name }}
-  </li>
   <li>
     {{ event.city }}
   </li>
@@ -30,7 +41,7 @@
 </ul>
 
 <h2>Divisions</h2>
-<a href="{% url 'app:event_divisions' event_id=event.id %}">edit division options</a>
+<a href="{% url 'app:event_divisions' event_id=event.id %}">Add/Remove Division</a>
 <table class="info-list-table">
   <thead>
     <tr>
@@ -51,7 +62,7 @@
   </tbody>
 </table>
 <h2>Participants</h2>
-<a href="{% url 'user:hosting_participants' event_id=event.id %}">Manage participants</a>
+<a href="{% url 'user:hosting_participants' event_id=event.id %}">View Participant Status</a>
 <table class="info-list-table">
   <thead>
     <tr>
@@ -75,7 +86,5 @@
 
   </tbody>
 </table>
-
-<a href="#">Cancel this event</a>
 
 {% endblock %}

@@ -1,7 +1,18 @@
+from re import L
 from django.conf import settings
 from django.db import models
 
-from project.utils.on_delete import on_team_delete
+from project.utils.alerts import (
+        host_canceled_event_alert_team_owner,
+        new_registrations_alert_event_owner,
+        team_deleted_alert_event_owner,
+        )
+from project.utils.project_models import (
+        # on_team_delete,
+        uuid_upload_avatar,
+        uuid_upload_event_poster,
+        uuid_upload_team_photo
+        )
 
 
 class Profile(models.Model):
@@ -12,12 +23,21 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=30, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
+    avatar = models.ImageField(
+            upload_to=uuid_upload_avatar,
+            blank=True,
+            null=True)
 
     def __str__(self):
         full_name = self.first_name + self.last_name
         if full_name != '':
             return full_name
         return self.user.username
+
+    def get_avatar_url(self):
+        if self.avatar:
+            return self.avatar.url
+        return ''
 
 
 class Sports(models.TextChoices):
@@ -72,6 +92,11 @@ class Event(models.Model):
     # end_date = models.DateField()
     public = models.BooleanField(default=False)
 
+    poster = models.ImageField(
+            upload_to=uuid_upload_event_poster,
+            blank=True,
+            null=True)
+
     def upcoming(self):
         return True
 
@@ -82,6 +107,16 @@ class Event(models.Model):
         if self.upcoming():
             return "Upcoming"
         return "Completed"
+
+    def get_poster_url(self):
+        if self.poster:
+            return self.poster.url
+        return ''
+
+    def delete(self, *args, **kwargs):
+        for reg in self.registrations.filter(upcoming=True).all():
+            host_canceled_event_alert_team_owner(reg)
+        return super().delete(*args, **kwargs)
 
 
 class Division(models.Model):
@@ -104,12 +139,34 @@ class Team(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='teams',
                               on_delete=models.CASCADE)
-    name = models.CharField(max_length=150, unique=True)
+    name = models.CharField(max_length=150)
     gender = models.CharField(max_length=20, choices=Gender.choices)
     division = models.CharField(max_length=20,
                                 choices=DivisionChoices.choices,)
     sport = models.CharField(max_length=20,
                              choices=Sports.choices,)
+    photo = models.ImageField(
+            upload_to=uuid_upload_team_photo,
+            blank=True,
+            null=True)
+
+    class Meta:
+        constraints = [
+                models.UniqueConstraint(
+                    fields=['name', 'gender', 'division'],
+                    name='unique_together_fields')
+                ]
+
+    def get_photo_url(self):
+        if self.photo:
+            return self.photo.url
+        return ''
+
+    def delete(self, *args, **kwargs):
+        print('team delete call')
+        for reg in self.registrations.filter(upcoming=True).all():
+            team_deleted_alert_event_owner(reg)
+        return super().delete(*args, **kwargs)
 
 
 class Registration(models.Model):
@@ -126,8 +183,16 @@ class Registration(models.Model):
                              related_name='registrations',
                              blank=True,
                              null=True,
-                             on_delete=on_team_delete
+                             on_delete=models.CASCADE,
                              )
-    canceled = models.BooleanField(default=False)
-    withdrawn = models.BooleanField(default=False)
-    attended = models.BooleanField(default=False)
+    upcoming = models.BooleanField(default=True)
+
+    # team_name = models...
+    # canceled = models.BooleanField(default=False)
+    # withdrawn = models.BooleanField(default=False)
+    # attended = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            new_registrations_alert_event_owner(self)
+        super().save(*args, **kwargs)

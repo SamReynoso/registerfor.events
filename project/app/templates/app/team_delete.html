@@ -1,10 +1,9 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-  <p>Participant edit.</p>
-  {{ registration }}
+  <h2>Delete Team</h2>
   <form method="post">
       {% csrf_token %}
-      <button type="submit">Cancel</button>
+      <button type="submit">Delete Team</button>
   </form>
 {% endblock %}

@@ -1,13 +1,18 @@
 {% extends "user/base.html" %}
 
 {% block content %}
-<p>Teams Details.</p>
+<h2>Teams Details.</h2>
+<h3>{{ team.name }}</h3>
+<a href="{% url 'app:team_update' team_id=team.id %}">Update Team</a><br>
+<a href="{% url 'app:team_delete' team_id=team.id %}">Delete Team</a>
+
 
 <div class="profile-image-container">
-  <p>placeholder</p>
+  <img src="{{ team.get_photo_url }}" class="thumbnail">
 </div>
 
-<a href="#">Add team photo </a>
+<a href="{% url 'app:team_photo_update' team_id=team.id%}">Change Photo</a><br>
+<a href="{% url 'app:team_photo_delete' team_id=team.id%}">Delete Photo</a>
 
 <ul>
   <li>
@@ -55,7 +60,6 @@
 
 <a href="#">Past Events</a>
 <a href="#">Pending Actions</a>
-<a href="#">Delete Team</a>
 
 {% endblock %}
 

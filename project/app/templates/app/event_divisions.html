@@ -1,4 +1,4 @@
-{% extends "user/base.html" %}
+{% extends "app/base.html" %}
 
 {% block content %}
 <ul>
@@ -18,7 +18,7 @@
     {{ event.public }}
   </li>
 </ul>
-<a href="{% url 'user:event_details' event_id=event.id %}">View details</a>
+<a href="{% url 'user:hosting_event' event_id=event.id %}">View details</a>
 
 <h2>Manage Divisions</h2>
 <p>Divisions with active registrations are protected and can not be removed. Cancel the all registrations for the

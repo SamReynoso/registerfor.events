@@ -1,0 +1,31 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+<ul>
+  <li>
+    {{ event.name }}
+  </li>
+  <li>
+    {{ event.city }}
+  </li>
+  <li>
+    {{ event.state}}
+  </li>
+  <li>
+    {{ event.sport }}
+  </li>
+  <li>
+    {{ event.public }}
+  </li>
+</ul>
+<a href="{% url 'user:hosting_event' event_id=event.id %}">View Event</a>
+
+<h2>Cancel Event</h2>
+
+<form method='post' class="divisions-checkbox-form">
+  {% csrf_token %}
+  <button type="submit">Cancel</button>
+
+</form>
+
+{% endblock %}

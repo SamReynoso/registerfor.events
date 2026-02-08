@@ -1,7 +1,8 @@
 {% extends "user/base.html" %}
 
 {% block content %}
-<p> This is the you events page..</p>
+<h2>My Events</h2>
+<h3>Event I'm In</h3>
 <table class="info-list-table">
   <thead>
     <tr>
@@ -9,24 +10,24 @@
       <th>Host</th>
       <th>My Team</th>
       <th>Divisions</th>
-      <th>Details</th>
+      <th>Edit</th>
     </tr>
   </thead>
   <tbody>
     {% for registration in registrations.all %}
     <tr>
       <td>
-        <a href="#">
+        <a href="{% url "details:event" event_id=registration.event.id %}">
           {{ registration.event.name }}
         </a>
       </td>
       <td>
-        <a href="#">
+        <a href="{% url "details:profile" profile_id=registration.owner.id %}">
           {{ registration.event.owner}}
         </a>
       </td>
       <td>
-        <a href="#">
+        <a href="{% url "details:team" team_id=registration.team.id %}">
           {{ registration.team.name }}
         </a>
       </td>
@@ -35,7 +36,7 @@
         {{ registration.team.gender}}
       </td>
       <td>
-        <a href="{% url "user:registration_details" registration_id=registration.id %}">View</a>
+        <a href="{% url "user:registration_details" registration_id=registration.id %}">Edit</a>
       </td>
     </tr>
     {% endfor %}

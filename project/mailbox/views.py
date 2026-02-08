@@ -1,22 +1,22 @@
 from django.db.models import Count
 from django.shortcuts import render
-from mailbox.models import Alerts, Conversation, DirectMessage
+from mailbox.models import Alert, Conversation, DirectMessage
 from models.models import Profile
 
 
 def alerts_view(request):
-    alerts = Alerts.objects.filter(recipient=request.user.profile)
+    alerts = Alert.objects.filter(recipient=request.user)
+    if request.method == 'POST':
+        alerts.delete()
 
     new_alerts = list(alerts.filter(is_read=False))
+    old_alerts = list(alerts.filter(is_read=True))
+
     alerts.filter(id__in=[a.id for a in new_alerts]).update(is_read=True)
-
-    old_alerts = alerts.filter(is_read=True)
-
     context = {
-        'new_alerts': new_alerts,
-        'old_alerts': old_alerts,
-    }
-
+            'new_alerts': new_alerts,
+            'old_alerts': old_alerts,
+            }
     return render(request, 'mailbox/alerts.html', context)
 
 
@@ -30,7 +30,7 @@ def mailbox(request):
 
 def direct_messages_view(request):
     conversations = Conversation.objects.filter(
-            participants=request.user.profile).all()
+            participants=request.user).all()
     context = {'conversations': conversations}
     return render(request, 'mailbox/direct_messages.html', context)
 
@@ -55,7 +55,7 @@ def get_convo_helper(sender: Profile, recipient: Profile) -> Conversation:
 
 
 def conversation_view(request, profile_id: int):
-    sender = request.user.profile
+    sender = request.user
     recipient = Profile.objects.get(id=profile_id)
     convo = get_convo_helper(sender, recipient)
 

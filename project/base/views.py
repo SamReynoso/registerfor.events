@@ -1,10 +1,18 @@
 from django.contrib.auth import logout, authenticate, login
 from django.shortcuts import render, redirect
 from models.forms import RegisterForm
-from models.models import Event, Profile, Sports, DivisionChoices, Gender, State, Cities
+from models.models import Profile
 
 
-def register(request):
+def home_view(request):
+    return render(request, 'base/home.html')
+
+
+def index_view(request):
+    return render(request, 'base/index.html')
+
+
+def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -40,7 +48,3 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('base:login')
-
-
-def home(request):
-    return render(request, 'base/home.html')

@@ -18,6 +18,12 @@ class ProfileForm(forms.ModelForm):
         fields = ['first_name', 'last_name']
 
 
+class ProfileAvatarForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['avatar']
+
+
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
@@ -26,6 +32,12 @@ class EventForm(forms.ModelForm):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
+
+
+class EventPosterForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ['poster']
 
 
 class TeamForm(forms.ModelForm):
@@ -38,6 +50,12 @@ class TeamForm(forms.ModelForm):
         self.object.owner = self.request.user
         self.object.save()
         return super().form_valid(form)
+
+
+class TeamPhotoForm(forms.ModelForm):
+    class Meta:
+        model = Team
+        fields = ['photo']
 
 
 class DivisionForm(forms.ModelForm):

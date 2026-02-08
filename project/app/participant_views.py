@@ -1,9 +1,12 @@
 from django.contrib.auth.decorators import login_required
 
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
-from models.forms import TeamForm
+from models.forms import TeamForm, TeamPhotoForm
 from django.shortcuts import get_object_or_404
 from models.models import Event, Registration, Team
+from project.utils.alerts import registration_withdrawn_alert_event_owner
 
 
 @login_required(login_url='/login/')
@@ -14,11 +17,80 @@ def team_create(request):
             team = form.save(commit=False)
             team.owner = request.user
             team.save()
+            next_url = request.POST.get('next')
+            if next_url and url_has_allowed_host_and_scheme(
+                    next_url,
+                    allowed_hosts={request.get_host()}):
+                return redirect(next_url)
             return redirect('user:team_details', team_id=team.id)
     else:
         form = TeamForm()
     context = {'form': form}
     return render(request, 'app/team_create.html', context)
+
+
+@login_required(login_url='/login/')
+def team_photo_update(request, team_id: int):
+    team = get_object_or_404(Team, id=team_id)
+    if team.owner != request.user:
+        return HttpResponseForbidden("You don't own this team.")
+    if request.method == 'POST':
+        form = TeamPhotoForm(
+                request.POST,
+                request.FILES,
+                instance=team
+                )
+        if form.is_valid():
+            form.save()
+            return redirect('user:team_details', team_id=team_id)
+    else:
+        form = TeamPhotoForm(instance=team)
+    context = {
+            'current': team.get_photo_url(),
+            'form': form
+               }
+    return render(request, 'app/picture_update.html', context)
+
+
+@login_required(login_url='/login/')
+def team_photo_delete(request, team_id: int):
+    team = get_object_or_404(Team, id=team_id)
+    if team.owner != request.user:
+        return HttpResponseForbidden("You don't own this team.")
+    if request.method == 'POST':
+        team.photo = None
+        team.save()
+        return redirect('user:team_details', team_id=team_id)
+    context = {'current': team.get_photo_url()}
+    return render(request, 'app/picture_delete.html', context)
+
+
+@login_required(login_url='/login/')
+def team_update(request, team_id: int):
+    team = get_object_or_404(Team, id=team_id)
+    if team.owner != request.user:
+        return HttpResponseForbidden("You don't own this team.")
+    if request.method == 'POST':
+        form = TeamForm(request.POST, instance=team)
+        if form.is_valid():
+            form.save()
+            return redirect('user:team_details', team_id=team_id)
+    else:
+        form = TeamForm(instance=team)
+    context = {'form': form}
+    return render(request, 'app/team_update.html', context)
+
+
+@login_required(login_url='/login/')
+def team_delete(request, team_id: int):
+    team = get_object_or_404(Team, id=team_id)
+    if team.owner != request.user:
+        return HttpResponseForbidden("You don't own this team.")
+    if request.method == 'POST':
+        team.delete()
+        return redirect('user:teams')
+    context = {'current': team.get_photo_url()}
+    return render(request, 'app/team_delete.html', context)
 
 
 @login_required(login_url='/login/')
@@ -49,7 +121,6 @@ def register_for_event(request, event_id: int):
                             gender=team.gender,
                             name=team.division)
                         )
-
         return redirect('user:events')
 
     context = {
@@ -66,6 +137,7 @@ def register_for_event(request, event_id: int):
 def registration_withdraw(request, registration_id: int):
     registration = get_object_or_404(Registration, id=registration_id)
     if request.method == 'POST':
+        registration_withdrawn_alert_event_owner(registration)
         registration.delete()
         return redirect('user:events')
     context = {'registration': registration}
