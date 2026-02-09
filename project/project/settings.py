@@ -7,23 +7,15 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-def val_u(key: str):
+def val_u(key: str) -> str:
     val = os.getenv(key)
     if val is None:
         return ''
     return val
 
 
-print(
-        val_u('DJANGO_DEBUG'),
-        val_u('DJANGO_ALLOWED_HOSTS'),
-        val_u('DJANGO_SECRET_KEY'),
-        val_u('DJANGO_DATABASE_ENGINE'),
-        val_u('DJANGO_DATABASE_NAME'),
-      )
-
 DEBUG = val_u('DJANGO_DEBUG')
-ALLOWED_HOSTS = [val_u('DJANGO_ALLOWED_HOSTS')]
+ALLOWED_HOSTS = val_u('DJANGO_ALLOWED_HOSTS').split(',')
 SECRET_KEY = val_u('DJANGO_SECRET_KEY')
 if DEBUG:
     DATABASES = {
