@@ -1,11 +1,13 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import get_user_model
 
-from django.db.models import Count
 from mailbox.models import Alert, Conversation, DirectMessage
 from models.models import Announcement
 
+from django.contrib.auth.decorators import login_required
 
+
+@login_required(login_url='/login/')
 def alerts_view(request):
     alerts = Alert.objects.filter(recipient=request.user)
     if request.method == 'POST':
@@ -22,6 +24,7 @@ def alerts_view(request):
     return render(request, 'mailbox/alerts.html', context)
 
 
+@login_required(login_url='/login/')
 def announcements_view(request):
     announcements = Announcement.objects.filter(recipient=request.user).all()
     announcements = Announcement.objects.all()
@@ -29,16 +32,19 @@ def announcements_view(request):
     return render(request, 'mailbox/announcements.html', context)
 
 
+@login_required(login_url='/login/')
 def announcement_view(request, announcement_id: int):
     announcement = Announcement.objects.get(id=announcement_id)
     context = {'announcement': announcement}
     return render(request, 'mailbox/announcement.html', context)
 
 
+@login_required(login_url='/login/')
 def mailbox(request):
     return render(request, 'mailbox/mailbox.html')
 
 
+@login_required(login_url='/login/')
 def direct_messages_view(request):
     conversations = Conversation.objects.filter(
             participants=request.user).all()
@@ -62,6 +68,7 @@ def get_convo_helper(sender, recipient) -> Conversation:
     return convo
 
 
+@login_required(login_url='/login/')
 def conversation_view(request, user_id: int):
     sender = request.user
     User = get_user_model()
@@ -82,6 +89,7 @@ def conversation_view(request, user_id: int):
     return render(request, 'mailbox/conversation.html', context)
 
 
+@login_required(login_url='/login/')
 def conversation_delete_view(request, user_id: int):
     sender = request.user
     User = get_user_model()
@@ -92,4 +100,3 @@ def conversation_delete_view(request, user_id: int):
         print('convo deleted')
         return redirect('mailbox:direct_messages')
     return render(request, 'mailbox/conversation_delete.html')
-
