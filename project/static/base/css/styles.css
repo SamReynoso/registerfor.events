@@ -253,15 +253,17 @@ details {
   padding: 2px;
 }
 
+
 @media (max-width: 1200px) {
 }
 
 @media (max-width: 900px) {
-.container {
-  padding: 3rem .5rem;
-  border-radius: 0;
-  border-left: none;
-  border-right: none;
+  .container {
+    padding: 3rem .5rem;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
 }
 
 @media (max-width: 650px) {

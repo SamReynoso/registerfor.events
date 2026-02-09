@@ -114,7 +114,6 @@ def event_divisions(request, event_id: int):
                                                        name=division_name)
                 existing_keys.append(
                         f'{new_division.gender}-{new_division.name}')
-                print(k, 'was added')
         for k in existing_keys:
             gender, division_name = k.split('-')
             if k not in posted_keys:
@@ -122,7 +121,6 @@ def event_divisions(request, event_id: int):
                                      gender=gender,
                                      name=division_name).delete()
                 existing_keys.remove(k)
-                print(k, 'was deleted')
         return redirect('user:hosting_event', event_id=event.id)
 
     division_options = {
@@ -164,6 +162,7 @@ def event_status(request, event_id: int):
     if request.method == 'POST':
         event.public = not event.public
         event.save()
+        return redirect('user:hosting_event', event_id=event.id)
     context = {'event': event}
     return render(request, 'app/event_status.html', context)
 

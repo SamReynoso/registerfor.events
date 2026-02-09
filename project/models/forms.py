@@ -29,6 +29,11 @@ class EventForm(forms.ModelForm):
         model = Event
         fields = ['name', 'sport', 'city', 'state', 'start_date', 'end_date']
 
+        widgets = {
+            "start_date": forms.DateInput(attrs={"type": "date"}),
+            "end_date": forms.DateInput(attrs={"type": "date"}),
+        }
+
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)

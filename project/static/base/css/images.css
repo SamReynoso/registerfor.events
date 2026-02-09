@@ -67,3 +67,17 @@ img {
 .img-fullsize {
   width: 80%;
 }
+
+@media (max-width: 900px) {
+  .container {
+    padding: 3rem .5rem;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+  .nav__logo {
+    height: 4rem;
+    margin-top: .7rem;
+  }
+
+}

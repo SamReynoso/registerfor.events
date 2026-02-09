@@ -16,7 +16,7 @@
   </label>
 
   <label>
-    State
+    City
     <select name="city">
       {% for city in search_options.cities %}
         <option>{{ city }}</option>
@@ -33,28 +33,6 @@
     </select>
   </label>
 
-  <label>
-    Distance
-    <select name="radius">
-      <option value="5">5 miles</option>
-      <option value="10">10 miles</option>
-      <option value="25">25 miles</option>
-      <option value="50">50 miles</option>
-    </select>
-  </label>
-
-  <label>
-    Date Range
-  <select name="date_range">
-      <option value="" select>all</option>
-      <option value="1_week">1 Week</option>
-      <option value="2_week">2 weeks</option>
-      <option value="1_month">1 month</option>
-      <option value="2_month">2 months</option>
-      <option value="6_months">6 months</option>
-    </select>
-  </label>
-
   <details>
     <summary>Click te reveal division options</summary>
 
@@ -63,8 +41,9 @@
       <label>
         Gender
         <select name="gender">
+          <option value="all" select>Any<option>
           {% for gender in search_options.genders %}
-          <option value="{{ gender }}" {% if gender == 'all' %} select {% endif %}>{{ gender }}</option>
+          <option value="{{ gender }}">{{ gender }}</option>
           {% endfor %}
         </select>
       </label>

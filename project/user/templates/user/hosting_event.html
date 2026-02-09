@@ -6,22 +6,26 @@
 
 <ul class="nav-list">
   <li><a href="{% url 'details:event' event_id=event.id %}">View</a></li>
-  <li><a href="{% url 'app:event_status' event_id=event.id %}">Change Status</a></li>
   <li><a href="{% url 'app:event_delete' event_id=event.id %}">Cancel Event</a></li>
-  <li><a href="{% url 'app:event_announcement' event_id=event.id %}">Announcement</a></li>
+  <li><a href="{% url 'app:event_announcement' event_id=event.id %}">Create Announcement</a></li>
 </ul>
 
 <h2>Name: '{{ event.name }}'</h2>
-<div class="event-poster__container">
-  <img src="{{ event.get_poster_url }}" class="event-poster">
-</div>
 
 <ul class="nav-list">
   <li><a href="{% url 'app:event_poster_update' event_id=event.id %}">Change Poster</a></li>
   <li><a href="{% url 'app:event_poster_delete' event_id=event.id %}">Delete Poster</a></li>
 </ul>
 
+<div class="event-poster__container">
+  <img src="{{ event.get_poster_url }}" class="event-poster">
+</div>
+
 <h2>Info</h2>
+<ul class="nav-list">
+  <li><a href="{% url 'app:event_update' event_id=event.id %}">Update Info</a></li>
+  <li><a href="{% url 'app:event_status' event_id=event.id %}">Change Visibility</a></li>
+</ul>
 <dl>
   <dt>Sport</dt><dd>{{ event.sport }}</dd>
   <dt>City</dt><dd>{{ event.city }}</dd>

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
 from models.models import (
+        Cities,
         Profile,
         Event,
         Team,
@@ -46,9 +47,10 @@ def search_results(request):
     context = {}
     search_options = {
             'sports': Sports,
+            'cities': Cities,
+            'states': States,
             'divisions': DivisionChoices,
             'genders': Genders,
-            'states': States,
             }
     if request.method == 'GET':
         qs = Event.objects.all()
@@ -57,33 +59,34 @@ def search_results(request):
             sport = query.get('sport')
             city = query.get('city')
             state = query.get('state')
+            divisions = list(query.getlist('division[]'))
+
             gender = query.get('gender')
-            divisions = query.getlist('division[]')
+            print(division)
             # radius = 'all'
             # date_range = query.get('city')
 
             all_or_none = ['all', None]
             if sport not in all_or_none:
+                print(sport)
                 qs = qs.filter(sport=sport)
 
             if city not in all_or_none:
+                print(city)
                 qs = qs.filter(city__iexact=city)
 
             if state not in all_or_none:
+                print(state)
                 qs = qs.filter(state=state)
 
-            if gender not in all_or_none:
-                qs = qs.filter(divisions__gender=gender)
-
-            if 'all' not in divisions or len(divisions) != 0:
-                if gender == 'all':
+            if len(divisions) != 0:
+                if 'all' not in divisions:
                     qs = qs.filter(divisions__name__in=divisions)
-                else:
-                    qs = qs.filter(divisions__name__in=divisions,
-                                   divisions__gender=gender)
-    #        if start_date:
-    #            qs = qs.filter(start_date__gte=start_date)
-        print(qs)
+
+            if gender not in all_or_none:
+                print(gender)
+                qs = qs.filter(gender=gender)
+
         context = {
                 'search_options': search_options,
                 'events': qs.all()

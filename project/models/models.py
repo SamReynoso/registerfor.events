@@ -52,7 +52,6 @@ class Profile(models.Model):
 
 class Sports(models.TextChoices):
     BASKETBALL = 'basketball', 'Basketball'
-    SOCCER = 'soccer', 'Soccer'
 
 
 class Genders(models.TextChoices):
@@ -92,7 +91,9 @@ class Event(models.Model):
                               on_delete=models.CASCADE)
     name = models.CharField(max_length=150)
     address = models.CharField(max_length=150, blank=True)
-    city = models.CharField(max_length=150, unique=True)
+    city = models.CharField(max_length=20,
+                            choices=Cities,
+                            default=Cities.BAKERSFIELD)
     state = models.CharField(max_length=20,
                              choices=States.choices,
                              default=States.CALIFONIA)
