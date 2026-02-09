@@ -1,7 +1,7 @@
 {% extends "mailbox/base.html" %}
 
 
-{% block working %}
+{% block content %}
 <h1>Announcement</h1>
 {% include 'components/event_details_card.html' with event=announcement.event %}
 <a href="{% url 'app:announcement_delete' announcement_id=announcement.id%}">Delete Announcement</a>

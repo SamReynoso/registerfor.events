@@ -1,7 +1,7 @@
 {% extends "mailbox/base.html" %}
 
 
-{% block working %}
+{% block content %}
 
   <a href="{% url 'mailbox:conversation_delete' user_id=recipient.id %}">Delete</a><br>
 

@@ -9,11 +9,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    {% block styles %}
     <link rel="stylesheet" href="{% static 'base/css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'base/css/images.css' %}">
     <link rel="stylesheet" href="{% static 'base/css/mailbox.css' %}">
 
     <link rel="stylesheet" href="{% static 'base/css/cluster.css' %}">
+    {% endblock %}
 
     <title>Register For Events</title>
 

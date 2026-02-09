@@ -89,7 +89,7 @@ def team_delete(request, team_id: int):
     if request.method == 'POST':
         team.delete()
         return redirect('user:teams')
-    context = {'current': team.get_photo_url()}
+    context = {'team': team}
     return render(request, 'app/team_delete.html', context)
 
 

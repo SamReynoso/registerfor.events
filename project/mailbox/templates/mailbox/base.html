@@ -1,14 +1,20 @@
 {% extends "base/base.html" %}
+{% load static %}
 
-{% block header%}
-  <h1>Mailbox</h1>
+{% block styles %}
+<link rel="stylesheet" href="{% static 'base/css/layout.css' %}">
+<link rel="stylesheet" href="{% static 'base/css/images.css' %}">
+<link rel="stylesheet" href="{% static 'base/css/cluster.css' %}">
 {% endblock %}
 
-{% block content %}
+{% block header%}
+<h1>Mailbox</h1>
 <ul class="nav-list">
   <li><a href="{% url 'mailbox:direct_messages'%}">Direct Messages</a></li>
   <li><a href="{% url 'mailbox:announcements'%}">Announcements</a></li>
   <li><a href="{% url 'mailbox:alerts'%}">Alerts</a></li>
 </ul>
-  {% block working %}{% endblock %}
+{% endblock %}
+
+{% block content %}
 {% endblock %}
