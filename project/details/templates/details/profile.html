@@ -4,7 +4,7 @@
 
 <h1>{{ profile.name }}</h1>
 <a href="{% url 'mailbox:conversation' user_id=profile.user.id %}">Direct Message</a><br>
-<img src="{{ user.profile.get_avatar_url }}" class="thumbnail">
+<img src="{{ profile.get_avatar_url }}" class="thumbnail">
 
 <h2>Public Contact Information</h2>
 <dl>
