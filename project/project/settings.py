@@ -14,16 +14,15 @@ def val_u(key: str) -> str:
     return val
 
 
-DEBUG = val_u('DJANGO_DEBUG')
+DEBUG = val_u('DJANGO_DEBUG') != 'False'
 ALLOWED_HOSTS = val_u('DJANGO_ALLOWED_HOSTS').split(',')
 SECRET_KEY = val_u('DJANGO_SECRET_KEY')
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': val_u('DJANGO_DATABASE_ENGINE'),
-            'NAME': BASE_DIR / val_u('DJANGO_DATABASE_NAME'),
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': val_u('DJANGO_DATABASE_ENGINE'),
+        'NAME': BASE_DIR / val_u('DJANGO_DATABASE_NAME'),
     }
+}
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
