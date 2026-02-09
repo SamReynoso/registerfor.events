@@ -3,14 +3,23 @@
 
 {% block header%}
 
-  <h1>Heading 1</h1>
-  <p>Default text.</p>
+  <h1>Recent Activity</h1>
 
-  <h2>Heading 2<h2>
+  <ul class="nav-list">
+    <li>
+      <a href="{% url 'user:events' %}">My Events</a>
+    </li>
+    <li>
+      <a href="{% url 'user:teams' %}">My Teams</a>
+    </li>
+    <li>
+      <a href="{% url 'user:hosting' %}">Hosting</a>
+    </li>
+    <li>
+      <a href="{% url 'user:profile' %}">Profile</a>
+    </li>
+  </ul>
 
-  <a href="{% url 'user:events' %}">My Events</a>
-  <a href="{% url 'user:teams' %}">My Teams</a>
-  <a href="{% url 'user:profile' %}">Profile</a>
 
 {% endblock %}
 

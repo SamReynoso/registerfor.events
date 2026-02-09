@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" href="{% static 'base/css/cluster.css' %}">
 
-    <title>Sports Bulletin Board</title>
+    <title>Register For Events</title>
 
 </head>
 
@@ -45,12 +45,17 @@
   <div style="max-width: 1000px; margin: auto;">
     <button class="back-button" id="backButton"><img src="/assets/icons/right-arrow.svg" class="icon-button" id="backButton"></button></button>
     <header class="header">
+      <a href="{% url 'details:search_results' %}">Search</a>
       {% block header%}
-
-      <h1>Sports Bulletin Board</h1>
-      <p>Free public sport in your area.</p>
+      <h1>Free Sports Bulletin Board</h1>
+      <h3>Find games. Join games. Start games.</h3>
+      <p style="max-width: 40rem;">
+        This is a free community board for local sports — no fees, no nonsense. Post your own events, search what’s
+        happening near you. If there’s a field, a court, or a group getting together, it belongs here.
+      </p>
 
       {% endblock %}
+
     </header>
 
     <div class="container">
