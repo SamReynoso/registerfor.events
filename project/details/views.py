@@ -62,21 +62,17 @@ def search_results(request):
             divisions = list(query.getlist('division[]'))
 
             gender = query.get('gender')
-            print(division)
             # radius = 'all'
             # date_range = query.get('city')
 
             all_or_none = ['all', None]
             if sport not in all_or_none:
-                print(sport)
                 qs = qs.filter(sport=sport)
 
             if city not in all_or_none:
-                print(city)
                 qs = qs.filter(city__iexact=city)
 
             if state not in all_or_none:
-                print(state)
                 qs = qs.filter(state=state)
 
             if len(divisions) != 0:
@@ -84,8 +80,7 @@ def search_results(request):
                     qs = qs.filter(divisions__name__in=divisions)
 
             if gender not in all_or_none:
-                print(gender)
-                qs = qs.filter(gender=gender)
+                qs = qs.filter(divisions__gender=gender)
 
         context = {
                 'search_options': search_options,
