@@ -1,21 +1,44 @@
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
+
+load_dotenv()
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+def val_u(key: str):
+    val = os.getenv(key)
+    if val is None:
+        return ''
+    return val
+
+
+print(
+        val_u('DJANGO_DEBUG'),
+        val_u('DJANGO_ALLOWED_HOSTS'),
+        val_u('DJANGO_SECRET_KEY'),
+        val_u('DJANGO_DATABASE_ENGINE'),
+        val_u('DJANGO_DATABASE_NAME'),
+      )
+
+DEBUG = val_u('DJANGO_DEBUG')
+ALLOWED_HOSTS = [val_u('DJANGO_ALLOWED_HOSTS')]
+SECRET_KEY = val_u('DJANGO_SECRET_KEY')
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': val_u('DJANGO_DATABASE_ENGINE'),
+            'NAME': BASE_DIR / val_u('DJANGO_DATABASE_NAME'),
+        }
+    }
 
 WSGI_APPLICATION = 'project.wsgi.application'
-DEBUG = True
-if DEBUG:
-    SECRET_KEY = 'django-insecure-3d%@6c25(*yyo9i&aql3e26h(6in8%vg^)u)__1=vqtu+5h)u1'
-else:
-    raise ValueError('SECRET_KEY is not set for productsion.')
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-ALLOWED_HOSTS = []
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
-
 STATIC_URL = '/static/'
 # STATIC_ROOT = BASE_DIR / 'static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
@@ -58,13 +81,6 @@ TEMPLATES = [
         },
     },
 ]
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 __DCAPV = 'django.contrib.auth.password_validation'
 AUTH_PASSWORD_VALIDATORS = [
