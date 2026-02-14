@@ -51,14 +51,8 @@
       <legend>Genders</legend>
     </fieldset>
 
-    <fieldset>
+   <fieldset class="divisions-checkbox-form__fieldset">
       <legend>Division</legend>
-
-        <label>
-          <input type="checkbox" name="division[]" value="all" checked>
-          all
-        </label>
-
       {% for division in search_options.divisions %}
         <label>
           <input type="checkbox" name="division[]" value="{{ division }}">

@@ -2,8 +2,7 @@
 
 {% block content %}
   <h1>Withdraw from this Event.</h1>
-  {% include "components/team_details_card.html" with team=registration.team %}
-  {% include "components/event_details_card.html" with event=registration.event %}
+  {% include "components/registration_details_card.html" with team=registration.team %}
   <form method="post">
     <h2>Are you sure you want to withdraw from this event?</h2>
       {% csrf_token %}

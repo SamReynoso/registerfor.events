@@ -1,13 +1,17 @@
 {% extends "base/base.html" %}
 
 {% block content %}
+<h1>Register</h1>
 <form method="post">
+  <h2>Create a new account.</h2>
 
   {% csrf_token %}
 
   {% if error %}<p>{{ error }}</p>{% endif %}
 
-  {{ form.as_p }}
+  <table class="form-as-table">
+    {{ form.as_table }}
+  </table>
 
   <button type="submit">Login</button>
 

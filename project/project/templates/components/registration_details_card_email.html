@@ -1,0 +1,23 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%; border-collapse:collapse; margin-top:16px;">
+<tbody>
+
+  <tr style="border-bottom: 1px solid #a0a0a0" style="border-bottom: 1px solid black;"><th>Host</th><td valign="top" style="padding:3px 0; font-size:13px; color:#111111;"><a href="https://registerfor.events/{% url 'details:profile' registration.event.owner.profile.id %}">{{ registration.event.owner.profile.name }}</a></td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Host Email</th><td>{{ registration.event.owner.profile.email }}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Host Phone</th><td>{{ registration.event.owner.profile.phone }}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Event Name</th><td>{{ registration.event.name }}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Event Sport</th><td>{{ registration.event.sport }}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Event Starts</th><td>{{ registration.event.start_date }}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Event Ends</th><td>{{ registration.event.end_date }}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Event Status</th><td>{{ registration.event.status }}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Event Address</th><td>{{ registration.event.address }}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Event City</th><td>{{ registration.event.city }}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Event State</th><td>{{ registration.event.state }}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Team Name</th><td>{{ registration.team.name}}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Team Sport</th><td>{{ registration.team.sport }}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Team Gender</th><td>{{ registration.team.gender }}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Team Division</th><td>{{ registration.team.division }}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Team Contact Name</th><td>{{ registration.team.owner.profile.name }}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Team Contact Email</th><td>{{ registration.team.owner.profile.email }}</td></tr>
+  <tr style="border-bottom: 1px solid #a0a0a0"><th>Team Contact Phone</th><td>{{ registration.team.owner.profile.email }}</td></tr>
+</tbody>
+</table>

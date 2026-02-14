@@ -1,6 +1,6 @@
 :root {
   --text-color: black;
-  --muted-text-color: rgb(130, 130, 130);
+  --muted-text-color: rgb(105, 105, 105);
   --link-color: rgb(90, 90, 255); 
   --link-hover-color: rgb(70, 70, 220);
 
@@ -48,6 +48,10 @@ a {
 
 a.hover {
   text-decoration: underline;
+}
+
+ul {
+  list-style-type: none;
 }
 
 body {
@@ -242,14 +246,22 @@ details {
   margin-bottom: .5rem;
 }
 
-.divisions-checkbox-form fieldset{
+.divisions-checkbox-form__fieldset {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: .1rem;
   padding: .5rem;
+  font-weight: 800;
 }
 
-.divisions-checkbox-form label{
+.divisions-checkbox-form__fieldset label {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+}
+
+.divisions-checkbox-form label {
   padding: 2px;
 }
 

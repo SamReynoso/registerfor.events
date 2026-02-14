@@ -1,10 +1,13 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-  <h2>Create an Event</h2>
+  <h1>Create an Event</h1>
   <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Create Event</button>
+    <h2>Event Info</h2>
+    {% csrf_token %}
+    <table class="form-as-table">
+      {{ form.as_table }}
+    </table>
+    <button type="submit">Create Event</button>
   </form>
 {% endblock %}

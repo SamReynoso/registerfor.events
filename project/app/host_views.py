@@ -6,6 +6,7 @@ from models.forms import EventForm, EventPosterForm
 from models.models import (
         Announcement, Division, DivisionChoices, Event, Genders, Registration)
 from mailbox.forms import AnnouncementForm
+from project.services.email import send_registration_canceled_email
 from project.utils.alerts import host_canceled_registration_alert_team_owner
 
 
@@ -148,6 +149,7 @@ def participant_edit(request, registration_id: int):
     if request.method == 'POST':
         event_id = registration.event.id
         host_canceled_registration_alert_team_owner(registration)
+        send_registration_canceled_email(registration)
         registration.delete()
         return redirect('user:hosting_participants', event_id=event_id)
     context = {'registration': registration}

@@ -3,8 +3,10 @@
 {% block content %}
   <h2>Update Event</h2>
   <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Update</button>
+    {% csrf_token %}
+    <table class="form-as-table">
+      {{ form.as_table }}
+    </table>
+    <button type="submit">Update</button>
   </form>
 {% endblock %}

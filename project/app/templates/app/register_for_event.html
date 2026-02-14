@@ -3,11 +3,11 @@
 
 {% block content %}
 
+
 <h1>Register Your Teams</h1>
+{% include "components/event_summary_card.html" %}
 
-{% include "components/event_details_card.html" %}
-
-<h3>Available Divisions</h3>
+<h2>Available Divisions</h2>
   <table class="info-list-table">
     <thead>
       <tr>
@@ -30,10 +30,16 @@
     {{ reg }}
   {% endfor %}
 
+
+
+<h2>Select Teams</h2>
+
 <a href="{% url 'app:team_create' %}?next={{ request.path }}">Create Team</a></br>
+
 <form method="post">
-  <h2>Select Teams</h2>
-    {% csrf_token %}
+
+  <h3>Register</h3>
+  {% csrf_token %}
   <table class="info-list-table">
     <thead>
       <tr>
@@ -59,8 +65,7 @@
             {% if key in available_division_keys %}
               <input type="checkbox" name="team{{ team.id }}"></input>
             {% else %}
-              Nope
-              <input type="checkbox" name="team{{ team.id }}" disabled></input>
+              Unavailable
             {% endif %}
           {% endif %}
         </td>

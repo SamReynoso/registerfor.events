@@ -1,9 +1,10 @@
 {% extends "user/base.html" %}
 
 {% block content %}
-<h1>Registration Details.</h1>
-  {% include "components/registration_details_card.html" with registration=registration %}
+<h1>Registration Details</h1>
 <a href="{% url 'app:registration_withdraw' registration_id=registration.id %}">Withdraw</a>
+
+{% include "components/registration_details_card.html" with registration=registration %}
 
 {% endblock %}
 

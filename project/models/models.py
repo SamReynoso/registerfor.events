@@ -1,10 +1,10 @@
-from datetime import date
 from django.utils import timezone
 
 from django.conf import settings
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
+from project.services.email import send_event_canceled_email
 from project.utils.alerts import (
         host_canceled_event_alert_team_owner,
         new_registrations_alert_event_owner,
@@ -125,6 +125,7 @@ class Event(models.Model):
     def delete(self, *args, **kwargs):
         for reg in self.registrations.filter(upcoming=True).all():
             host_canceled_event_alert_team_owner(reg)
+            send_event_canceled_email(reg.owner)
         return super().delete(*args, **kwargs)
 
 
@@ -231,5 +232,3 @@ class Announcement(models.Model):
 
     def __str__(self):
         return f"To {self.recipient}: {self.title}"
-
-

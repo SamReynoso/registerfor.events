@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
+SITE_URL = 'https://registerfor.events'
 
 
 def val_u(key: str) -> str:
@@ -96,7 +97,9 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/login/'
 
+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
 
+ENABLE_EMAIL_NOTIFICATIONS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587

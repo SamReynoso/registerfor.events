@@ -1,13 +1,26 @@
 {% extends "base/base.html" %}
 
 {% block content %}
-  <p> This is the login page.</p>
+<h1>Login</h1>
   <form method="post">
-      {% csrf_token %}
-      {% if error %}<p style="color:red">{{ error }}</p>{% endif %}
-      <input type="text" name="username" placeholder="Username" required>
-      <input type="password" name="password" placeholder="Password" required>
-      <button type="submit">Login</button>
+    <h2>Let's get to work.</h2>
+    {% csrf_token %}
+    {% if error %}<p style="color:red">{{ error }}</p>{% endif %}
+    <table class="form-as-table">
+      <tbody>
+        <tr>
+          <td>
+            <input type="text" name="username" placeholder="Username" required>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          <input type="password" name="password" placeholder="Password" required>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="submit">Login</button>
   </form>
   <a href="{% url 'password_reset' %}">Reset Password</a>
 {% endblock %}

@@ -6,6 +6,11 @@ from django.shortcuts import render, redirect
 from models.forms import TeamForm, TeamPhotoForm
 from django.shortcuts import get_object_or_404
 from models.models import Announcement, Event, Registration, Team
+from project.services.email import (
+        send_host_new_registration_email,
+        send_participant_new_registration_email,
+        send_registration_withdrawn_email,
+        )
 from project.utils.alerts import registration_withdrawn_alert_event_owner
 
 
@@ -113,7 +118,7 @@ def register_for_event(request, event_id: int):
     if request.method == 'POST':
         for team in teams:
             if request.POST.get(f'team{team.pk}') == 'on':
-                Registration.objects.create(
+                registration = Registration.objects.create(
                         owner=request.user,
                         event=event,
                         team=team,
@@ -121,6 +126,8 @@ def register_for_event(request, event_id: int):
                             gender=team.gender,
                             name=team.division)
                         )
+                send_host_new_registration_email(registration)
+                send_participant_new_registration_email(registration)
         return redirect('user:events')
 
     context = {
@@ -138,6 +145,7 @@ def registration_withdraw(request, registration_id: int):
     registration = get_object_or_404(Registration, id=registration_id)
     if request.method == 'POST':
         registration_withdrawn_alert_event_owner(registration)
+        send_registration_withdrawn_email(registration)
         registration.delete()
         return redirect('user:events')
     context = {'registration': registration}

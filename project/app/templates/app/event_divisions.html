@@ -11,7 +11,8 @@ divisions before removing them.</p>
 <form method='post' class="divisions-checkbox-form">
   {% csrf_token %}
   {% for gender in division_options.genders %}
-  <fieldset>
+
+  <fieldset class="divisions-checkbox-form__fieldset">
     <legend>{{ gender }}</legend>
     {% for division in division_options.divisions %}
       {% with key=gender|add:"-"|add:division %}
