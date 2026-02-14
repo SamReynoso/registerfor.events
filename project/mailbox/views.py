@@ -4,8 +4,6 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import redirect, render
 from mailbox.models import Announcement
 
-from project.services.email import send_direct_message_email
-
 
 @login_required(login_url='/login/')
 def alerts_view(request):
