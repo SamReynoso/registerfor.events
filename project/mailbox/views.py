@@ -4,6 +4,8 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import redirect, render
 from mailbox.models import Announcement
 
+from project.services.email import send_direct_message_email
+
 
 @login_required(login_url='/login/')
 def alerts_view(request):
@@ -75,9 +77,13 @@ def conversation_view(request, user_id: int):
 
     if request.method == 'POST':
         body = request.POST.get('body')
-        DirectMessage.objects.create(conversation=convo,
-                                     body=body,
-                                     sender=sender)
+        dm = DirectMessage.objects.create(conversation=convo,
+                                          body=body,
+                                          sender=sender,
+                                          recipient=recipient
+                                          )
+        send_direct_message_email(dm)
+
         convo.refresh_from_db()
     context = {
             'sender': sender,

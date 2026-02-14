@@ -16,6 +16,7 @@ def val_u(key: str) -> str:
 
 DEBUG = val_u('DJANGO_DEBUG') != 'False'
 ALLOWED_HOSTS = val_u('DJANGO_ALLOWED_HOSTS').split(',')
+SITE_URL = val_u('SITE_URL')
 SECRET_KEY = val_u('DJANGO_SECRET_KEY')
 SITE_URL = val_u('SITE_URL')
 DATABASES = {
