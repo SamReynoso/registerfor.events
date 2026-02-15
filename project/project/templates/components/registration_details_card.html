@@ -5,35 +5,53 @@
     <div style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 1rem;">
 
       <div>
-        <h2>Event Registration for</h2>
+        <h2>Event Registration for {{ registration.event.name }}</h2>
       </div>
 
     </div>
 
 
-
   <table class="info-list-table">
 
+    <tr><th colspan="2"></th></tr>
+    <tr><th colspan="2"><h2>Team Details</h2></th></tr>
+
     <tr>
-      <th>
-        Host
-      </th>
-      <td>
-        <a href="{% url 'details:profile' registration.event.owner.profile.id %}">
-            {{ registration.event.owner.profile.name }}
-          </a>
-      </td>
+      <th>Team Name</th>
+      {% if registration.team %}
+      <td>{{ registration.team.name}}</td>
+      {% else %}
+      <td>TBA</td>
+      {% endif %}
     </tr>
 
     <tr>
-      <th>Host Email</th>
-      <td>email@fake.com</td>
+      <th>Team Gender</th>
+      <td>{{ registration.assigned_division.gender }}</td>
     </tr>
 
     <tr>
-      <th>Host Phone</th>
-      <td>555-123-1234</td>
+      <th>Team Division</th>
+      <td>{{ registration.assigned_division.name}}</td>
     </tr>
+
+    <tr>
+      <th>Team Contact Name</th>
+      <td>{{ registration.contact_name }}</td>
+    </tr>
+
+    <tr>
+      <th>Team Contact Email</th>
+      <td>{{ registration.email }}</td>
+    </tr>
+
+    <tr>
+      <th>Team Contact Phone</th>
+      <td>{{ registration.email }}</td>
+    </tr>
+
+    <tr><th colspan="2"></th></tr>
+    <tr><th colspan="2"><h2>Event Details</h2></th></tr>
 
     <tr>
       <th>Event Name</th>
@@ -75,45 +93,30 @@
       <td>{{ registration.event.state }}</td>
     </tr>
 
-    <tr>
-    </tr>
-    <tr>
-      <th>Team Name</th>
-      <td>{{ registration.team.name}}</td>
-    </tr>
+    <tr><th colspan="2"></th></tr>
+    <tr><th colspan="2"><h2>Host Info</h2></th></tr>
+
 
     <tr>
-      <th>Team Sport</th>
-      <td>{{ registration.team.sport }}</td>
-    </tr>
-
-    <tr>
-      <th>Team Gender</th>
-      <td>{{ registration.team.gender }}</td>
+      <th>Host Name</th>
+      <td>
+        <a href="{% url 'details:profile' registration.event.owner.profile.id %}">
+            {{ registration.event.owner.profile.name }}
+          </a>
+      </td>
     </tr>
 
     <tr>
-      <th>Team Division</th>
-      <td>{{ registration.team.division }}</td>
+      <th>Host Email</th>
+      <td>{{ registration.event.owner.profile.email }}</td>
     </tr>
 
     <tr>
-      <th>Team Contact Name</th>
-      <td>{{ registration.team.owner.profile.name }}</td>
+      <th>Host Phone</th>
+      <td>{{ registration.event.owner.profile.phone }}</td>
     </tr>
-
-    <tr>
-      <th>Team Contact Email</th>
-      <td>{{ registration.team.owner.profile.email }}</td>
-    </tr>
-
-    <tr>
-      <th>Team Contact Phone</th>
-      <td>{{ registration.team.owner.profile.email }}</td>
-    </tr>
-
-
   </table>
+
   </div>
 
 </div>

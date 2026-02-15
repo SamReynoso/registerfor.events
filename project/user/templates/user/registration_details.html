@@ -2,7 +2,10 @@
 
 {% block content %}
 <h1>Registration Details</h1>
-<a href="{% url 'app:registration_withdraw' registration_id=registration.id %}">Withdraw</a>
+
+<div class="action-link__container">
+  <a href="{% url 'app:registration_withdraw' registration_id=registration.id %}" class="action-link">Withdraw</a>
+</div>
 
 {% include "components/registration_details_card.html" with registration=registration %}
 

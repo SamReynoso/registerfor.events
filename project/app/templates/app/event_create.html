@@ -3,11 +3,19 @@
 {% block content %}
   <h1>Create an Event</h1>
   <form method="post">
+    {% if user.profile.is_complete %}
     <h2>Event Info</h2>
     {% csrf_token %}
     <table class="form-as-table">
       {{ form.as_table }}
     </table>
     <button type="submit">Create Event</button>
+    {% else %}
+    <h2>Contact Information Missing</h2>
+  <p>You are missing profile contact information and can not create events.</p>
+    <div class="action-link__container">
+      <a href="{% url 'app:profile_update' %}?next={{ request.path }}" class="action-link">Add Contact Info</a></br>
+    </div>
+    {% endif %}
   </form>
 {% endblock %}

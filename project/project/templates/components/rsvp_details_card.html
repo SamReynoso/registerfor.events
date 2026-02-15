@@ -1,0 +1,21 @@
+<h2 style="margin-top:16px;">Contact Info</h2>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%; border-collapse:collapse; margin-top:8px;">
+  <tbody style="border: 1px solid #a0a0a0; padding: 5px">
+    <tr style="border-bottom: 1px solid #a0a0a0"><th>First name</th><td style="padding: 3px;">{{ rsvp.first_name}}</td></tr>
+    <tr style="border-bottom: 1px solid #a0a0a0"><th>Last Name</th><td style="padding: 3px;">{{ rsvp.last_name }}</td></tr>
+    <tr style="border-bottom: 1px solid #a0a0a0"><th>Email</th><td style="padding: 3px;">{{ rsvp.email }}</td></tr>
+    <tr style="border-bottom: 1px solid #a0a0a0"><th>Phone number</th><td style="padding: 3px;">{{ rsvp.phone }}</td></tr>
+  </tbody>
+</table>
+
+<h2 style="margin-top:18px;">Divisions</h2>
+
+<table width="250px" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; margin-top:8px;">
+  <tbody style="border: 1px solid #a0a0a0; padding: 5px">
+    {% for division in rsvp.divisions.all %}
+    <tr style="border-bottom: 1px solid #a0a0a0;"><th>{{ division.gender }}</th><td style="padding: 3px;">{{ division.name }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+

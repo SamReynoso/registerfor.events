@@ -1,10 +1,5 @@
-from django.utils import timezone
-
-from django.conf import settings
-from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
-
 from project.services.email import send_event_canceled_email
+from phonenumber_field.modelfields import PhoneNumberField
 from project.utils.alerts import (
         host_canceled_event_alert_team_owner,
         new_registrations_alert_event_owner,
@@ -16,6 +11,9 @@ from project.utils.project_models import (
         uuid_upload_event_poster,
         uuid_upload_team_photo
         )
+from django.utils import timezone
+from django.conf import settings
+from django.db import models
 
 
 class Profile(models.Model):
@@ -26,6 +24,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=30, blank=True)
     email = models.EmailField(blank=True, null=True)
     phone = PhoneNumberField(blank=True, null=True)
+    email_confirmed = models.BooleanField(default=False)
 
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
@@ -36,7 +35,7 @@ class Profile(models.Model):
 
     @property
     def name(self) -> str:
-        full_name = self.first_name + self.last_name
+        full_name = self.first_name + ' ' + self.last_name
         if full_name != '':
             return full_name
         return self.user.username
@@ -45,6 +44,17 @@ class Profile(models.Model):
         if self.avatar:
             return self.avatar.url
         return ''
+
+    def is_complete(self):
+        if all([self.first_name, self.last_name, self.email, self.phone]):
+            if settings.DEBUG:
+                print('profile is complete or in debug')
+                return True
+            else:
+                print('profile is complete =', self.email_confirmed)
+                return self.email_confirmed
+        print('profile is not complete')
+        return False
 
     def __str__(self):
         return self.name
@@ -182,19 +192,27 @@ class Team(models.Model):
 class Registration(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='registrations',
-                              on_delete=models.CASCADE)
-    assigned_division = models.ForeignKey(Division,
-                                          related_name='registrations',
-                                          on_delete=models.CASCADE)
-    event = models.ForeignKey(Event,
-                              related_name='registrations',
-                              on_delete=models.CASCADE)
+                              on_delete=models.CASCADE,
+                              blank=True,
+                              null=True,
+                              )
     team = models.ForeignKey(Team,
                              related_name='registrations',
                              blank=True,
                              null=True,
                              on_delete=models.CASCADE,
                              )
+
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.EmailField()
+    phone = PhoneNumberField()
+    assigned_division = models.ForeignKey(Division,
+                                          related_name='registrations',
+                                          on_delete=models.CASCADE)
+    event = models.ForeignKey(Event,
+                              related_name='registrations',
+                              on_delete=models.CASCADE)
     upcoming = models.BooleanField(default=True)
 
     # team_name = models...
@@ -202,33 +220,13 @@ class Registration(models.Model):
     # withdrawn = models.BooleanField(default=False)
     # attended = models.BooleanField(default=False)
 
+    @property
+    def contact_name(self):
+        if self.owner:
+            return self.owner.profile.name
+        return self.first_name + ' ' + self.last_name
+
     def save(self, *args, **kwargs):
         if self.pk is None:
             new_registrations_alert_event_owner(self)
         super().save(*args, **kwargs)
-
-
-class Announcement(models.Model):
-    sender = models.ForeignKey(
-            settings.AUTH_USER_MODEL,
-            on_delete=models.SET_NULL,
-            null=True,
-            related_name='sent_announcements')
-    recipient = models.ForeignKey(
-            settings.AUTH_USER_MODEL,
-            on_delete=models.CASCADE,
-            related_name='announcements')
-    title = models.CharField(max_length=255)
-    body = models.TextField()
-    event = models.ForeignKey(Event,
-                              on_delete=models.CASCADE,
-                              null=True,
-                              blank=True)
-    is_read = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['-created_at']
-
-    def __str__(self):
-        return f"To {self.recipient}: {self.title}"

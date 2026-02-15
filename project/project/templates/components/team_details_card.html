@@ -3,8 +3,7 @@
 
     <div style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 1rem;">
 
-      <div>
-        <h2>Team</h2>
+      <div class="event-poster-thumbnail__container"
         <img src="{{ team.get_photo_url }}" class="event-poster-thumbnail">
       </div>
 
@@ -27,11 +26,11 @@
         <dt>Contact</dt>
         <dd>
           <a href="{% url 'details:profile' profile_id=team.owner.profile.id %}">
-            {{ team.owner.profile }}
+            {{ team.owner.profile.name }}
           </a>
         </dd>
-        <dt>Email</dt><dd>email@fake.com</dd>
-        <dt>Phone</dt><dd>555-123-1234</dd>
+        <dt>Email</dt><dd>{{ team.owner.profile.email}}</dd>
+        <dt>Phone</dt><dd>{{ team.owner.profile.phone }}</dd>
       </dl>
     </div>
 

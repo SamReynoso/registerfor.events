@@ -8,17 +8,15 @@ Registration Canceled           [x]
 Registration withdrawn          [x]
 Event Canceled                  [x]
 '''
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
 
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
-
 from django.template.loader import render_to_string
-from django.urls import reverse
-
+from django.utils.encoding import force_bytes
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 from django.conf import settings
+from django.urls import reverse
 
 
 def send_mail(message):
@@ -152,6 +150,23 @@ def send_event_canceled_email(user):
         template='email/cta.html',
         context=context,
         cta_viewname='user:events',
+    )
+
+
+def send_rsvp_email(rsvp):
+    context = {
+            'rsvp': rsvp,
+            'heading': 'New RSVP',
+            'body_text': 'Someone new is going to your event.',
+            'cta_label': 'View event',
+            }
+
+    send_transactional_email(
+        to_user=rsvp.event.owner,
+        template='email/rsvp_email.html',
+        context=context,
+        cta_viewname='details:event',
+        view_kwargs={'event_id': rsvp.event.id}
     )
 
 

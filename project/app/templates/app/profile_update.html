@@ -7,6 +7,7 @@
 <form method="post" class="event-search-form">
   <h2>Public Contact Information</h2>
   {% csrf_token %}
+  <input type="hidden" name="next" value="{{ request.GET.next }}">
   <div class="min-height-25">
     {{ form.as_p }}
   </div>

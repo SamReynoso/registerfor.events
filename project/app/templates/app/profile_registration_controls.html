@@ -1,0 +1,16 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+<h1>Registration Controls</h1>
+
+<form method="post" enctype="multipart/form-data">
+  <h2 style="margin-bottom: 1rem;">Select required fields</h2>
+  <p>Require these fields to register for your events</p>
+  {% csrf_token %}
+  <table class="form-as-table">
+    {{ form.as_table }}
+  </table>
+  <button type="submit">Update Required Fields</button>
+<form>
+
+{% endblock %}

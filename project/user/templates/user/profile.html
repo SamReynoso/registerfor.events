@@ -5,19 +5,19 @@
 
 <ul class="nav-list">
   <li><a href="{% url 'details:profile' profile_id=user.profile.id%}">View Profile</a></li>
-  <li><a href="#">Settings</a></li>
-  <li><a href="#">Account</a></li>
+  <!-- <li><a href="#">Settings</a></li> --!>
+    <!-- <li><a href="#">Account</a></li> --!>
 </ul>
 
 <div class="content-container">
-  <h2>{{ user.profile.name }}</h2>
+  <h1>{{ user.profile.name }}</h1>
 
   <ul class="nav-list">
     <li><a href="{% url 'app:profile_avatar_update' %}">Change Photo</a></li>
     <li><a href="{% url 'app:profile_avatar_delete' %}">Delete Photo</a></li>
   </ul>
 
-  <div class="profile-image-tumbnail__container">
+  <div class="profile-image-thumbnail__container">
     <img src="{{ user.profile.get_avatar_url }}" class="thumbnail">
   </div>
 

@@ -5,8 +5,11 @@
 <h1>Delete Announcemenet</h1>
 
 <form method='post' class="divisions-checkbox-form">
+  {% csrf_token %}
+
   <h2>Are you sure you want to delete this announcement?</h2>
   <h3>Announcement</h3>
+
   <dl>
     <dt>event</dt>
     <dd>
@@ -19,7 +22,7 @@
     <dt>body</dt>
     <dd>{{ announcement.body }}</dd>
   </dl>
-  {% csrf_token %}
+
   <button type="submit">Delete</button>
 
 </form>

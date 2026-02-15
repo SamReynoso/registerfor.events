@@ -4,7 +4,7 @@
 <h1>Teams Details</h1>
 
 <ul class="nav-list">
-  <li><a href="{% url 'app:team_update' team_id=team.id %}">View Team</a><br></li>
+  <li><a href="{% url 'user:team_details' team_id=team.id %}">View Team</a><br></li>
   <li><a href="{% url 'app:team_update' team_id=team.id %}">Update Team</a><br></li>
   <li><a href="{% url 'app:team_delete' team_id=team.id %}">Delete Team</a></li>
 </ul>
@@ -17,7 +17,7 @@
     <li><a href="{% url 'app:team_photo_delete' team_id=team.id%}">Delete Photo</a></li>
   </ul>
 
-  <div class="profile-image-tumbnail__container">
+  <div class="profile-image-thumbnail__container">
     <img src="{{ team.get_photo_url }}" class="thumbnail">
   </div>
 
@@ -37,31 +37,44 @@
   <h2>Upcoming Events </h2>
 
   <ul class="nav-list">
-    <li><a href="#">Past Events</a></li>
-    <li><a href="#">Pending Actions</a></li>
+    <li><a href="#"></a></li>
   </ul>
 
   <table class="info-list-table">
     <thead>
       <tr>
         <th>Event Name</th>
+        <th>Sport</th>
         <th>Host</th>
-        <th>My Team</th>
+        <th>Address</th>
         <th>City</th>
         <th>State</th>
-        <th>ZIP</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       {% for registration in registrations %}
       <tr>
         <td>
+          {{ registration.event.name }}
         </td>
         <td>
+          {{ registration.event.sport }}
         </td>
         <td>
+          {{ registration.event.owner.profile.name }}
         </td>
         <td>
+          {{ registration.event.address }}
+        </td>
+        <td>
+          {{ registration.event.city }}
+        </td>
+        <td>
+          {{ registration.event.state }}
+        </td>
+        <td>
+          <a href="{% url 'details:event' event_id=registration.event.id %}">View</a>
         </td>
       </tr>
       {% endfor %}

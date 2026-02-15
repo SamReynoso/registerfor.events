@@ -1,17 +1,17 @@
-from django.contrib.auth.decorators import login_required
-
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.http import HttpResponseForbidden
-from django.shortcuts import render, redirect
+from project.utils.alerts import registration_withdrawn_alert_event_owner
+from django.contrib.auth.decorators import login_required
+from models.models import Event, Registration, Team
 from models.forms import TeamForm, TeamPhotoForm
 from django.shortcuts import get_object_or_404
-from models.models import Announcement, Event, Registration, Team
+from django.http import HttpResponseForbidden
+from django.shortcuts import render, redirect
 from project.services.email import (
         send_host_new_registration_email,
         send_participant_new_registration_email,
         send_registration_withdrawn_email,
         )
-from project.utils.alerts import registration_withdrawn_alert_event_owner
+from mailbox.models import Announcement
 
 
 @login_required(login_url='/login/')
@@ -118,10 +118,17 @@ def register_for_event(request, event_id: int):
     if request.method == 'POST':
         for team in teams:
             if request.POST.get(f'team{team.pk}') == 'on':
+                profile = request.user.profile
+                if profile.is_complete is False:
+                    return HttpResponseForbidden('Your profile is incomplete.')
                 registration = Registration.objects.create(
                         owner=request.user,
                         event=event,
                         team=team,
+                        first_name=profile.first_name,
+                        last_name=profile.last_name,
+                        email=profile.email,
+                        phone=profile.phone,
                         assigned_division=event.divisions.get(
                             gender=team.gender,
                             name=team.division)

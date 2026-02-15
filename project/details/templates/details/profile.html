@@ -1,31 +1,94 @@
 {% extends "details/base.html" %}
 
 {% block content %}
-
 <h1>{{ profile.name }}</h1>
-<a href="{% url 'mailbox:conversation' user_id=profile.user.id %}">Direct Message</a><br>
-<img src="{{ profile.get_avatar_url }}" class="thumbnail">
 
-<h2>Public Contact Information</h2>
-<dl>
-    <dt>First Name</dt>
-    <dd>{{ user.profile.first_name }}</dd>
-    <dt>Last Name</dt>
-    <dd>{{ user.profile.last_name}}</dd>
-    <dt>Email</dt>
-    <dd>{{ user.profile.email }}</dd>
-    <dt>Phone number</dt>
-    <dd>{{ user.profile.phone }}</dd>
-</dl>
+<div class="content-container">
+  <img src="{{ profile.get_avatar_url }}" class="thumbnail">
 
-<h2>Hosting Events</h2>
-{% for event in profile.user.events.all %}
-  <a href="{% url 'details:event' event_id=event.id %}">{{ event.name }}</a>
-{% endfor %}
+  <h2>Contact</h2>
+  <dl>
+      <dt>First Name</dt>
+      <dd>{{ user.profile.first_name }}</dd>
+      <dt>Last Name</dt>
+      <dd>{{ user.profile.last_name}}</dd>
+      <dt>Email</dt>
+      <dd>{{ user.profile.email }}</dd>
+      <dt>Phone number</dt>
+      <dd>{{ user.profile.phone }}</dd>
+  </dl>
 
-<h2>Teams</h2>
-{% for team in profile.user.teams.all %}
-  <a href="{% url 'details:team' team_id=team.id %}">{{ team.name }}</a>
-{% endfor %}
+  <div class="action-link__container">
+    <a href="{% url 'mailbox:conversation' user_id=profile.user.id %}" class="action-link">Direct Message</a></li>
+  </div>
+
+</div>
+
+<div class="content-container">
+  <h2>Hosted Events</h2>
+
+  <table class="info-list-table">
+    <thead>
+      <tr>
+        <th>Event Name</th>
+        <th>Sport</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Start Date</th>
+        <th>View</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for event in profile.user.events.all %}
+      <tr>
+
+        <td>{{ event.name }}</td>
+        <td>{{ event.sport }}</td>
+        <td>{{ event.city }}</td>
+        <td>{{ event.state }}</td>
+        <td>{{ event.start_date}}</td>
+
+        <td><a href="{% url 'details:event' event_id=event.id %}">View</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+<div class="content-container">
+
+  <h2>Teams</h2>
+
+  <table class="info-list-table">
+
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Sport</th>
+        <th>Division</th>
+        <th>Gender</th>
+        <th>View</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for team in profile.user.teams.all %}
+      <tr>
+
+        <td>{{ team.name }}</td>
+        <td>{{ team.sport }}</td>
+        <td>{{ team.division }}</td>
+        <td>{{ team.gender }}</td>
+
+        <td><a href="{% url 'details:team' team_id=team.id %}">View</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+
+</div>
 
 {% endblock content %}

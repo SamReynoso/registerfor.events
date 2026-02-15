@@ -1,34 +1,45 @@
 {% extends "details/base.html" %}
 
 {% block content %}
-<h2>Event Division Details.</h2>
+<h1>Division Details</h1>
 
-{% include "components/event_details_card.html" with event=division.event %}
+{% include "components/event_summary_card.html" with event=division.event %}
 
 
+<div class="content-container">
 
-<h2>Participants</h2>
-<table class="info-list-table">
-  <thead>
-    <tr>
-      <th>Team Name</th>
-      <th>Gender</th>
-      <th>Division</th>
-      <th>Sport</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for registration in division.registrations.all %}
-    <tr>
-      <td>{{ registration.team.name }}</td>
-      <td>{{ registration.team.gender }}</td>
-      <td>{{ registration.team.division }}</td>
-      <td>{{ registration.team.sport }}</td>
-      <td><a href="{% url 'details:team' team_id=registration.team.id %}">view</a></td>
-    </tr>
-  {% endfor %}
+  <h2>Division</h2>
+        <dl>
+          <dt>Division</dt><dd>{{ division.name}}</dd>
+          <dt>Gender</dt><dd>{{ division.gender }}</dd>
+        </dl>
+  
+  <table class="info-list-table">
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Contact</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for registration in division.registrations.all %}
+      <tr>
+        {% if registration.team %}
 
-  </tbody>
-</table>
+        <td><a href="{% url 'details:team' team_id=registration.team.id %}">{{ registration.team.name }}</a></td>
+        <td>{{ registration.contact_name}}</td>
+
+        {% else %}
+
+        <td>TBA</td>
+        <td>{{ registration.contact_name}}</td>
+
+        {% endif %}
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+
+</div>
 {% endblock %}

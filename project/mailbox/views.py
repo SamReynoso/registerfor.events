@@ -1,10 +1,8 @@
-from django.shortcuts import redirect, render
-from django.contrib.auth import get_user_model
-
 from mailbox.models import Alert, Conversation, DirectMessage
-from models.models import Announcement
-
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+from django.shortcuts import redirect, render
+from mailbox.models import Announcement
 
 
 @login_required(login_url='/login/')

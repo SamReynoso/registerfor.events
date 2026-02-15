@@ -1,14 +1,14 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-<h2>Upload Image</h2>
+<h1>Upload Image</h1>
 <h3>Current Image</h3>
 <div class="event-poster__container">
   <img src="{{ current }}" class="img-fullsize">
 </div>
 
 <form method="post" enctype="multipart/form-data">
-  <h3>Upload</h3>
+  <h2 style="margin-bottom: 1rem;">Upload</h2>
   {% csrf_token %}
   <div class="min-height-25">
     {{ form.as_p }}

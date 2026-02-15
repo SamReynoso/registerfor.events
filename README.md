@@ -37,25 +37,26 @@
 
 ## Priority
 - [ ] Add additional contact information requirements to registration.
-- [ ] Email notifications and control page.
-- [ ] Host and participant email confirmation at time of registration.
-- [ ] Event cancellation email notification.
-- [ ] Proper page level heading and descriptions. Or atleast remove placeholder text.
-- [ ] Change text input to dropdown in create event form.
+- [x] Email notifications
+- [ ] Email control page.
+- [x] Host and participant email confirmation at time of registration.
+- [x] Event cancellation email notification.
+- [x] Proper page level heading and descriptions. Or atleast remove placeholder text.
+- [x] Change text input to dropdown in create event form.
 - [ ] Finish cool announcements page.
-- [ ] Add styling to login and register pages.
+- [x] Add styling to login and register pages.
 
 
 ## Possible must have features that will need to be added.
 - [ ] Host options for registration contact information requirements.
 - [ ] Host email remiders and update features.
-- [ ] Email confirmation at time of event creation.
-- [ ] Registration withdrawal email notification.
+- [x] ~~Email confirmation at time of event creation.~~
+- [x] Registration withdrawal email notification.
 
 ## Clean up before first test deploy.
 - [x] Poster/other image sizing.
 - [x] Sports ball thumbnail images.
-- [ ] Links from details pages to edit pages for asset owners.
+- [x] ~~Links from details pages to edit pages for asset owners.~~
 - [ ] Add checkmark icon to registration page.
 
 ## Possible nice touches if free.
@@ -73,7 +74,7 @@
 - [x] Fix links on "my events" page.
 - [ ] Add a sport photo to the header in details if you sport is known.
 - [ ] Minimal search bar on landing page.
-- [ ] Participant Registration page is bare.
+- [x] Participant Registration page is bare.
 - [ ] Finish Upcoming Event/Past Events table on team account view.
 - [ ] Delete and other options for account control to the profile account page.
 - [ ] Add footer to all pages except for in messaging.

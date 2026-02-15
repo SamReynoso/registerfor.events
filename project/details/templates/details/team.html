@@ -3,38 +3,43 @@
 {% block content %}
 <h1>Team Details</h1>
 {% include "components/team_details_card.html" %}
-<h2>Events</h2>
-<table class="info-list-table">
-  <thead>
-    <tr>
-      <th>Event Name</th>
-      <th>Host</th>
-      <th>Divisions</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for registration in team.registrations.all %}
-    <tr>
-      <td>
-        <a href="{% url "details:event" event_id=registration.event.id %}">
-          {{ registration.event.name }}
-        </a>
-      </td>
-      <td>
-        <a href="{% url "details:profile" profile_id=registration.owner.id %}">
-          {{ registration.event.owner}}
-        </a>
-      </td>
-      <td>
-        {{ registration.team.division}}
-        {{ registration.team.gender}}
-      </td>
-      <td>
-        {{ registration.event.status }}
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+
+<div class="content-container">
+  <h2>Events</h2>
+  <table class="info-list-table">
+    <thead>
+      <tr>
+        <th>Event Name</th>
+        <th>Host</th>
+        <th>Division</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for registration in team.registrations.all %}
+      <tr>
+        <td>
+          <a href="{% url "details:event" event_id=registration.event.id %}">
+            {{ registration.event.name }}
+          </a>
+        </td>
+        <td>
+          <a href="{% url "details:profile" profile_id=registration.owner.id %}">
+            {{ registration.event.owner}}
+          </a>
+        </td>
+        <td>
+          <a href="{% url "details:division" division_id=registration.assigned_division.id %}">
+          {{ registration.team.division}}
+          {{ registration.team.gender}}
+          </a>
+        </td>
+        <td>
+          {{ registration.event.status }}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

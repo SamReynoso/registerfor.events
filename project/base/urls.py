@@ -5,6 +5,12 @@ from base import views
 app_name = 'base'
 
 urlpatterns = [
+    path('test/', views.test_view, name='test'),
+
+
+
+
+
     path('', views.home_view, name='home'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
@@ -12,5 +18,10 @@ urlpatterns = [
     path('verify/<str:uidb64>/<str:token>/',
          views.verify_email,
          name="verify_email"),
-    path('test/', views.test_view, name='test')
+    path('invite/<int:event_id>/sharable',
+         views.event_invite_sharable,
+         name='invite_sharable'),
+    path('invite/<int:event_id>/',
+         views.event_invite,
+         name='invite'),
 ]

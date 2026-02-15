@@ -37,51 +37,59 @@
 <div class="content-container">
   <h2>Select Teams</h2>
 
+  {% if user.profile.is_complete %}
   <div class="action-link__container">
     <a href="{% url 'app:team_create' %}?next={{ request.path }}" class="action-link">Create Team</a></br>
   </div>
 
-  <form method="post">
+    <form method="post">
 
-    <h3>Register</h3>
-    {% csrf_token %}
-    <table class="info-list-table">
-      <thead>
-        <tr>
-          <th>Team Name</th>
-          <th>Gender</th>
-          <th>Division</th>
-          <th>Sport</th>
-          <th>Select</th>
-        </tr>
-      </thead>
-      <tbody>
-      {% for team in teams %}
-      {% with key=team.gender|add:"-"|add:team.division %}
-        <tr>
-          <td>{{ team.name }}</td>
-          <td>{{ team.gender }}</td>
-          <td>{{ team.division }}</td>
-          <td>{{ team.sport }}</td>
-          <td>
-            {% if team.id in registered_team_ids %}
-              check mark
-            {% else %}
-              {% if key in available_division_keys %}
-                <input type="checkbox" name="team{{ team.id }}"></input>
+      <h3>Register</h3>
+        {% csrf_token %}
+
+      <table class="info-list-table">
+        <thead>
+          <tr>
+            <th>Team Name</th>
+            <th>Gender</th>
+            <th>Division</th>
+            <th>Sport</th>
+            <th>Select</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for team in teams %}
+        {% with key=team.gender|add:"-"|add:team.division %}
+          <tr>
+            <td>{{ team.name }}</td>
+            <td>{{ team.gender }}</td>
+            <td>{{ team.division }}</td>
+            <td>{{ team.sport }}</td>
+            <td>
+              {% if team.id in registered_team_ids %}
+                check mark
               {% else %}
-                Unavailable
+                {% if key in available_division_keys %}
+                  <input type="checkbox" name="team{{ team.id }}"></input>
+                {% else %}
+                  Unavailable
+                {% endif %}
               {% endif %}
-            {% endif %}
-          </td>
-        </tr>
-        {% endwith %}
-      {% endfor %}
+            </td>
+          </tr>
+          {% endwith %}
+        {% endfor %}
 
-      </tbody>
-    </table>
-    <button type=submit>Register Teams</button>
+        </tbody>
+      </table>
+      <button type=submit>Register Teams</button>
   </form>
+  {% else %}
+  <p>You are missing profile contact information and can not register for events.</p>
+  <div class="action-link__container">
+    <a href="{% url 'app:profile_update' %}?next={{ request.path }}" class="action-link">Add Contact Info</a></br>
+  </div>
+  {% endif %}
 </div>
 
 

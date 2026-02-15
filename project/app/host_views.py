@@ -1,13 +1,19 @@
-from django.contrib.auth.decorators import login_required
-
-from django.http import HttpResponseForbidden
-from django.shortcuts import get_object_or_404, render, redirect
-from models.forms import EventForm, EventPosterForm
-from models.models import (
-        Announcement, Division, DivisionChoices, Event, Genders, Registration)
-from mailbox.forms import AnnouncementForm
-from project.services.email import send_registration_canceled_email
 from project.utils.alerts import host_canceled_registration_alert_team_owner
+from project.services.email import send_registration_canceled_email
+from project.services.email import send_host_new_registration_email
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth.decorators import login_required
+from models.forms import EventForm, EventPosterForm
+from django.http import HttpResponseForbidden
+from mailbox.forms import AnnouncementForm
+from mailbox.models import Announcement, Rsvp
+from models.models import (
+        Division,
+        DivisionChoices,
+        Event,
+        Genders,
+        Registration
+        )
 
 
 @login_required(login_url='/login/')
@@ -147,11 +153,11 @@ def event_divisions(request, event_id: int):
 def participant_edit(request, registration_id: int):
     registration = get_object_or_404(Registration, id=registration_id)
     if request.method == 'POST':
-        event_id = registration.event.id
         host_canceled_registration_alert_team_owner(registration)
         send_registration_canceled_email(registration)
         registration.delete()
-        return redirect('user:hosting_participants', event_id=event_id)
+        return redirect('user:hosting_division',
+                        division_id=registration.assigned_division.id)
     context = {'registration': registration}
     return render(request, 'app/event_participant_edit.html', context)
 
@@ -194,3 +200,56 @@ def event_announcement(request, event_id: int):
     form = AnnouncementForm()
     context = {'event': event, 'form': form}
     return render(request, 'app/event_announcement.html', context)
+
+
+@login_required(login_url='/login/')
+def event_invite_creaet(request, event_id: int):
+    event = get_object_or_404(Event, id=event_id)
+    if event.owner != request.user:
+        return HttpResponseForbidden("You don't own this event.")
+
+    announcements = []
+    if request.method == 'POST':
+        form = AnnouncementForm(request.POST)
+        if form.is_valid():
+            for reg in event.registrations.all():
+                announcements.append(
+                    Announcement(
+                        sender=request.user,
+                        recipient=reg.owner,
+                        title=form.cleaned_data['title'],
+                        body=form.cleaned_data['body'],
+                        event=event,
+                        )
+                        )
+            Announcement.objects.bulk_create(announcements)
+            return redirect('user:hosting_event', event_id=event_id)
+    form = AnnouncementForm()
+    context = {'event': event, 'form': form}
+    return render(request, 'app/event_announcement.html', context)
+
+
+@login_required(login_url='/login/')
+def rsvp_convert(request, rsvp_id: int):
+    rsvp = get_object_or_404(Rsvp, id=rsvp_id)
+    if rsvp.event.owner != request.user:
+        return HttpResponseForbidden(
+                "You don't own event this rsvp belongs to."
+                )
+    if request.method == "POST":
+        owner = rsvp.recipient
+        for division in rsvp.divisions.all():
+            registration = Registration.objects.create(
+                    owner=owner,
+                    assigned_division=division,
+                    event=rsvp.event,
+                    first_name=rsvp.first_name,
+                    last_name=rsvp.last_name,
+                    email=rsvp.email,
+                    phone=rsvp.phone,
+                    )
+            send_host_new_registration_email(registration)
+        rsvp.delete()
+        return redirect('user:hosting_invitations', event_id=rsvp.event.id)
+    context = {'rsvp': rsvp}
+    return render(request, 'app/rsvp_convert.html', context)

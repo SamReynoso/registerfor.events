@@ -35,7 +35,7 @@
 
 <div class="action-link__container">
   <a href="{% url 'app:event_announcement' event_id=event.id %}" class="action-link">Create Announcement</a>
-  <a href="" class="action-link">Invite Participants</a>
+  <a href="{% url 'user:hosting_invitations' event_id=event.id %}" class="action-link">Invitations</a>
 </div>
 
 <div class="content-container">
@@ -43,16 +43,24 @@
 
   <ul class="nav-list">
     <li><a href="{% url 'app:event_divisions' event_id=event.id %}">Add/Remove Division</a></li>
-    <li><a href="{% url 'user:hosting_participants' event_id=event.id %}">Registration Controls</a></li>
   </ul>
 
   <table class="info-list-table">
-    <thead><tr><th>Gender</th><th>Division</th><th>Entries</th></tr></thead>
+    <thead>
+      <tr><th>Gender</th><th>Division</th><th>Entries</th><th></ht></tr>
+    </thead>
+
     <tbody>
     {% for division in event.divisions.all %}
-      <tr><td>{{ division.gender }}</td><td>{{ division.name }}</td><td>{{ division.reg_count }}</td></tr>
+      <tr>
+        <td>{{ division.gender }}</td>
+        <td>{{ division.name }}</td>
+        <td>{{ division.registrations.count}}</td>
+        <td><a href="{% url 'user:hosting_division' division_id=division.id %}">Manage</a></td>
+      </tr>
     {% endfor %}
     </tbody>
+
   </table>
 </div>
 

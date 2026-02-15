@@ -1,0 +1,11 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+  <h1>Create an Event Invitation</h1>
+  {% include "components/event_summary_card.html" %}
+  <form method="post">
+    <h2>Invitation Form Heading</h2>
+      {% csrf_token %}
+      <button type="submit">create</button>
+  </form>
+{% endblock %}

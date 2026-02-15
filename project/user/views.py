@@ -1,8 +1,9 @@
-from django.contrib.auth.decorators import login_required
-from django.db.models import Count, IntegerField, OuterRef, Subquery
-from django.http import HttpResponseForbidden
-from django.shortcuts import get_object_or_404, render
 from models.models import Division, Event, Team, Registration
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseForbidden
+
+from mailbox.models import Rsvp
 
 
 @login_required(login_url='/login/')
@@ -41,33 +42,32 @@ def hosting_event(request, event_id: int):
     event = get_object_or_404(Event, id=event_id)
     if event.owner != request.user:
         return HttpResponseForbidden("You don't own this event.")
-
-    matching_regs = Registration.objects.filter(
-            event=event,
-            team__gender=OuterRef('gender'),
-            team__division=OuterRef('name')
-            ).values('team__gender', 'team__division').annotate(
-                    cnt=Count('id')
-                    ).values('cnt')
-
-    divisions = Division.objects.annotate(
-            reg_count=Subquery(matching_regs, output_field=IntegerField())
-            )
-
-    registrations = Registration.objects.filter(event=event)
+    divisions = Division.objects.filter(event=event)
     context = {
             'event': event,
-            'registrations': registrations,
             'divisions': divisions,
             }
     return render(request, 'user/hosting_event.html', context)
 
 
 @login_required(login_url='/login/')
-def hosting_participants(request, event_id: int):
-    event = Event.objects.get(id=event_id)
-    context = {'event': event}
-    return render(request, 'user/hosting_participants.html', context)
+def hosting_invitations(request, event_id: int):
+    event = get_object_or_404(Event, id=event_id)
+    if event.owner != request.user:
+        return HttpResponseForbidden("You don't own this event.")
+    rsvps = Rsvp.objects.filter(event=event)
+    context = {
+            'event': event,
+            'rsvps': rsvps,
+            }
+    return render(request, 'user/hosting_invitations.html', context)
+
+
+@login_required(login_url='/login/')
+def hosting_division(request, division_id: int):
+    division = Division.objects.get(id=division_id)
+    context = {'division': division}
+    return render(request, 'user/hosting_division.html', context)
 
 
 @login_required(login_url='/login/')

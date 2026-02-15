@@ -3,8 +3,8 @@ img {
 }
 
 .profile-image-container {
-  width: 120px;
-  height: 120px;
+  width: var(--thumbnail-image-width);
+  height: var(--thumbnail-image-height);
   border-radius: 50%;
   overflow: hidden;
   display: flex;
@@ -15,16 +15,14 @@ img {
 
 
 .sport-ball-image-container {
-  width: 120px;
-  height: 120px;
 
   background-color: rgb(255, 255, 255);
   border: 1px solid rgb(119, 119, 119);
 }
 
 .profile-image-tumbnail__container {
-  width: 150px;
-  height: 150px;
+  width: var(--thumbnail-image-width);
+  height: var(--thumbnail-image-height);
   border-radius: 3px;
   background-color: rgb(255, 255, 255);
   border: 1px solid rgb(119, 119, 119);
@@ -51,8 +49,8 @@ img {
 }
 
 .thumbnail {
-  width: 150px;
-  height: 150px;
+  width: var(--thumbnail-image-width);
+  height: var(--thumbnail-image-height);
 }
 
 .icon {

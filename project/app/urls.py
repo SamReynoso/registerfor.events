@@ -20,7 +20,9 @@ urlpatterns = [
     path('profile/avatar/delete/',
          user_views.profile_avatar_delete,
          name='profile_avatar_delete'),
-
+    # path('/registration-options/',
+    #      user_views.registration_controls,
+    #      name='registration_controls'),
 
     path('event/create/',
          host_views.event_create,
@@ -51,6 +53,10 @@ urlpatterns = [
     path('event/<int:event_id>/announcement/',
          host_views.event_announcement,
          name='event_announcement'),
+    path('rsvp/convert/<int:rsvp_id>',
+         host_views.rsvp_convert,
+         name='rsvp_convert'),
+
 
     path('team/create/',
          participant_views.team_create,
@@ -78,7 +84,4 @@ urlpatterns = [
     path('announcement/<int:announcement_id>/delete/',
          participant_views.announcement_delete,
          name='announcement_delete'),
-
-
-
 ]

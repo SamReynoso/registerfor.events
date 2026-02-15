@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
-SITE_URL = 'https://registerfor.events'
 
 
 def val_u(key: str) -> str:
@@ -18,6 +17,7 @@ def val_u(key: str) -> str:
 DEBUG = val_u('DJANGO_DEBUG') != 'False'
 ALLOWED_HOSTS = val_u('DJANGO_ALLOWED_HOSTS').split(',')
 SECRET_KEY = val_u('DJANGO_SECRET_KEY')
+SITE_URL = val_u('SITE_URL')
 DATABASES = {
     'default': {
         'ENGINE': val_u('DJANGO_DATABASE_ENGINE'),
@@ -73,7 +73,6 @@ TEMPLATES = [
         },
     },
 ]
-print(BASE_DIR)
 
 __DCAPV = 'django.contrib.auth.password_validation'
 AUTH_PASSWORD_VALIDATORS = [

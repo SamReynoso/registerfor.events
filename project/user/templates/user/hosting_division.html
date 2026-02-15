@@ -1,0 +1,52 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+
+<h1>Manage Division</h1>
+
+{% include "components/event_summary_card.html" with event=division.event%}
+
+<div class="action-link__container">
+  <a href="" class="action-link">Delete Division</a>
+</div>
+
+<div class="content-container">
+<h2>Division Details</h2>
+
+        <dl>
+          <dt>Division</dt><dd>{{ division.name}}</dd>
+          <dt>Gender</dt><dd>{{ division.gender }}</dd>
+        </dl>
+  
+  <table class="info-list-table">
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Contact Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for registration in division.registrations.all %}
+      <tr>
+        {% if registration.team %}
+        <td>
+          <a href="{% url 'details:team' team_id=registration.team.id %}">{{ registration.team.name }}</a>
+        </td>
+        {% else %}
+        <td>TBA</td>
+        {% endif %}
+        <td>{{ registration.contact_name}}</td>
+        <td>{{ registration.email}}</td>
+        <td>{{ registration.phone}}</td>
+        <td><a href="{% url 'app:participant_edit' registration_id=registration.id %}">Cancel</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

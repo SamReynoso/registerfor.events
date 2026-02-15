@@ -1,0 +1,9 @@
+{% extends "base/invite.html" %}
+
+{% block extra %}
+  <div style="position:fixed;bottom:0;left:0;width:100%;background:#333;color:#fff;text-align:center;padding:3px 0 30px;font-family:sans-serif;z-index:9999;">
+    <h4 style="margin-left:10px;color:#ccc;">Paste this anywhere to share</h4>
+    Invite link: <input type="text" value="{{ sharable_url }}" readonly style="width:300px;padding:5px;margin:0 10px;"> 
+    <button onclick="navigator.clipboard.writeText(this.previousElementSibling.value)" style="padding:5px 10px;cursor:pointer;">Copy</button><br>
+  </div> 
+{% endblock extra %}

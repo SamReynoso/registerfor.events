@@ -33,7 +33,7 @@
   <div style="display: flex; flex-direction: row; gap: 1rem; align-items: center; padding: 1rem">
     {% if request.user.is_authenticated %}
     <a href="{% url 'user:account' %}"><img src="/assets/icons/user.svg" class="icon-button"></a>
-      <a href="{% url 'mailbox:mailbox' %}">Mailbox</a>
+      <a href="{% url 'mailbox:mailbox' %}"><img src="/assets/icons/chat-box.svg" class="icon-button"></a>
       <a href="{% url 'base:logout' %}">Logout</a>
     {% else %}
       <a href="{% url 'base:login' %}">Login</a>
@@ -49,11 +49,8 @@
     <header class="header">
       <a href="{% url 'details:search_results' %}">Search</a>
       {% block header%}
-      <h1>Free Sports Bulletin Board</h1>
+      <h1>A Free Sports Bulletin Board</h1>
       <h3>Find games. Join games. Start games.</h3>
-      <p style="max-width: 40rem;">
-        This is a free community board for local sports.
-      </p>
 
       {% endblock %}
 
