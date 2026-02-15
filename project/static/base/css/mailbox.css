@@ -35,13 +35,3 @@ div.alert-card {
 
 details.alert-card {
 }
-
-ul.nav-list {
-    display: flex; /* Makes the ul a flex container */
-    list-style: none; /* Removes bullet points */
-    padding: 0; /* Removes default left padding */
-    margin: 0; /* Removes default margins */
-    gap: 20px; /* Adds space between items */
-}
-
-

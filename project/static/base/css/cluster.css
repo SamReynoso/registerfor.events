@@ -103,10 +103,18 @@ dt {
 .event-details-card {
   background-color: var(--content-background-color);
   border: 1px solid var(--border-color);
+  padding: .5rem;
   margin-bottom: 2rem;
 }
 
 .event-details-card__content {
+}
+
+.event-poster-thumbnail__container {
+  width: 150px;
+  border-radius: 3px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(119, 119, 119);
 }
 
 .event-poster-thumbnail {
@@ -202,4 +210,30 @@ input[type="text"]:focus {
   display: grid;
   grid-template-columns: max-content 1fr;
   column-gap: 2rem;
+}
+
+.action-link__container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: .5rem 0 .5rem;
+}
+
+.action-link {
+  display:inline-block;
+  padding:12px 18px;
+  font-size:14px;
+  font-weight:600;
+  color:#ffffff;
+  text-decoration:none;
+  background-color:#555555;
+  border:1px solid #444444;
+  border-radius:3px;
+}
+
+.content-container {
+  background-color: var(--content-background-color);
+  border: 1px solid var(--border-color);
+  padding: 1rem .5rem 2rem;
+  margin-bottom: 2rem;
 }

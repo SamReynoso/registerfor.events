@@ -2,10 +2,10 @@
 
 {% block content %}
 
-{% include "components/event_details_card.html" %}
+{% include "components/event_summary_card.html" %}
 
   <form method="post">
-      public: {{ event.public }}
+    <b>Public: {{ event.public }}</b>
       {% csrf_token %}
       <button type="submit">Toggle Visibility</button>
   </form>

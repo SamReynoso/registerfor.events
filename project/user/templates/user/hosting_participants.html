@@ -2,36 +2,45 @@
 
 {% block content %}
 
-{% include "components/event_details_card.html" %}
-
 <h1>Manage Participants</h1>
 
-<table class="info-list-table">
-  <thead>
-    <tr>
-      <th>Contact</th>
-      <th>Event</th>
-      <th>Attended</th>
-      <th>Invoice</th>
-      <th>Paid</th>
-      <th>Cancelled</th>
-      <th>Edit</th>
+{% include "components/event_summary_card.html" %}
 
-    </tr>
-  </thead>
-  <tbody>
-    {% for registration in event.registrations.all %}
-    <tr>
-      <td>{{ registration.team.name }}</td>
-      <td>Summer Tournament</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td><a href="{% url 'app:participant_edit' registration_id=registration.id %}">edit</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="content-container">
+<h2>Event Participants</h2>
+
+  
+  <ul class="nav-list">
+    <li><a href="#">Registration Controls</a></li>
+  </ul>
+
+  <table class="info-list-table">
+    <thead>
+      <tr>
+        <th>Contact</th>
+        <th>Event</th>
+        <th>Attended</th>
+        <th>Invoice</th>
+        <th>Paid</th>
+        <th>Cancelled</th>
+        <th>Edit</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for registration in event.registrations.all %}
+      <tr>
+        <td>{{ registration.team.name }}</td>
+        <td>Summer Tournament</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><a href="{% url 'app:participant_edit' registration_id=registration.id %}">edit</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 {% endblock %}

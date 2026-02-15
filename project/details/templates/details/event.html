@@ -1,56 +1,37 @@
 {% extends "details/base.html" %}
 
 {% block content %}
+<h1>Event Details</h1>
 
-<a href="{% url 'app:register_for_event' event_id=event.id %}">Join</a>
+<div class="action-link__container">
+  <a href="{% url 'app:register_for_event' event_id=event.id %}" class="action-link">Join</a>
+</div>
 
 {% include "components/event_details_card.html" %}
 
+<div class="content-container">
 <h2>Divisions</h2>
 
-<table class="info-list-table">
-  <thead>
-    <tr>
-      <th>Gender</th>
-      <th>Division</th>
-      <th>Entries</th>
-      <th>Details</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for division in event.divisions.all %}
-    <tr>
-      <td>{{ division.gender }}</td>
-      <td>{{ division.name }}</td>
-      <td>{{ division.registrations.count }}</td>
-      <td><a href="{% url 'details:division' division_id=division.id %}">View</a></td>
-    </tr>
-  {% endfor %}
-
-  </tbody>
-</table>
-<h2>Participants</h2>
-
-<table class="info-list-table">
-  <thead>
-    <tr>
-      <th>Team Name</th>
-      <th>Gender</th>
-      <th>Division</th>
-      <th>Details</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for registration in registrations %}
-    <tr>
-      <td>{{ registration.team.name }}</td>
-      <td>{{  registration.team.gender }}</td>
-      <td>{{  registration.team.division }}</td>
-      <td><a href="{% url 'details:team' team_id=registration.team.id %}">view</a></td>
-    </tr>
-  {% endfor %}
-
-  </tbody>
-</table>
+  <table class="info-list-table">
+    <thead>
+      <tr>
+        <th>Gender</th>
+        <th>Division</th>
+        <th>Entries</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for division in event.divisions.all %}
+      <tr>
+        <td>{{ division.gender }}</td>
+        <td>{{ division.name }}</td>
+        <td>{{ division.registrations.count }}</td>
+        <td><a href="{% url 'details:division' division_id=division.id %}">View</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 {% endblock %}

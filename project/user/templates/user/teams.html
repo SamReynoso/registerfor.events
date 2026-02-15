@@ -2,33 +2,38 @@
 
 {% block content %}
 
-<h2>My Teams</h2>
-<h3>Teams I've Created</h3>
+<h1>My Teams</h1>
 
-<a href="{% url 'app:team_create' %}">Create Teams</a>
+<div class="action-link__container">
+  <a href="{% url 'app:team_create' %}" class="action-link">Create Teams</a>
+</div>
 
-<table class="info-list-table">
-  <thead>
-    <tr>
-      <th>Team Name</th>
-      <th>Gender</th>
-      <th>Division</th>
-      <th>Sport</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for team in teams %}
-    <tr>
-      <td>{{ team.name }}</td>
-      <td>{{ team.gender }}</td>
-      <td>{{ team.division }}</td>
-      <td>{{ team.sport }}</td>
-      <td><a href="{% url 'user:team_details' team_id=team.id %}">view</a></td>
-    </tr>
-  {% endfor %}
+<div class="content-container">
+  <h2>Teams I've Created</h2>
 
-  </tbody>
-</table>
+  <table class="info-list-table">
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Gender</th>
+        <th>Division</th>
+        <th>Sport</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for team in teams %}
+      <tr>
+        <td>{{ team.name }}</td>
+        <td>{{ team.gender }}</td>
+        <td>{{ team.division }}</td>
+        <td>{{ team.sport }}</td>
+        <td><a href="{% url 'user:team_details' team_id=team.id %}">view</a></td>
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+</div>
 
 {% endblock %}

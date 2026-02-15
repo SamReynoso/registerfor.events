@@ -1,65 +1,73 @@
 {% extends "user/base.html" %}
 
 {% block content %}
-<h2>Teams Details</h2>
-<h3>{{ team.name }}</h3>
-<a href="{% url 'app:team_update' team_id=team.id %}">Update Team</a><br>
-<a href="{% url 'app:team_delete' team_id=team.id %}">Delete Team</a>
+<h1>Teams Details</h1>
 
-
-<div class="profile-image-container">
-  <img src="{{ team.get_photo_url }}" class="thumbnail">
-</div>
-
-<a href="{% url 'app:team_photo_update' team_id=team.id%}">Change Photo</a><br>
-<a href="{% url 'app:team_photo_delete' team_id=team.id%}">Delete Photo</a>
-
-<ul>
-  <li>
-    {{ team.name }}
-  </li>
-  <li>
-    {{ team.gender }}
-  </li>
-  <li>
-    {{ team.division }}
-  </li>
-  <li>
-    {{ team.sport }}
-  </li>
+<ul class="nav-list">
+  <li><a href="{% url 'app:team_update' team_id=team.id %}">View Team</a><br></li>
+  <li><a href="{% url 'app:team_update' team_id=team.id %}">Update Team</a><br></li>
+  <li><a href="{% url 'app:team_delete' team_id=team.id %}">Delete Team</a></li>
 </ul>
 
-<h2>Upcoming Events </h2>
+<div class="content-container">
+  <h2>{{ team.name }}</h2>
 
-<table class="info-list-table">
-  <thead>
-    <tr>
-      <th>Event Name</th>
-      <th>Host</th>
-      <th>My Team</th>
-      <th>City</th>
-      <th>State</th>
-      <th>ZIP</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for registration in registrations %}
-    <tr>
-      <td>
-      </td>
-      <td>
-      </td>
-      <td>
-      </td>
-      <td>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+  <ul class="nav-list">
+    <li><a href="{% url 'app:team_photo_update' team_id=team.id%}">Change Photo</a><br></li>
+    <li><a href="{% url 'app:team_photo_delete' team_id=team.id%}">Delete Photo</a></li>
+  </ul>
 
-<a href="#">Past Events</a>
-<a href="#">Pending Actions</a>
+  <div class="profile-image-tumbnail__container">
+    <img src="{{ team.get_photo_url }}" class="thumbnail">
+  </div>
+
+  <h2>Team Info</h2>
+
+  <table class='contact-info-table'>
+    <tr><th>Name</th><td>{{ team.name }}</td></tr>
+    <tr><th>Sport</th><td>{{ team.sport }}</td></tr><tr>
+    <tr><th>gender</th><td>{{ team.gender }}</td></tr>
+    <tr><th>Division<td>{{ team.division }}</td></tr>
+  </table>
+
+</div>
+
+<div class="content-container">
+
+  <h2>Upcoming Events </h2>
+
+  <ul class="nav-list">
+    <li><a href="#">Past Events</a></li>
+    <li><a href="#">Pending Actions</a></li>
+  </ul>
+
+  <table class="info-list-table">
+    <thead>
+      <tr>
+        <th>Event Name</th>
+        <th>Host</th>
+        <th>My Team</th>
+        <th>City</th>
+        <th>State</th>
+        <th>ZIP</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for registration in registrations %}
+      <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 {% endblock %}
 

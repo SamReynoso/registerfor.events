@@ -1,10 +1,10 @@
 <div class="event-details-card">
+  <h1>{{ event.name }}</h1>
   <div class="event-details-card__content">
 
-    <div style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 1rem;">
+    <div style="display: flex; flex-direction: row; justify-content: space-around; margin: 1rem;">
 
-      <div>
-        <h2>Event</h2>
+      <div class="event-poster-thumbnail__container"
         <img src="{{ event.get_poster_url }}" class="event-poster-thumbnail">
       </div>
 
@@ -15,7 +15,6 @@
           <dt>Sport</dt><dd>{{ event.sport }}</dd>
           <dt>Starts</dt><dd>{{ event.start_date }}</dd>
           <dt>Ends</dt><dd>{{ event.end_date }}</dd>
-          <dt>Host</dt><dd><a href="{% url 'details:profile' event.owner.profile.id %}">{{ event.owner.profile }}</a></dd>
           <dt>Status</dt><dd>{{ event.status }}</dd>
         </dl>
       </div>
@@ -25,22 +24,23 @@
     <div style="margin: 1rem;">
       <h3>Event address<h3>
       <dl>
+        <dt>Address</dt><dd>{{ event.address }}</dd>
         <dt>City</dt><dd>{{ event.city }}</dd>
         <dt>State</dt><dd>{{ event.state}}</dd>
-        <dt>Address</dt><dd>{{ event.address }}</dd>
       </dl>
     </div>
 
     <div style="margin: 1rem;">
       <h3>Contact info<h3>
       <dl>
+        <dt>Host</dt><dd><a href="{% url 'details:profile' event.owner.profile.id %}">{{ event.owner.profile }}</a></dd>
         <dt>Email</dt><dd>{{ event.owner.profile.email }}</dd>
         <dt>Phone</dt><dd>{{ event.owner.profile.phone }}</dd>
       </dl>
     </div>
 
     {% with event.id|stringformat:"s" as id_str %}
-      {% if request.path != "/details/event/"|add:id_str %}
+      {% if request.path != "/details/event/"|add:id_str|add:"/" %}
         <div style="margin: 1rem;">
           <a href="{% url 'details:event' event_id=event.id %}">View Event</a>
         </div>

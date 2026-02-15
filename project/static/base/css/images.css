@@ -22,6 +22,14 @@ img {
   border: 1px solid rgb(119, 119, 119);
 }
 
+.profile-image-tumbnail__container {
+  width: 150px;
+  height: 150px;
+  border-radius: 3px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(119, 119, 119);
+}
+
 .sport-ball-image-container:hover {
   background-color: var(--background-color);
   font-size: 1.1rem;
@@ -43,8 +51,8 @@ img {
 }
 
 .thumbnail {
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
 }
 
 .icon {

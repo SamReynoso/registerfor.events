@@ -2,47 +2,50 @@
 
 {% block content %}
 
-<h2>My Events</h2>
-<h3>Event I'm In</h3>
+<h1>My Events</h1>
 
-<table class="info-list-table">
-  <thead>
-    <tr>
-      <th>Event Name</th>
-      <th>Host</th>
-      <th>My Team</th>
-      <th>Divisions</th>
-      <th>Edit</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for registration in registrations.all %}
-    <tr>
-      <td>
-        <a href="{% url "details:event" event_id=registration.event.id %}">
-          {{ registration.event.name }}
-        </a>
-      </td>
-      <td>
-        <a href="{% url "details:profile" profile_id=registration.owner.id %}">
-          {{ registration.event.owner}}
-        </a>
-      </td>
-      <td>
-        <a href="{% url "details:team" team_id=registration.team.id %}">
-          {{ registration.team.name }}
-        </a>
-      </td>
-      <td>
-        {{ registration.team.division}}
-        {{ registration.team.gender}}
-      </td>
-      <td>
-        <a href="{% url "user:registration_details" registration_id=registration.id %}">Edit</a>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="content-container">
+  <h2>Event I'm In</h1>
+
+  <table class="info-list-table">
+    <thead>
+      <tr>
+        <th>Event Name</th>
+        <th>Host</th>
+        <th>My Team</th>
+        <th>Divisions</th>
+        <th>Edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for registration in registrations.all %}
+      <tr>
+        <td>
+          <a href="{% url "details:event" event_id=registration.event.id %}">
+            {{ registration.event.name }}
+          </a>
+        </td>
+        <td>
+          <a href="{% url "details:profile" profile_id=registration.owner.id %}">
+            {{ registration.event.owner}}
+          </a>
+        </td>
+        <td>
+          <a href="{% url "details:team" team_id=registration.team.id %}">
+            {{ registration.team.name }}
+          </a>
+        </td>
+        <td>
+          {{ registration.team.division}}
+          {{ registration.team.gender}}
+        </td>
+        <td>
+          <a href="{% url "user:registration_details" registration_id=registration.id %}">Edit</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 {% endblock %}

@@ -2,7 +2,7 @@
 
 {% block content %}
   <h1>Event Announcement</h1>
-  {% include "components/event_details_card.html" %}
+  {% include "components/event_summary_card.html" %}
   <form method="post">
     <h2>Make an announcement to all participants</h2>
       {% csrf_token %}

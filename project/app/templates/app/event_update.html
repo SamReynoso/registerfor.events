@@ -8,5 +8,10 @@
       {{ form.as_table }}
     </table>
     <button type="submit">Update</button>
+  <ul class="nav-list">
+    <li><a href="{% url 'app:event_status' event_id=event.id %}">Change Visibility</a></li>
+  </ul>
+
   </form>
+
 {% endblock %}

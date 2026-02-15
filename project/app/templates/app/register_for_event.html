@@ -7,6 +7,7 @@
 <h1>Register Your Teams</h1>
 {% include "components/event_summary_card.html" %}
 
+<div class="content-container">
 <h2>Available Divisions</h2>
   <table class="info-list-table">
     <thead>
@@ -29,54 +30,59 @@
   {% for reg in regs %}
     {{ reg }}
   {% endfor %}
+</div>
 
 
 
-<h2>Select Teams</h2>
+<div class="content-container">
+  <h2>Select Teams</h2>
 
-<a href="{% url 'app:team_create' %}?next={{ request.path }}">Create Team</a></br>
+  <div class="action-link__container">
+    <a href="{% url 'app:team_create' %}?next={{ request.path }}" class="action-link">Create Team</a></br>
+  </div>
 
-<form method="post">
+  <form method="post">
 
-  <h3>Register</h3>
-  {% csrf_token %}
-  <table class="info-list-table">
-    <thead>
-      <tr>
-        <th>Team Name</th>
-        <th>Gender</th>
-        <th>Division</th>
-        <th>Sport</th>
-        <th>Select</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for team in teams %}
-    {% with key=team.gender|add:"-"|add:team.division %}
-      <tr>
-        <td>{{ team.name }}</td>
-        <td>{{ team.gender }}</td>
-        <td>{{ team.division }}</td>
-        <td>{{ team.sport }}</td>
-        <td>
-          {% if team.id in registered_team_ids %}
-            check mark
-          {% else %}
-            {% if key in available_division_keys %}
-              <input type="checkbox" name="team{{ team.id }}"></input>
+    <h3>Register</h3>
+    {% csrf_token %}
+    <table class="info-list-table">
+      <thead>
+        <tr>
+          <th>Team Name</th>
+          <th>Gender</th>
+          <th>Division</th>
+          <th>Sport</th>
+          <th>Select</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for team in teams %}
+      {% with key=team.gender|add:"-"|add:team.division %}
+        <tr>
+          <td>{{ team.name }}</td>
+          <td>{{ team.gender }}</td>
+          <td>{{ team.division }}</td>
+          <td>{{ team.sport }}</td>
+          <td>
+            {% if team.id in registered_team_ids %}
+              check mark
             {% else %}
-              Unavailable
+              {% if key in available_division_keys %}
+                <input type="checkbox" name="team{{ team.id }}"></input>
+              {% else %}
+                Unavailable
+              {% endif %}
             {% endif %}
-          {% endif %}
-        </td>
-      </tr>
-      {% endwith %}
-    {% endfor %}
+          </td>
+        </tr>
+        {% endwith %}
+      {% endfor %}
 
-    </tbody>
-  </table>
-  <button type=submit>Register Teams</button>
-</form>
+      </tbody>
+    </table>
+    <button type=submit>Register Teams</button>
+  </form>
+</div>
 
 
 {% endblock %}

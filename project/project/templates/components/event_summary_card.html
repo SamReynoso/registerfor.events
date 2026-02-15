@@ -1,10 +1,10 @@
 <div class="event-details-card">
+  <h1>{{ event.name }}</h1>
   <div class="event-details-card__content">
 
     <div style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 1rem;">
 
-      <div>
-        <h2>Event</h2>
+      <div class="event-poster-thumbnail__container"
         <img src="{{ event.get_poster_url }}" class="event-poster-thumbnail">
       </div>
 

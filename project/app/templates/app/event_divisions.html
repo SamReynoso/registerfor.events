@@ -2,13 +2,13 @@
 
 {% block content %}
 
-{% include "components/event_details_card.html" %}
-
 <h1>Manage Divisions</h1>
-<p>Divisions with active registrations are protected and can not be removed. Cancel the all registrations for the
-divisions before removing them.</p>
+
+{% include "components/event_summary_card.html" %}
+
 
 <form method='post' class="divisions-checkbox-form">
+  <h2>Select divisions for this event<h2>
   {% csrf_token %}
   {% for gender in division_options.genders %}
 
