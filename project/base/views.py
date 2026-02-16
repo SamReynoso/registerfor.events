@@ -136,6 +136,8 @@ def authenticated_invite(request, event):
     context = {
             'site_url': settings.SITE_URL,
             'event': event,
+            'subject': f'{event.name} Invitation',
+            'disctiption': f'Join us on {event.start_date} in {event.city}.'
                }
     return render(request, 'base/invite.html', context)
 
@@ -157,7 +159,9 @@ def anonymous_invite(request, event):
     context = {
             'site_url': settings.SITE_URL,
             'event': event,
-            'form': form
+            'form': form,
+            'subject': f'{event.name} Invitation',
+            'disctiption': f'Join us on {event.start_date} in {event.city}.'
                }
     return render(request, 'base/invite.html', context)
 

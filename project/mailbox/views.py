@@ -80,7 +80,7 @@ def conversation_view(request, user_id: int):
                                           sender=sender,
                                           recipient=recipient
                                           )
-        send_direct_message_email(dm)
+        # send_direct_message_email(dm)
 
         convo.refresh_from_db()
     context = {

@@ -1,46 +1,43 @@
 {% extends "details/base.html" %}
-
-{% block content %}
-  <h1>Search</h1>
-
-<form method="get" action="/details/search" class="event-search-form">
-  <h2 style="margin-bottom: 1rem;">Join a local event</h2>
-
-  <label>
-    Sport
+{% block header%}
+<form method="get" action="/details/search" class="form">
+  <div class="row gap-1 pad-b-1 m-auto">
+    <label>
+      <span class="text-small text-muted">sport</span>
     <select name="sport">
       <option value="all">Any</option>
       {% for sport in search_options.sports %}
         <option>{{ sport }}</option>
       {% endfor %}
     </select>
-  </label>
+    </label>
 
-  <label>
-    City
+    <label>
+      <span class="text-small text-muted">City</span>
     <select name="city">
       {% for city in search_options.cities %}
         <option>{{ city }}</option>
       {% endfor %}
     </select>
-  </label>
+    </label>
 
-  <label>
-    State
+    <label>
+      <span class="text-small text-muted">State</span>
     <select name="state">
       {% for state in search_options.states %}
         <option>{{ state }}</option>
       {% endfor %}
     </select>
-  </label>
+    </label>
+
+  </div>
 
   <details>
-    <summary>Click te reveal division options</summary>
+    <summary>Click to reveal division options</summary>
 
     <fieldset>
 
       <label>
-        Gender
         <select name="gender">
           <option value="all" select>Any</option>
           {% for gender in search_options.genders %}
@@ -53,7 +50,6 @@
     </fieldset>
 
    <fieldset class="divisions-checkbox-form__fieldset">
-      <legend>Division</legend>
       {% for division in search_options.divisions %}
         <label>
           <input type="checkbox" name="division[]" value="{{ division }}">
@@ -65,8 +61,12 @@
   </details>
   <button type="submit" class="btn">Search Events</button>
 </form>
-<h2>Search Results.</h2>
- 
+
+{% endblock %}
+
+{% block content %}
+<h4>Results</h4>
+<hr style="margin-bottom: 1rem;">
 <table class="info-list-table">
   <thead>
     <tr>

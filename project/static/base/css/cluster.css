@@ -238,3 +238,32 @@ input[type="text"]:focus {
   padding: 1rem .5rem 2rem;
   margin-bottom: 2rem;
 }
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.gap {
+  gap: .5rem;
+}
+
+.gap-1 {
+  gap: 1rem;
+}
+
+.pad-b-1 {
+  padding-bottom: 1rem;
+}
+
+.text-small {
+  font-size: .7rem;
+}
+
+.text-muted {
+  color: var(--muted-text-color);
+}
+
+.m-auto {
+  margin: auto;
+}
