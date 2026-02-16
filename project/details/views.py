@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
+from django.core.paginator import Paginator
 from django.shortcuts import render
-
 from models.models import (
         Cities,
         Profile,
@@ -52,38 +52,41 @@ def search_results(request):
             'divisions': DivisionChoices,
             'genders': Genders,
             }
-    if request.method == 'GET':
-        qs = Event.objects.all()
-        query = request.GET
-        if query:
-            sport = query.get('sport')
-            city = query.get('city')
-            state = query.get('state')
-            divisions = list(query.getlist('division[]'))
+    qs = Event.objects.all()
+    query = request.GET
+    if query:
+        sport = query.get('sport')
+        city = query.get('city')
+        state = query.get('state')
+        divisions = list(query.getlist('division[]'))
 
-            gender = query.get('gender')
-            # radius = 'all'
-            # date_range = query.get('city')
+        gender = query.get('gender')
+        # radius = 'all'
+        # date_range = query.get('city')
 
-            all_or_none = ['all', None]
-            if sport not in all_or_none:
-                qs = qs.filter(sport=sport)
+        all_or_none = ['all', None]
+        if sport not in all_or_none:
+            qs = qs.filter(sport=sport)
 
-            if city not in all_or_none:
-                qs = qs.filter(city__iexact=city)
+        if city not in all_or_none:
+            qs = qs.filter(city__iexact=city)
 
-            if state not in all_or_none:
-                qs = qs.filter(state=state)
+        if state not in all_or_none:
+            qs = qs.filter(state=state)
 
-            if len(divisions) != 0:
-                if 'all' not in divisions:
-                    qs = qs.filter(divisions__name__in=divisions)
+        if len(divisions) != 0:
+            if 'all' not in divisions:
+                qs = qs.filter(divisions__name__in=divisions)
 
-            if gender not in all_or_none:
-                qs = qs.filter(divisions__gender=gender)
+        if gender not in all_or_none:
+            qs = qs.filter(divisions__gender=gender)
 
-        context = {
-                'search_options': search_options,
-                'events': qs.all()
-                }
+    paginator = Paginator(qs, 19)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+            'search_options': search_options,
+            'page_obj': page_obj
+            }
     return render(request, 'details/search_results.html', context)

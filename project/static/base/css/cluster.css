@@ -267,3 +267,12 @@ input[type="text"]:focus {
 .m-auto {
   margin: auto;
 }
+
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
