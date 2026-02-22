@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.urls import reverse
 from models.models import Division, Event, Team, Registration
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
@@ -61,6 +63,35 @@ def hosting_invitations(request, event_id: int):
             'rsvps': rsvps,
             }
     return render(request, 'user/hosting_invitations.html', context)
+
+
+@login_required(login_url='/login/')
+def hosting_event_invite(request, event_id: int):
+    event = get_object_or_404(Event, id=event_id)
+    if event.owner != request.user:
+        return HttpResponseForbidden("You don't own this event.")
+    site_url = settings.SITE_URL
+    context = {
+            'event': event,
+            'site_url': site_url,
+            'sharable_url': (
+                site_url
+                + reverse('app:event_invite', kwargs={'event_id': event_id})
+                )
+               }
+    return render(request, 'user/hosting_event_invite.html', context)
+
+
+@login_required(login_url='/login/')
+def hosting_embed(request, event_id: int):
+    event = get_object_or_404(Event, id=event_id)
+    if event.owner != request.user:
+        return HttpResponseForbidden("You don't own this event.")
+    context = {
+            'site_url': settings.SITE_URL,
+            'event': event
+            }
+    return render(request, 'user/hosting_event_embed.html', context)
 
 
 @login_required(login_url='/login/')

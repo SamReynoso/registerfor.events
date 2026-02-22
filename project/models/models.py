@@ -48,12 +48,9 @@ class Profile(models.Model):
     def is_complete(self):
         if all([self.first_name, self.last_name, self.email, self.phone]):
             if settings.DEBUG:
-                print('profile is complete or in debug')
                 return True
             else:
-                print('profile is complete =', self.email_confirmed)
                 return self.email_confirmed
-        print('profile is not complete')
         return False
 
     def __str__(self):
@@ -183,7 +180,6 @@ class Team(models.Model):
         return ''
 
     def delete(self, *args, **kwargs):
-        print('team delete call')
         for reg in self.registrations.filter(upcoming=True).all():
             team_deleted_alert_event_owner(reg)
         return super().delete(*args, **kwargs)

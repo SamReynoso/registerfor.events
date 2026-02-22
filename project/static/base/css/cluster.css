@@ -276,3 +276,26 @@ input[type="text"]:focus {
   margin: 2rem 0;
   flex-wrap: wrap;
 }
+
+.arrow-container {
+  display: flex;
+  background-color: var(--link-color); 
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--border-radius);
+  height: 25px;
+  width: 25px;
+}
+
+.right-arrow-small {
+  height: 18px;
+  width: 18px;
+  filter: invert(100%);
+}
+
+.left-arrow-small {
+  height: 18px;
+  width: 18px;
+  transform: rotate(180deg);
+  filter: invert(100%);
+}

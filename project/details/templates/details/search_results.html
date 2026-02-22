@@ -113,12 +113,20 @@
 <div class="pagination">
     {% if page_obj.has_previous %}
         <a href="?page=1&search={{ request.GET.search }}#results">First</a>
-        <a href="?page={{ page_obj.previous_page_number }}&search={{ request.GET.search }}#results"><</a>
+        <a href="?page={{ page_obj.previous_page_number }}&search={{ request.GET.search }}#results">
+          <div class="arrow-container">
+            <img src="/assets/icons/right-arrow.svg" class="left-arrow-small" alt="<">
+          </div class="arrow-container">
+        </a>
     {% endif %}
 <span class="text-small text-muted">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
 
     {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}&search={{ request.GET.search }}#results">></a>
+        <a href="?page={{ page_obj.next_page_number }}&search={{ request.GET.search }}#results">
+          <div class="arrow-container">
+            <img src="/assets/icons/right-arrow.svg" class="right-arrow-small" alt=">">
+          </div>
+        </a>
         <a href="?page={{ page_obj.paginator.num_pages }}&search={{ request.GET.search }}#results">Last</a>
     {% endif %}
 </div>

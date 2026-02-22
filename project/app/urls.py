@@ -2,6 +2,7 @@ from django.urls import path
 from app import user_views
 from app import host_views
 from app import participant_views
+from app import invite_views
 
 
 app_name = 'app'
@@ -40,6 +41,10 @@ urlpatterns = [
     path('event/<int:event_id>/poster/delete/',
          host_views.event_poster_delete,
          name='event_poster_delete'),
+
+    path('event/<int:event_id>/invite/',
+         invite_views.event_invite,
+         name='event_invite'),
 
     path('event-divisions/<int:event_id>/',
          host_views.event_divisions,

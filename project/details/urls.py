@@ -6,6 +6,9 @@ app_name = 'details'
 
 urlpatterns = [
         path('event/<int:event_id>/', views.event, name='event'),
+        path('event/<int:event_id>/embedded',
+             views.event_embedded,
+             name='event_embedded'),
         path('team/<int:team_id>/', views.team, name='team'),
         path('division/<int:division_id>/', views.division, name='division'),
         path('profile/<int:profile_id>/', views.profile, name='profile'),

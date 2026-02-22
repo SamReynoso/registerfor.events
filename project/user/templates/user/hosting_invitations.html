@@ -7,7 +7,8 @@
 {% include 'components/event_summary_card.html' %}
 
 <div class="action-link__container">
-  <a href="{% url 'base:invite_sharable' event_id=event.id %}" class="action-link">View Sharable Invitation</a>
+  <a href="{% url 'user:hosting_event_invite' event_id=event.id %}" class="action-link">View Sharable Invitation</a>
+  <a href="{% url 'user:hosting_event_embed' event_id=event.id %}" class="action-link">Embed</a>
 </div>
 
 <div class="content-container">

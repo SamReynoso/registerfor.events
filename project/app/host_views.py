@@ -203,7 +203,7 @@ def event_announcement(request, event_id: int):
 
 
 @login_required(login_url='/login/')
-def event_invite_creaet(request, event_id: int):
+def event_announcement_creaet(request, event_id: int):
     event = get_object_or_404(Event, id=event_id)
     if event.owner != request.user:
         return HttpResponseForbidden("You don't own this event.")

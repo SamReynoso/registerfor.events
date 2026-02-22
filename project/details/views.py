@@ -1,3 +1,4 @@
+from django.views.decorators.clickjacking import xframe_options_exempt
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from django.shortcuts import render
@@ -29,6 +30,13 @@ def event(request, event_id: int):
             'registrations': registrations
             }
     return render(request, 'details/event.html', context)
+
+
+@xframe_options_exempt
+def event_embedded(request, event_id: int):
+    event = Event.objects.get(id=event_id)
+    context = {'event': event}
+    return render(request, 'details/event_embedded.html', context)
 
 
 def team(request, team_id: int):

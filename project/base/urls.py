@@ -18,10 +18,4 @@ urlpatterns = [
     path('verify/<str:uidb64>/<str:token>/',
          views.verify_email,
          name="verify_email"),
-    path('invite/<int:event_id>/sharable',
-         views.event_invite_sharable,
-         name='invite_sharable'),
-    path('invite/<int:event_id>/',
-         views.event_invite,
-         name='invite'),
 ]
