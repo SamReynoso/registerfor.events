@@ -50,7 +50,7 @@
             <td style="padding:32px; color:#222222; font-size:14px; line-height:1.6;">
 
               <h2 style="margin:0 0 10px 0; font-size:18px; font-weight:600; color:#333;">
-                You're Invited
+                RSVP
               </h2>
 
               <h1 style="margin:0 0 16px 0; font-size:26px; font-weight:700; color:#111;">
@@ -58,10 +58,12 @@
               </h1>
 
               <!-- Poster -->
-              <div style="margin-bottom:24px; text-align:center;">
+              <div class="img-container" style="margin-bottom:24px; text-align:center;">
                 <img src="{{ site_url }}{{ event.get_poster_url }}"
                      alt="{{ event.name }}"
-                     style="max-width:100%; height:auto; border-radius:6px; border:1px solid #dddddd;">
+                     style="max-width:100%; height:auto; border-radius:6px; border:1px solid #dddddd;"
+                     class="event_poster"
+                     >
               </div>
 
               <!-- Event Details -->
