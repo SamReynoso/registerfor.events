@@ -1,0 +1,41 @@
+
+{% extends "base/base.html" %}
+{% block content %}
+
+<h1>Hosted Event Records</h1>
+
+<div class="action-link__container">
+  <a href="#" class="action-link">Invoices</a>
+  <a href="{% url 'records:records_registrations' %}" class="action-link">Registrations</a>
+</div>
+
+<div class="content-container">
+  <h2>Invoices</h2>
+
+  <table class="info-list-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>To</th>
+        <th>Created</th>
+        <th>Due By</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for invoice in invoices %}
+        <tr>
+          <td>{{ invoice.id }}</td>
+          <td>{{ invoice.first_name }} {{ invoice.last_name }}</td>
+          <td>{{ invoice.created_at|date:"m-d-y" }}</td>
+          <td>{{ invoice.due_date|date:"m-d-y" }}</td>
+          <td>{{ invoice.status}}</td>
+          <td><a href="{% url 'records:invoice_details' invoice_id=invoice.id %}">View</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

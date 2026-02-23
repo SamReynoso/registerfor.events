@@ -177,4 +177,3 @@ class RegistrationRecord(models.Model):
         choices=RegistrationStatus.choices,
         default=RegistrationStatus.PENDING,
     )
-

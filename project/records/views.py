@@ -2,15 +2,37 @@ from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.shortcuts import render
-from records.models import Invoice
+from records.models import Invoice, RegistrationRecord
 from django.conf import settings
 from weasyprint import HTML
 
 
-def test(request):
-    invoice = Invoice.objects.all().first()
+def records(request):
+    invoices = Invoice.objects.filter(owner=request.user).all()
+    context = {'invoices': invoices}
+    return render(request, 'records/records.html', context)
+
+
+def invoice_details(request, invoice_id: int):
+    invoice = get_invoice(request, invoice_id)
+    if invoice is None:
+        return HttpResponse(status=403)
     context = {'invoice': invoice}
-    return render(request, 'records/test.html', context)
+    return render(request, 'records/invoice_details.html', context)
+
+
+def records_registrations(request):
+    registrations = RegistrationRecord.objects.filter(owner=request.user).all()
+    context = {'registrations': registrations}
+    return render(request, 'records/records_registrations.html', context)
+
+
+def registration_details(request, registration_id: int):
+    registration = get_object_or_404(RegistrationRecord, id=registration_id)
+    if registration.owner != request.user:
+        return HttpResponse(status=403)
+    context = {'registration': registration}
+    return render(request, 'records/registration_details.html', context)
 
 
 def get_invoice(request, invoice_id):
@@ -26,10 +48,10 @@ def render_invoice_pdf(invoice):
             )
 
     html_string = render_to_string(
-        "records/invoice_pdf.html",
+        'records/invoice_pdf.html',
         {
-            "invoice": invoice,
-            "total_cost": total_cost,
+            'invoice': invoice,
+            'total_cost': total_cost,
             }
     )
     return HTML(string=html_string, base_url=settings.BASE_DIR).write_pdf()
@@ -41,8 +63,8 @@ def get_invoice_response(request, invoice_id, disposition):
         return HttpResponse(status=403)
     pdf = render_invoice_pdf(invoice)
 
-    response = HttpResponse(pdf, content_type="application/pdf")
-    response["Content-Disposition"] = (
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = (
             f'{disposition}; filename="invoice_{invoice.id}.pdf"'
             )
     return response
