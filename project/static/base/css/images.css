@@ -2,6 +2,11 @@ img {
   border-radius: 3px;
 }
 
+.inline-icon {
+  height: 20px;
+  width: 20px;
+}
+
 .profile-image-container {
   width: var(--thumbnail-image-width);
   height: var(--thumbnail-image-height);

@@ -32,14 +32,16 @@
 
 </div>
 
-<h1>Convert to Registration</h1>
+<div class="content-container">
+  <h1>Convert to Registration</h1>
 
-<form method='post' class="divisions-checkbox-form">
+  <form method='post' class="divisions-checkbox-form">
 
-  <h2>Convert this RSVP to a registration for this event.</h2>
-  {% csrf_token %}
-  <button type="submit">Convert</button>
+    <h2>Convert this RSVP to a registration for this event.</h2>
+    {% csrf_token %}
+    <button type="submit">Convert</button>
 
-</form>
+  </form>
+</div>
 
 {% endblock %}

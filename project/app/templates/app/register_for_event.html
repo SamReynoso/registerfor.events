@@ -67,7 +67,10 @@
             <td>{{ team.sport }}</td>
             <td>
               {% if team.id in registered_team_ids %}
-                check mark
+              <img src="/assets/icons/check-mark.svg" class="inline-icon">
+              <a hre="#">
+              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+              </a>
               {% else %}
                 {% if key in available_division_keys %}
                   <input type="checkbox" name="team{{ team.id }}"></input>

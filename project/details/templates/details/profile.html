@@ -48,7 +48,7 @@
         <td>{{ event.state }}</td>
         <td>{{ event.start_date}}</td>
 
-        <td><a href="{% url 'details:event' event_id=event.id %}">View</a>
+        <td><a href="{% url 'details:event' event_id=event.id %}"><img src="/assets/icons/magnifying-glass.svg" class="inline-icon"></a>
         </td>
       </tr>
       {% endfor %}
@@ -82,7 +82,7 @@
         <td>{{ team.division }}</td>
         <td>{{ team.gender }}</td>
 
-        <td><a href="{% url 'details:team' team_id=team.id %}">View</a></td>
+        <td><a href="{% url 'details:team' team_id=team.id %}"><img src="/assets/icons/magnifying-glass.svg" class="inline-icon"></a></td>
       </tr>
       {% endfor %}
     </tbody>

@@ -31,7 +31,8 @@
           <td>{{ event.state }}</td>
           <td>{{ event.sport }}</td>
           <td>{{ event.status }}</td>
-          <td><a href="{% url "user:hosting_event" event_id=event.id %}">View</td>
+          <td><a href="{% url "user:hosting_event" event_id=event.id %}">
+              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
         </tr>
       {% endfor %}
     </tbody>
