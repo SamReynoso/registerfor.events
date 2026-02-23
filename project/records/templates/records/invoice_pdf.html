@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<style>
+
+/* ================= PAGE SETUP ================= */
+
+@page {
+    margin: 50px 40px 80px 40px;
+
+    @bottom-right {
+        content: "Page " counter(page) " of " counter(pages);
+        font-size: 11px;
+        color: #999;
+    }
+}
+
+:root {
+    --accent: #5b6cff;
+    --dark: #1f2937;
+    --muted: #6b7280;
+    --light: #f9fafb;
+}
+
+/* ================= BASE ================= */
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 0;
+    color: var(--dark);
+    font-size: 14px;
+}
+
+h1, h2, h3, h4 {
+    margin: 0;
+}
+
+/* ================= WATERMARK ================= */
+
+.watermark {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 110px;
+    font-weight: 800;
+    color: rgba(91, 108, 255, 0.08);
+    letter-spacing: 8px;
+    z-index: -1;
+}
+
+/* ================= HEADER ================= */
+
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+}
+
+.invoice-title {
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-top: 10px;
+}
+
+.status-paid {
+    background: #e6f9f0;
+    color: #059669;
+}
+
+.status-due {
+    background: #fff7ed;
+    color: #d97706;
+}
+
+.status-overdue {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.invoice-meta {
+    text-align: right;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.invoice-meta div {
+    margin-bottom: 4px;
+}
+
+/* ================= ADDRESS BLOCKS ================= */
+
+.section-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 8px;
+}
+
+.block {
+    background: var(--light);
+    padding: 16px;
+    border-radius: 6px;
+    border: 1px solid #eee;
+    line-height: 1.6;
+}
+
+.flex-row {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+/* ================= TABLE ================= */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+thead {
+    background: var(--dark);
+    color: white;
+}
+
+th {
+    text-align: left;
+    padding: 12px 10px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: .5px;
+}
+
+td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+tbody tr:nth-child(even) {
+    background: #f3f4f6;
+}
+
+td:last-child,
+th:last-child {
+    text-align: right;
+}
+
+/* ================= SUMMARY ================= */
+
+.summary-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 40px;
+}
+
+.summary-box {
+    width: 320px;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: 800;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #e5e7eb;
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+    margin-top: 60px;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.site-logo {
+    position: fixed;
+    bottom: 40px;
+    left: 40px;
+    height: 40px;
+    opacity: 0.6;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ===== Watermark ===== -->
+<div class="watermark">
+    {{ invoice.status|upper }}
+</div>
+
+<!-- ===== Header ===== -->
+<div class="invoice-header">
+    <div>
+        <div class="invoice-title">INVOICE</div>
+
+        {% if invoice.status == "paid" %}
+            <div class="status-badge status-paid">Paid</div>
+        {% elif invoice.status == "overdue" %}
+            <div class="status-badge status-overdue">Overdue</div>
+        {% else %}
+            <div class="status-badge status-due">Due</div>
+        {% endif %}
+    </div>
+
+    <div class="invoice-meta">
+        <div><strong>Invoice #:</strong> {{ invoice.id }}</div>
+        <div><strong>Issue Date:</strong> {{ invoice.created_at }}</div>
+        <div><strong>Due Date:</strong> {{ invoice.due_date }}</div>
+    </div>
+</div>
+
+<!-- ===== Addresses ===== -->
+<div class="flex-row">
+    <div class="flex-1">
+        <div class="section-title">From</div>
+        <div class="block">
+            {{ invoice.owner.profile.first_name }} {{ invoice.owner.profile.last_name }}<br>
+            {{ invoice.owner.profile.email }}<br>
+            {{ invoice.owner.profile.phone }}
+        </div>
+    </div>
+
+    <div class="flex-1">
+        <div class="section-title">Billed To</div>
+        <div class="block">
+            {{ invoice.first_name }} {{ invoice.last_name }}<br>
+            {{ invoice.email }}<br>
+            {{ invoice.phone }}
+        </div>
+    </div>
+</div>
+
+<!-- ===== Event Info ===== -->
+<div class="section-title">Event Details</div>
+<div class="block" style="margin-bottom:40px;">
+    <strong>{{ invoice.event_name }}</strong><br>
+    {{ invoice.event_start_date }} – {{ invoice.event_end_date }}<br>
+    {{ invoice.event_address }}, {{ invoice.event_city }}, {{ invoice.event_state }}
+</div>
+
+<!-- ===== Items Table ===== -->
+<div class="section-title">Registration Details</div>
+<table>
+    <thead>
+        <tr>
+            <th>Team</th>
+            <th>Gender</th>
+            <th>Division</th>
+            <th>Unit Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in invoice.registration_records.all %}
+        <tr>
+            <td>{{ record.team_name }}</td>
+            <td>{{ record.gender }}</td>
+            <td>{{ record.division_name }}</td>
+            <td>${{ record.unit_price|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- ===== Summary ===== -->
+<div class="summary-wrapper">
+    <div class="summary-box">
+        <div class="summary-total">
+            <span>Total</span>
+            <span>${{ total_cost|floatformat:2 }}</span>
+        </div>
+    </div>
+</div>
+
+<!-- ===== Payment Terms ===== -->
+<div class="footer">
+    <strong>Payment Terms:</strong><br>
+    Payment is due by {{ invoice.due_date }}.  
+    Please reference invoice #{{ invoice.id }} when submitting payment.
+
+    {% if invoice.notes %}
+        <br><br>
+        <strong>Notes:</strong><br>
+        {{ invoice.notes }}
+    {% endif %}
+</div>
+
+<img src="assets/images/site-logo-with-text.svg" class="site-logo">
+
+</body>
+</html>

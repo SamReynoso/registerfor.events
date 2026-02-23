@@ -1,4 +1,5 @@
 from django.utils.http import url_has_allowed_host_and_scheme
+from records.models import Invoice, RegistrationRecord
 from project.utils.alerts import registration_withdrawn_alert_event_owner
 from django.contrib.auth.decorators import login_required
 from models.models import Event, Registration, Team
@@ -116,6 +117,9 @@ def register_for_event(request, event_id: int):
             ]
 
     if request.method == 'POST':
+        invoice, _ = Invoice.objects.get_or_create_from_objects(
+                event=event,
+                contact=request.user)
         for team in teams:
             if request.POST.get(f'team{team.pk}') == 'on':
                 profile = request.user.profile
@@ -133,6 +137,10 @@ def register_for_event(request, event_id: int):
                             gender=team.gender,
                             name=team.division)
                         )
+                RegistrationRecord.objects.create_from_objects(
+                        event=event,
+                        registration=registration,
+                        invoice=invoice)
                 send_host_new_registration_email(registration)
                 send_participant_new_registration_email(registration)
         return redirect('user:events')

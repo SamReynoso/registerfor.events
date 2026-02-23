@@ -47,12 +47,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'app',
     'base',
     'user',
     'models',
     'details',
     'mailbox',
+    'records',
 ]
 
 

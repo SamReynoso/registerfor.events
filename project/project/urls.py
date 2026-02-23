@@ -12,6 +12,7 @@ urlpatterns = [
     path('app/', include('app.urls')),
     path('details/', include('details.urls')),
     path('mailbox/', include('mailbox.urls')),
+    path('records/', include('records.urls')),
 
     path("password-reset/",
          auth_views.PasswordResetView.as_view(

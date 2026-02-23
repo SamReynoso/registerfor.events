@@ -198,6 +198,9 @@ class Registration(models.Model):
                              null=True,
                              on_delete=models.CASCADE,
                              )
+    event = models.ForeignKey(Event,
+                              related_name='registrations',
+                              on_delete=models.CASCADE)
 
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -206,10 +209,11 @@ class Registration(models.Model):
     assigned_division = models.ForeignKey(Division,
                                           related_name='registrations',
                                           on_delete=models.CASCADE)
-    event = models.ForeignKey(Event,
-                              related_name='registrations',
-                              on_delete=models.CASCADE)
+
     upcoming = models.BooleanField(default=True)
+
+    email_is_confirmed = models.BooleanField(default=False)
+    phone_is_confirmed = models.BooleanField(default=False)
 
     # team_name = models...
     # canceled = models.BooleanField(default=False)

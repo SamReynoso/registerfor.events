@@ -1,0 +1,21 @@
+
+{% extends "base/base.html" %}
+{% block content %}
+this is a record
+<ul>
+  <li>
+    owner: {{ invoice.owner }}
+  </li>
+  <li>
+    contact: {{ invoice.contact }}
+  </li>
+  <li>
+    first name: {{ invoice.first_name }}
+  </li>
+  <li>
+    last name: {{ invoice.last_name }}
+  </li>
+</ul>
+
+
+{% endblock %}

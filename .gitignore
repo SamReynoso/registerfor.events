@@ -8,3 +8,4 @@ project/assets
 project/models/migrations/0*
 project/mailbox/migrations/0*
 project/.env
+project/records/migrations/0*
