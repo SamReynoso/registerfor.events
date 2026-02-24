@@ -49,7 +49,7 @@ urlpatterns = [
     path('event-divisions/<int:event_id>/',
          host_views.event_divisions,
          name='event_divisions'),
-    path('event/participant/<int:registration_id>/',
+    path('event/registration/<int:registration_id>/cancel',
          host_views.participant_edit,
          name='participant_edit'),
     path('event/<int:event_id>/status/',

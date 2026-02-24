@@ -2,12 +2,25 @@
 
 {% block content %}
 
-<h1>My Events</h1>
+<section class="main-section">
+  <h2>My Events</h2>
 
-<div class="content-container">
-  <h2>Event I'm In</h1>
+  <div class="paragraph">
+    <span class="paragraph__heading">Event I'm In</span>
+    <hr>
+    <p>
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+    </p>
+  </div>
 
-  <table class="info-list-table">
+  <table class="item-table">
     <thead>
       <tr>
         <th>Event Name</th>
@@ -34,14 +47,14 @@
           {{ registration.team.gender}}
         </td>
         <td>
-          <a href="{% url "user:registration_details" registration_id=registration.id %}">
-              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
-            </a>
+          <a href="{% url "user:registration_details" registration_id=registration.id %}" class="inline-icon__link">
+              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+              <a>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-</div>
+</section>
 
 {% endblock %}

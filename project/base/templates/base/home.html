@@ -2,23 +2,123 @@
 
 {% block content %}
 
-<h1 style="margin-bottom: 2rem;">Explore Sports<h1>
+<section class="main-section">
+  <h2 style="margin-bottom: 1rem;">Explore Sports<h2>
 
-<div >
-  <a href="{% url 'details:search_results' %}?sport=basketball">
-    <div class="sports-card">
+  <div class="paragraph">
+    <span class="paragraph__heading">This is a heading</span>
+    <hr>
+    <p>
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+    </p>
+  </div>
 
-      <div class="sport-ball-image-container">
-        <img src="/assets/sport-icons/basketball.webp" class="thumbnail">
+  <div class="sports-card__container">
+
+    <a href="{% url 'details:search_results' %}?sport=basketball">
+      <div class="sports-card pad">
+        <img src="/assets/sport-icons/basketball.webp" class="sport-card__image dark-invert">
+        <p class="sports-card__text">Basketball</p>
       </div>
+    </a>
 
-      <div>
-          <p class="sports-card__text">Basketball</p>
+    <a href="{% url 'details:search_results' %}?sport=basketball">
+      <div class="sports-card pad">
+        <img src="/assets/sport-icons/basketball.webp" class="sport-card__image dark-invert">
+        <p class="sports-card__text">Basketball</p>
       </div>
+    </a>
 
-    </div>
-  </a>
-</div>
 
+    <a href="{% url 'details:search_results' %}?sport=basketball">
+      <div class="sports-card pad">
+        <img src="/assets/sport-icons/basketball.webp" class="sport-card__image dark-invert">
+        <p class="sports-card__text">Basketball</p>
+      </div>
+    </a>
+
+    <a href="{% url 'details:search_results' %}?sport=basketball">
+      <div class="sports-card pad">
+        <img src="/assets/sport-icons/basketball.webp" class="sport-card__image dark-invert">
+        <p class="sports-card__text">Basketball</p>
+      </div>
+    </a>
+
+    <a href="{% url 'details:search_results' %}?sport=basketball">
+      <div class="sports-card pad">
+        <img src="/assets/sport-icons/basketball.webp" class="sport-card__image dark-invert">
+        <p class="sports-card__text">Basketball</p>
+      </div>
+    </a>
+
+    <a href="{% url 'details:search_results' %}?sport=basketball">
+      <div class="sports-card pad">
+        <img src="/assets/sport-icons/basketball.webp" class="sport-card__image dark-invert">
+        <p class="sports-card__text">Basketball</p>
+      </div>
+    </a>
+
+  </div>
+
+  <a href="#">More</a>
+
+</section>
+
+<section class="main-section">
+  <h2>Create Events</h2>
+
+  <div class="paragraph">
+    <span class="paragraph__heading">This is a heading</span>
+    <hr>
+    <p>
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+    </p>
+  </div>
+
+  <a href="#">Create an Account</a>
+
+</section>
+  <h2>Stay Connected</h2>
+
+  <div class="paragraph">
+    <span class="paragraph__heading">This is a heading</span>
+    <hr>
+    <p>
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+    </p>
+  </div>
+
+  <a href="#">Learn</a>
+
+<section class="main-section">
+
+</section>
 {% endblock %}
 

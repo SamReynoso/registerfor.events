@@ -2,27 +2,25 @@
 
 {% block content %}
 
-<h1>Event</h1>
+<section class="main-section">
+  <h1>Event</h1>
+  <h2 class="ml-2 mt-2">
+    {{ event.name }}
+    <a href="{% url 'details:event' event_id=event.id %}" class="inline-icon__link">
+      <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
+    </a>
+  </h2>
 
-<ul class="nav-list">
-  <li><a href="{% url 'details:event' event_id=event.id %}">View</a></li>
-  <li><a href="{% url 'app:event_update' event_id=event.id %}">Update Event</a></li>
-  <li><a href="{% url 'app:event_delete' event_id=event.id %}">Cancel Event</a></li>
-</ul>
-
-
-<div class="content-container">
-  <h2>'{{ event.name }}'</h2>
-
-  <ul class="nav-list">
-    <li><a href="{% url 'app:event_poster_update' event_id=event.id %}">Change Poster</a></li>
-    <li><a href="{% url 'app:event_poster_delete' event_id=event.id %}">Delete Poster</a></li>
+  <ul class="action-link__container">
+    <li><a href="{% url 'app:event_poster_update' event_id=event.id %}" class="action-link">Change Poster</a></li>
+    <li><a href="{% url 'app:event_poster_delete' event_id=event.id %}" class="action-link">Delete Poster</a></li>
   </ul>
 
-  <div class="event-poster__container">
-    <img src="{{ event.get_poster_url }}" class="event-poster">
+  <div class="img-poster__container-full mb-1">
+    <img src="{{ event.get_poster_url }}" class="img-fill">
   </div>
-  <h2>Event Info</h2>
+
+  <h3>Event Info</h3>
 
   <dl>
     <dt>Sport</dt><dd>{{ event.sport }}</dd>
@@ -31,21 +29,53 @@
     <dt>Visibility</dt><dd>{{ event.public }}</dd>
     <dt>Status:</dt><dd>{{ event.status }}</dd>
   </dl>
-</div>
 
-<div class="action-link__container">
-  <a href="{% url 'app:event_announcement' event_id=event.id %}" class="action-link">Create Announcement</a>
-  <a href="{% url 'user:hosting_invitations' event_id=event.id %}" class="action-link">Invitations</a>
-</div>
-
-<div class="content-container">
-  <h2>Divisions</h2>
-
-  <ul class="nav-list">
-    <li><a href="{% url 'app:event_divisions' event_id=event.id %}">Add/Remove Division</a></li>
+  <ul class="action-link__container">
+    <li><a href="{% url 'app:event_update' event_id=event.id %}" class="action-link">Update Event</a></li>
   </ul>
 
-  <table class="info-list-table">
+</section>
+
+<section class="main-section">
+
+  <h2>Interact</h2>
+
+  <div class="paragraph">
+    <span class="paragraph__heading">This is a heading</span>
+    <hr>
+    <p>
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+    </p>
+  </div>
+
+
+  <div class="action-link__container">
+    <a href="{% url 'app:event_announcement' event_id=event.id %}" class="action-link">Create Announcement</a>
+    <a href="{% url 'user:hosting_invitations' event_id=event.id %}" class="action-link">Invitations</a>
+  </div>
+
+
+</section>
+
+
+<section class="main-section">
+
+  <h2>Divisions</h2>
+
+  <ul class="action-link__container">
+    <li><a href="{% url 'app:event_divisions' event_id=event.id %}" class="action-link">Add/Remove Division</a></li>
+  </ul>
+
+  <table class="item-table">
     <thead>
       <tr><th>Gender</th><th>Division</th><th>Entries</th><th></ht></tr>
     </thead>
@@ -62,6 +92,31 @@
     </tbody>
 
   </table>
-</div>
+</section>
+
+<section class="main-section danger-section">
+
+  <div class="pl-2">
+
+    <h2>Cancel This Event</h2>
+    <div class="paragraph">
+      <span class="paragraph__heading">This is a heading</span>
+      <hr>
+      <p>
+        this is a paragraph this is a paragraph this is a paragraph this is a paragraph this is a paragraph this is a 
+      </p>
+    </div>
+
+    <ul class="action-link__container">
+      <li>
+        <a href="{% url 'app:event_delete' event_id=event.id %}" class="action-link danger-link">
+          Continure to Cancel
+        </a>
+      </li>
+    </ul>
+
+  </div>
+  
+</section>
 
 {% endblock %}

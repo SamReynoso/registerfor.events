@@ -1,0 +1,113 @@
+.debug * {
+  border: 1px solid red;
+}
+.debug {
+  border: 1px solid red;
+}
+
+.dark-invert {
+  filter: invert(var(--invert));
+}
+
+.bordered {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.img-container {
+  border-radius: 3px;
+  border: 1px solidrgb(80, 80, 80); 
+  background-color: var(--background-color-img-containert);
+}
+
+.img-full-profile {
+  width: 100%;
+}
+
+.icon-size { 
+  height: 3rem;
+  width: 3rem;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col-2 {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 2rem;
+}
+
+.gap {
+  gap: .5rem;
+}
+
+.gap-1 {
+  gap: 1rem;
+}
+
+.p-1 {
+  padding: .5rem;
+}
+
+.p-2 {
+  padding: 1rem;
+}
+
+.pl-1 {
+  padding: .5rem;
+}
+
+.pl-2 {
+  padding: 1rem;
+}
+
+.pb-1 {
+  padding-bottom: 1rem;
+}
+
+.m-1{
+  margin: 0.5rem;
+}
+
+.m-2 {
+  margin: 1rem;
+}
+
+.mb-1 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-2 {
+  margin-bottom: 1rem;
+}
+
+.mt-1 {
+  margin-top: 0.5rem;
+}
+
+.mt-2 {
+  margin-top: 1rem;
+}
+
+.ml-1 {
+  margin-left: .5rem;
+}
+
+.ml-2 {
+  margin-left: 1rem;
+}
+
+.text-small {
+  font-size: .7rem;
+}
+
+.text-muted {
+  color: var(--muted-text-color);
+}
+
+.m-auto {
+  margin: auto;
+}

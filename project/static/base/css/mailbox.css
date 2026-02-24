@@ -1,37 +1,57 @@
-div.mailbox-card__container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
 
-}
-
-div.mailbox-card {
+.direct-message-conversations-list__container {
+  background-color: rgb(65, 65, 65);
+  min-height: 50vh;
   padding: 1rem;
-  background-color: rgb(220, 220, 220);
-  min-height: 8rem;
   border-radius: 3px;
-  border: 1px solid rgb(190, 190, 190);
 }
-div.alert-container {
+
+.direct-message-conversations-list {
+  list-style: none;
+}
+
+.convo-card {
   display: flex;
-  flex-direction: column;
-  gap: .5rem;
-  background-color: rgb(190, 190, 190);
-  padding: 1rem;
-  margin-top: 1rem;
-  border-radius: calc(3px + .5rem)
-
-}
-
-.alert-card {
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  background-color: rgb(80, 80, 80);
   padding: .5rem;
-  border: 1px solid black;
+  margin-bottom: .5rem;
   border-radius: 3px;
-  background-color: rgb(225, 225, 225);
+  border: 1px solid rgb(50, 50, 50);
+  color: white;
 }
 
-div.alert-card {
+.convo-card div {
+  display: flex;
+  flex-direction: column;
 }
 
-details.alert-card {
+.announcement-card {
+  background-color: rgb(80, 80, 80);
+  color: white;
+  padding: .5rem 1rem;
+  margin-bottom: .5rem;
+  border-radius: 3px;
+  border: 1px solid rgb(50, 50, 50);
 }
+
+.convo-meta {
+  font-size: .9rem;
+  color: rgb(247, 247, 247);
+
+}
+
+.convo-preview {
+  color: rgb(230, 230, 230);
+}
+
+.content-container {
+  background-color: var(--content-background-color);
+  border: 1px solid var(--border-color);
+  padding: 1rem .5rem 2rem;
+  margin-bottom: 2rem;
+}
+
+

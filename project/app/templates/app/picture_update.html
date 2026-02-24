@@ -1,19 +1,64 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-<h1>Upload Image</h1>
-<h3>Current Image</h3>
-<div class="event-poster__container">
-  <img src="{{ current }}" class="img-fullsize">
-</div>
+<section class="main-section">
 
-<form method="post" enctype="multipart/form-data">
-  <h2 style="margin-bottom: 1rem;">Upload</h2>
-  {% csrf_token %}
-  <div class="min-height-25">
-    {{ form.as_p }}
+  <h1>Image Update</h1>
+
+  <div class="image-upload__container">
+    <div class="image-upload__img-box">
+      <img src="{{ current }}" class="img">
+    </div>
   </div>
-  <button type="submit">Save</button>
-<form>
 
+  <form method="post" enctype="multipart/form-data" class="form">
+
+    <div class="paragraph mb-2">
+      <span class="paragraph__heading">Select An Image To Upload</span>
+      <hr>
+      <p>
+        Replace you current {{ target }} photo with this form.
+      </p>
+    </div>
+
+    {% csrf_token %}
+
+    <div id="file-name" class="file-name">
+      No file selected
+    </div>
+
+    <table class="form-as-table">
+      <tr>
+        <th>Avatar:</th>
+
+        <td>
+          <label for="id_avatar" class="upload-btn ml-1">
+            Select File
+            <img src="/assets/icons/upload.svg" class="inline-icon dark-invert">
+          </label>
+          <input id="id_avatar" type="file" name="avatar" accept="image/*">
+        </td>
+
+      </tr>
+    </table>
+
+    <button type="submit">Save</button>
+
+  <form>
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+const input = document.getElementById("id_avatar");
+const fileName = document.getElementById("file-name");
+
+input.addEventListener("change", function () {
+  fileName.textContent = this.files.length
+    ? this.files[0].name
+    : "No file selected";
+});
+</script>
 {% endblock %}

@@ -3,13 +3,31 @@
 
 {% block content %}
 
+<section class="main-section">
+  <h1>Register Your Teams</h1>
 
-<h1>Register Your Teams</h1>
+  <div class="paragraph">
+    <span class="paragraph__heading">This Is A Heading</span>
+    <hr>
+    <p>
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+    </p>
+  </div>
+</section>
+
+<section class="main-section">
 {% include "components/event_summary_card.html" %}
-
-<div class="content-container">
-<h2>Available Divisions</h2>
-  <table class="info-list-table">
+  <h3>Available Divisions</h3>
+  <table class="item-table">
     <thead>
       <tr>
         <th>Gender</th>
@@ -30,11 +48,11 @@
   {% for reg in regs %}
     {{ reg }}
   {% endfor %}
-</div>
 
+</section>
 
+<section class="main-section">
 
-<div class="content-container">
   <h2>Select Teams</h2>
 
   {% if user.profile.is_complete %}
@@ -42,12 +60,12 @@
     <a href="{% url 'app:team_create' %}?next={{ request.path }}" class="action-link">Create Team</a></br>
   </div>
 
-    <form method="post">
+    <form method="post" class="form">
 
       <h3>Register</h3>
         {% csrf_token %}
 
-      <table class="info-list-table">
+      <table class="item-table mb-2">
         <thead>
           <tr>
             <th>Team Name</th>
@@ -68,8 +86,8 @@
             <td>
               {% if team.id in registered_team_ids %}
               <img src="/assets/icons/check-mark.svg" class="inline-icon">
-              <a hre="#">
-              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+              <a hre="#" class="inline-icon__link ml-1">
+                <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
               </a>
               {% else %}
                 {% if key in available_division_keys %}
@@ -85,15 +103,20 @@
 
         </tbody>
       </table>
+
       <button type=submit>Register Teams</button>
+
   </form>
   {% else %}
+
   <p>You are missing profile contact information and can not register for events.</p>
+
   <div class="action-link__container">
     <a href="{% url 'app:profile_update' %}?next={{ request.path }}" class="action-link">Add Contact Info</a></br>
   </div>
+
   {% endif %}
-</div>
+</section>
 
 
 {% endblock %}

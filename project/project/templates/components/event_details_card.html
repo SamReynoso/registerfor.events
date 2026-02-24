@@ -1,15 +1,13 @@
-<div class="event-details-card">
+<div>
   <h1>{{ event.name }}</h1>
-  <div class="event-details-card__content">
-
     <div style="display: flex; flex-direction: row; justify-content: space-around; margin: 1rem;">
 
-      <div class="event-poster-thumbnail__container"
+      <div class="img-poster__container-full"
         <img src="{{ event.get_poster_url }}" class="event-poster-thumbnail">
       </div>
 
       <div>
-        <h2>Info</h2>
+        <h3>Info</h3>
         <dl>
           <dt>Name</dt><dd>'{{ event.name }}'</dd>
           <dt>Sport</dt><dd>{{ event.sport }}</dd>
@@ -22,12 +20,14 @@
     </div>
 
     <div style="margin: 1rem;">
+
       <h3>Event address<h3>
       <dl>
         <dt>Address</dt><dd>{{ event.address }}</dd>
         <dt>City</dt><dd>{{ event.city }}</dd>
         <dt>State</dt><dd>{{ event.state}}</dd>
       </dl>
+
     </div>
 
     <div style="margin: 1rem;">

@@ -11,11 +11,10 @@
 
     {% block styles %}
     <link rel="stylesheet" href="{% static 'base/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/utils.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/forms.css' %}">
     <link rel="stylesheet" href="{% static 'base/css/images.css' %}">
-    <link rel="stylesheet" href="{% static 'base/css/mailbox.css' %}">
-
-    <link rel="stylesheet" href="{% static 'base/css/cluster.css' %}">
-    <link rel="stylesheet" href="{% static 'base/css/good.css' %}">
     {% endblock %}
 
     <title>Register For Events</title>
@@ -25,60 +24,51 @@
 
 <body>
 
-<nav class="navigation">
+  <nav class="navigation">
 
-  <div style="display: flex; flex-direction: row; gap: 1rem; align-items: center; padding-left: 1rem">
-    <a href="{% url 'base:home' %}"><img src="/assets/images/site-logo-with-text.svg" class="nav__logo"></a>
-  </div>
+      <a href="{% url 'base:home' %}"><img src="/assets/images/site-logo-with-text.svg" class="nav__logo dark-invert"></a>
 
-  <div style="display: flex; flex-direction: row; gap: 1rem; align-items: center; padding: 1rem">
-    {% if request.user.is_authenticated %}
-    <a href="{% url 'user:account' %}"><img src="/assets/icons/user.svg" class="icon-button"></a>
-      <a href="{% url 'mailbox:mailbox' %}"><img src="/assets/icons/chat-box.svg" class="icon-button"></a>
-      <a href="{% url 'base:logout' %}">Logout</a>
-    {% else %}
-      <a href="{% url 'base:login' %}">Login</a>
-      <a href="{% url 'base:register' %}">Create Account</a>
-    {% endif %}
-  </div>
-
-</nav>
-
-<main>
-  <div style="max-width: 1000px; margin: auto;">
-    <header class="header">
-      {% block header%}
-      <h1>A Free Sports Bulletin Board</h1>
-      <h3>Find games. Join games. Start games.</h3>
-
-      {% endblock %}
-
-    </header>
-
-    <div class="container">
-      {% block content %}
-      {% endblock %}
+    <div style="display: flex; flex-direction: row; gap: 0.75rem; align-items: center; padding: 0.5rem">
+      {% if request.user.is_authenticated %}
+      <a href="{% url 'user:account' %}"><img src="/assets/icons/user.svg" class="nav__icon dark-invert"></a>
+        <a href="{% url 'mailbox:mailbox' %}"><img src="/assets/icons/chat-box.svg" class="nav__icon dark-invert"></a>
+        <a href="{% url 'base:logout' %}" class="nav__link">Logout</a>
+      {% else %}
+        <a href="{% url 'base:login' %}" class="nav__link">Login</a>
+        <a href="{% url 'base:register' %}" class="nav__link">Create Account</a>
+      {% endif %}
     </div>
-  <div>
 
-</main>
+  </nav>
+
+  <main>
+
+      <header>
+        {% block header %}
+        <h1>Your Next Game Starts Here</h1>
+        <strong>Find games. Join games. Start games.</strong>
+        {% endblock %}
+      </header>
+
+      <div class="container">
+        {% block content %}
+        {% endblock %}
+      </div>
+
+  </main>
 
 
-<footer class="page-footer">
-  {% block footer %}
-  {% endblock %}
-</footer>
+  <footer class="page-footer">
+    {% block footer %}
+    {% endblock %}
+  </footer>
 
-<aside class="sidebar" id="sidebar">
-  {% block sidebar %}
-  {% endblock %}
-</aside>
+  <aside class="sidebar" id="sidebar">
+    {% block sidebar %}
+    {% endblock %}
+  </aside>
 
-<script>
-  document.getElementById("backButton")?.addEventListener("click", function () {
-    window.history.back();
-  });
-</script>
+  {% block scripts %}{% endblock scripts %}
 
 </body>
 

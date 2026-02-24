@@ -1,12 +1,38 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-  <h1>Event Announcement</h1>
-  {% include "components/event_summary_card.html" %}
-  <form method="post">
-    <h2>Make an announcement to all participants</h2>
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Create Event</button>
+
+<section class="main-section">
+
+  <h2>Event Announcement</h2>
+
+  <div class="paragraph">
+    <span class="paragraph__heading">Make An Announcement To All Event Participants</span>
+    <hr>
+    <p>
+      this is a paragraph this is a paragraph this is a paragraph this is a paragraph this is a paragraph
+    </p>
+  </div>
+  <form method="post" class="form">
+
+    <h3>Make an announcement to all participants</h3>
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit" class="mt-2">Create Announcement</button>
+
   </form>
+
+</section>
+
+<section class="main-section">
+
+  <h2>Event Details</h2>
+
+  {% include "components/event_summary_card.html" %}
+
+</section>
+
 {% endblock %}

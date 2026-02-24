@@ -1,20 +1,16 @@
 {% extends "details/base.html" %}
 
 {% block content %}
-<h1>Division Details</h1>
+<section class="main-section"> 
+  <h1>Division Details</h1>
 
-{% include "components/event_summary_card.html" with event=division.event %}
-
-
-<div class="content-container">
-
-  <h2>Division</h2>
-        <dl>
-          <dt>Division</dt><dd>{{ division.name}}</dd>
-          <dt>Gender</dt><dd>{{ division.gender }}</dd>
-        </dl>
+  <dl>
+    <dt>Event</dt><dd>{{ division.event.name }}</dd>
+    <dt>Event start</dt><dd>{{ division.event.start_date }}</dd>
+    <dt>Division</dt><dd><strong>{{ division.name }} {{ division.gender }}</strong></dd>
+  </dl>
   
-  <table class="info-list-table">
+  <table class="item-table">
     <thead>
       <tr>
         <th>Team Name</th>
@@ -26,8 +22,19 @@
       <tr>
         {% if registration.team %}
 
-        <td><a href="{% url 'details:team' team_id=registration.team.id %}">{{ registration.team.name }}</a></td>
-        <td>{{ registration.contact_name}}</td>
+        <td>
+          {{ registration.team.name }}
+          <a href="{% url 'details:team' team_id=registration.team.id %}" class="inline-icon__link">
+            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
+          </a>
+        </td>
+
+        <td>
+          {{ registration.contact_name}}
+          <a href="{% url 'details:profile' profile_id=registration.event.owner.profile.id %}" class="inline-icon__link">
+            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
+          </a>
+        </td>
 
         {% else %}
 
@@ -41,5 +48,13 @@
     </tbody>
   </table>
 
-</div>
+</section> 
+
+<section class="main-section"> 
+  <h2>Event Details</h2>
+  {% include "components/event_summary_card.html" with event=division.event %}
+
+</section> 
+
+
 {% endblock %}

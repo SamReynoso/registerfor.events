@@ -1,0 +1,151 @@
+.form-as-table {
+  margin-bottom: 1rem;
+}
+
+.form-as-table th {
+  margin-right: 1rem;
+  vertical-align: top;
+  padding: .5rem;
+}
+
+.form-as-table td {
+  padding: .5rem;
+}
+
+.form-as-table input {
+  width: 100%;
+}
+
+.form {
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+}
+
+.form button {
+  width: 100%;
+  background-color: var(--link-color);
+}
+
+.form .btn-danger {
+  background-color: rgb(255, 70, 70);
+}
+
+
+.form .helptext {
+  font-size: .8rem;
+  color: var(--text-color-muted);
+}
+
+.form .errorlist {
+  font-size: .8rem;
+  color: var(--text-color-red);
+  margin-bottom: .5rem;
+}
+
+.form .helptext * {
+  font-size: .8rem;
+  color: var(--text-color-muted);
+}
+
+select {
+    padding: .3rem .6rem;
+    background-color: white;
+    border-radius: 3px;
+}
+
+fieldset {
+  padding: .5rem;
+  margin: .5rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+select,
+textarea {
+    background-color: rgb(252, 252, 252);
+    border: 1px solid #bdbdbd;
+    padding: 4px 4px;
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #111;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #666;
+    background-color: #fff;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.upload-btn {
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+  width: 25px;
+  padding: .5rem;
+  border: 1px solid var(--text-color);
+  border-radius: var(--border-radius);
+}
+
+.file-name {
+  background-color:  rgb(220, 220, 220);
+  color: rgb(80, 80, 80);
+  padding: .5rem;
+  min-width: 250px;
+  margin-bottom: 1rem;
+}
+
+.event-search-form label {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.divisions-checkbox-form__fieldset {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .1rem;
+  padding: .5rem;
+  font-weight: 800;
+}
+
+.divisions-checkbox-form__fieldset label {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+}
+
+.divisions-checkbox-form label {
+  padding: 2px;
+}
+
+.image-upload__container {
+  display: flex;
+  align-items: center;
+  background-color: rgb(85, 85, 85);
+  width: 100%;
+  height: 40vh;
+  margin-bottom: 1rem;
+  border-radius: var(--border-radius);
+}
+
+.image-upload__img-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(20, 20, 20);
+  width: 35vh;
+  height: 35vh;
+  margin: auto;
+  border-radius: var(--border-radius);
+}
+

@@ -1,19 +1,45 @@
 {% extends "base/base.html" %}
 
 {% block content %}
-<h1>Register</h1>
-<form method="post">
-  <h2>Create a new account.</h2>
+<section class="main-section mt-2">
+    <h2 class="mb-2">Create a new account.</h2>
+  <form method="post" class="form">
+    <h3>Account Registration Form</h3>
 
-  {% csrf_token %}
+    {% csrf_token %}
 
-  {% if error %}<p>{{ error }}</p>{% endif %}
+    {% if error %}<p>{{ error }}</p>{% endif %}
 
-  <table class="form-as-table">
-    {{ form.as_table }}
-  </table>
+    <table class="form-as-table">
+      {{ form.as_table }}
+    </table>
 
-  <button type="submit">Login</button>
+    <button type="submit">Submit</button>
 
-</form>
+  </form>
+</section>
+
+<section class="main-section mt-2">
+  <div class="paragraph mb-2">
+    <span class="paragraph__heading">The fun starts here</span>
+    <hr>
+    <p>
+      this is a paragraph.
+      this is a paragraph.
+      this is a paragraph.
+      this is a paragraph.
+      this is a paragraph.
+      this is a paragraph.
+      this is a paragraph.
+      this is a paragraph.
+      this is a paragraph.
+    </p>
+    <ul>
+      <li>
+        <a href="#">Lean more about Register For Events</p></a>
+      </li>
+    </ul>
+  </div>
+</section>
+
 {% endblock %}

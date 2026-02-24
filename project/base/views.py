@@ -19,12 +19,6 @@ def home_view(request):
     return render(request, 'base/home.html')
 
 
-def test_view(request):
-    reg = Rsvp.objects.all().first()
-    context = {'rsvp': reg}
-    return render(request, 'email/rsvp_email.html', context)
-
-
 def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)

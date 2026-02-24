@@ -1,11 +1,24 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-  <h1>Participant edit</h1>
+<section class="main-section">
+  <h2>Registration Details</h2>
+
   {% include 'components/registration_details_card.html' %}
-  <form method="post">
+
+</section>
+
+<section class="main-section">
+
+  <form method="post" class="form">
+
     <h2>Are you sure you want to cancel this registration?</h2>
-      {% csrf_token %}
-      <button type="submit">Cancel Registration</button>
+
+    {% csrf_token %}
+
+    <button type="submit" class="btn-danger">Cancel Registration</button>
+
   </form>
+
+</section>
 {% endblock %}

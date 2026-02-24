@@ -1,9 +1,11 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-  <h1>Update Team</h1>
-  <form method="post" class="event-search-form">
-    <h2>Team Info</h2>
+<section class="main-section">
+  <h1 class="mb-1">Update Team</h1>
+
+  <form method="post" class="form">
+    <h2>Team Form</h2>
     {% csrf_token %}
     <table class="form-as-table">
       <input type="hidden" name="next" value="{{ request.GET.next }}">
@@ -11,4 +13,6 @@
     </table>
     <button type="submit">Update</button>
   </form>
+
+</section>
 {% endblock %}

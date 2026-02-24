@@ -22,7 +22,9 @@ class ProfileAvatarForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['avatar']
-
+        widgets = {
+                "avatar": forms.FileInput()
+            }
 
 class EventForm(forms.ModelForm):
     class Meta:

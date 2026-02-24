@@ -2,45 +2,76 @@
 
 {% block content %}
 
+<section class="main-section">
 <h1>Manage Divisions</h1>
 
-{% include "components/event_summary_card.html" %}
+
+<section class="main-section">
+
+  <form method='post' class="form">
+
+    <h2>Event Divisions<h2>
+
+    <div class="paragraph">
+      <span class="paragraph__heading">Select the division to be included in this event</span>
+      <hr>
+      <p>
+        this is a paragraph
+        this is a paragraph
+        this is a paragraph
+        this is a paragraph
+        this is a paragraph
+        this is a paragraph
+        this is a paragraph
+        this is a paragraph
+        this is a paragraph
+        this is a paragraph
+      </p>
+    </div>
 
 
-<form method='post' class="divisions-checkbox-form">
-  <h2>Select divisions for this event<h2>
-  {% csrf_token %}
-  {% for gender in division_options.genders %}
+    {% csrf_token %}
 
-  <fieldset class="divisions-checkbox-form__fieldset">
-    <legend>{{ gender }}</legend>
-    {% for division in division_options.divisions %}
-      {% with key=gender|add:"-"|add:division %}
-      <label
-        {% if key in protected_keys %}
-        style="background-color: rgb(100, 100, 255); border-radius: 3px;"
-        {% endif %}
-        >
-            
-          <input 
-            type="checkbox"
-            name="division[]"
-            value="{{ key }}"
-            {% if key in existing_keys %}
-            checked
-            {% endif %}
-            {% if key in protected_keys %}
-            disabled
-            {% endif %}
-            >
-          {{ division }}
-        </label>
-        {% endwith %}
+    {% for gender in division_options.genders %}
+
+    <fieldset class="divisions-checkbox-form__fieldset">
+      <legend>{{ gender }}</legend>
+      {% for division in division_options.divisions %}
+        {% with key=gender|add:"-"|add:division %}
+        <label
+          {% if key in protected_keys %}
+          style="background-color: rgb(100, 100, 255); border-radius: 3px;"
+          {% endif %}
+          >
+              
+            <input 
+              type="checkbox"
+              name="division[]"
+              value="{{ key }}"
+              {% if key in existing_keys %}
+              checked
+              {% endif %}
+              {% if key in protected_keys %}
+              disabled
+              {% endif %}
+              >
+            {{ division }}
+          </label>
+          {% endwith %}
+      {% endfor %}
+    </fieldset>
     {% endfor %}
-  </fieldset>
-  {% endfor %}
-  <button type="submit">Save</button>
+    <button type="submit" class="mt-2">Save</button>
 
-</form>
+  </form>
+</section>
+
+<section class="main-section">
+
+  <h2> Event Details</h2>
+
+  {% include "components/event_summary_card.html" %}
+
+</section>
 
 {% endblock %}

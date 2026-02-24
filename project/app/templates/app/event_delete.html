@@ -2,15 +2,23 @@
 
 {% block content %}
 
-<h1>Cancel Event</h1>
+<section class="main-section"> 
+<h1 class="mb-2">Cancel Event</h1>
 
-{% include "components/event_summary_card.html" %}
+  <form method="post" class="form">
+    <h3>Are you sure you want to cancel this event?</h3>
+    {% csrf_token %}
+    <button type="submit" class="btn-danger">Cancel Event</button>
 
-<form method='post' class="divisions-checkbox-form">
-  <h3>Are you sure you want to cancel this event?</h3>
-  {% csrf_token %}
-  <button type="submit">Cancel Event</button>
+  </form>
+</section>
 
-</form>
+<section class="main-section"> 
+
+  <h2>Event Details</h2>
+  {% include "components/event_summary_card.html" %}
+
+</section>
+
 
 {% endblock %}

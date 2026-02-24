@@ -2,17 +2,31 @@
 
 {% block content %}
 
-<h1>Hosting</h1>
+<section class="main-section">
+  <h1>Hosting</h1>
+  <div class="paragraph">
+    <span class="paragraph__heading">Events You're Hosting</span>
+    <hr>
+    <p>
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+    </p>
+  </div>
 
-<div class="action-link__container">
-  <a href="{% url 'app:event_create' %}" class="action-link">Create Event</a>
-  <a href="{% url 'records:records' %}" class="action-link">Records</a>
-</div>
+  <div class="action-link__container mb-1">
+    <a href="{% url 'app:event_create' %}" class="action-link">Create Event</a>
+    <a href="{% url 'records:records' %}" class="action-link">Records</a>
+  </div>
 
-<div class="content-container">
-  <h2>Events I've Created</h2>
-
-  <table class="info-list-table">
+  <table class="item-table">
     <thead>
       <tr>
         <th>Event Name</th>
@@ -20,7 +34,7 @@
         <th>State</th>
         <th>Sport</th>
         <th>Status</th>
-        <th>Details</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -31,11 +45,12 @@
           <td>{{ event.state }}</td>
           <td>{{ event.sport }}</td>
           <td>{{ event.status }}</td>
-          <td><a href="{% url "user:hosting_event" event_id=event.id %}">
+          <td><a href="{% url "user:hosting_event" event_id=event.id %}" class="inline-icon__link">
               <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
-</div>
+
+</section>
 {% endblock %}

@@ -1,11 +1,20 @@
-<div class="event-details-card">
-  <h1>{{ event.name }}</h1>
+<div>
+  <h3>
+    {{ event.name }}
+    {% with event.id|stringformat:"s" as id_str %}
+      {% if request.path != "/details/event/"|add:id_str %}
+        <a href="{% url 'details:event' event_id=event.id %}" class="inline-icon__link">
+          <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
+        </a>
+      {% endif %}
+    {% endwith %}
+  </h3>
   <div class="event-details-card__content">
 
     <div style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 1rem;">
 
-      <div class="event-poster-thumbnail__container"
-        <img src="{{ event.get_poster_url }}" class="event-poster-thumbnail">
+      <div class="img-poster__container-medium">
+        <img src="{{ event.get_poster_url }}" class="img-fill">
       </div>
 
       <div>
@@ -22,12 +31,5 @@
 
     </div>
 
-    {% with event.id|stringformat:"s" as id_str %}
-      {% if request.path != "/details/event/"|add:id_str %}
-        <div style="margin: 1rem;">
-          <a href="{% url 'details:event' event_id=event.id %}">View Event</a>
-        </div>
-      {% endif %}
-    {% endwith %}
   </div>
 </div>

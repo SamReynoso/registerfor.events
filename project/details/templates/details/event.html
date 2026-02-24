@@ -1,24 +1,28 @@
 {% extends "details/base.html" %}
 
 {% block content %}
-<h1>Event Details</h1>
+<section class="main-section"> 
+  <h1>Event Details</h1>
 
-<div class="action-link__container">
-  <a href="{% url 'app:register_for_event' event_id=event.id %}" class="action-link">Join</a>
-</div>
+  <div class="action-link__container">
+    <a href="{% url 'app:register_for_event' event_id=event.id %}" class="action-link">Join</a>
+  </div>
 
-{% include "components/event_details_card.html" %}
+  {% include "components/event_details_card.html" %}
 
-<div class="content-container">
-<h2>Divisions</h2>
+</section>
 
-  <table class="info-list-table">
+<section class="main-section"> 
+
+  <h2>Divisions</h2>
+
+  <table class="item-table">
     <thead>
       <tr>
         <th>Gender</th>
         <th>Division</th>
         <th>Entries</th>
-        <th>Details</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -27,11 +31,16 @@
         <td>{{ division.gender }}</td>
         <td>{{ division.name }}</td>
         <td>{{ division.registrations.count }}</td>
-        <td><a href="{% url 'details:division' division_id=division.id %}">View</a></td>
+        <td>
+          <a href="{% url 'details:division' division_id=division.id %}" class="inline-icon__link">
+            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
+          </a>
+        </td>
       </tr>
     {% endfor %}
     </tbody>
   </table>
 </div>
 
+</section>
 {% endblock %}

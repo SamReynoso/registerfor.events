@@ -1,27 +1,26 @@
 {% extends "user/base.html" %}
 
 {% block content %}
-<h1>Teams Details</h1>
+<section class="main-section">
+<h1>Team Details</h1>
 
-<ul class="nav-list">
-  <li><a href="{% url 'user:team_details' team_id=team.id %}">View Team</a><br></li>
-  <li><a href="{% url 'app:team_update' team_id=team.id %}">Update Team</a><br></li>
-  <li><a href="{% url 'app:team_delete' team_id=team.id %}">Delete Team</a></li>
-</ul>
+  <h2 class="ml-2 mt-2 mb-1">
+    {{ team.name }}
+    <a href="{% url 'details:team' team_id=team.id %}" class="inline-icon__link">
+      <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
+    </a>
+  </h2>
 
-<div class="content-container">
-  <h2>{{ team.name }}</h2>
-
-  <ul class="nav-list">
-    <li><a href="{% url 'app:team_photo_update' team_id=team.id%}">Change Photo</a><br></li>
-    <li><a href="{% url 'app:team_photo_delete' team_id=team.id%}">Delete Photo</a></li>
+  <ul class="action-link__container">
+    <li><a href="{% url 'app:team_photo_update' team_id=team.id%}" class="action-link">Change Photo</a><br></li>
+    <li><a href="{% url 'app:team_photo_delete' team_id=team.id%}" class="action-link">Delete Photo</a></li>
   </ul>
 
-  <div class="profile-image-thumbnail__container">
+  <div class="img-team-photo__container-full"
     <img src="{{ team.get_photo_url }}" class="thumbnail">
   </div>
 
-  <h2>Team Info</h2>
+  <h3>Team Info</h3>
 
   <table class='contact-info-table'>
     <tr><th>Name</th><td>{{ team.name }}</td></tr>
@@ -30,9 +29,13 @@
     <tr><th>Division<td>{{ team.division }}</td></tr>
   </table>
 
-</div>
+<ul class="action-link__container">
+  <li><a href="{% url 'app:team_update' team_id=team.id %}" class="action-link">Update Team</a><br></li>
+</ul>
 
-<div class="content-container">
+</section>
+
+<section class="main-section">
 
   <h2>Upcoming Events </h2>
 
@@ -40,16 +43,13 @@
     <li><a href="#"></a></li>
   </ul>
 
-  <table class="info-list-table">
+  <table class="item-table">
     <thead>
       <tr>
         <th>Event Name</th>
         <th>Sport</th>
-        <th>Host</th>
-        <th>Address</th>
-        <th>City</th>
-        <th>State</th>
-        <th></th>
+        <th>location</th>
+        <th>Division</th>
       </tr>
     </thead>
     <tbody>
@@ -57,30 +57,49 @@
       <tr>
         <td>
           {{ registration.event.name }}
+          <a href="{% url 'details:event' event_id=registration.event.id %}" class="inline-icon__link">
+            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
+          </a>
         </td>
         <td>
           {{ registration.event.sport }}
         </td>
         <td>
-          {{ registration.event.owner.profile.name }}
+          {{ registration.event.address }},
+          {{ registration.event.city }},
+          {{ registration.event.state }},
         </td>
         <td>
-          {{ registration.event.address }}
-        </td>
-        <td>
-          {{ registration.event.city }}
-        </td>
-        <td>
-          {{ registration.event.state }}
-        </td>
-        <td>
-          <a href="{% url 'details:event' event_id=registration.event.id %}">View</a>
+          {{ registration.assigned_division.gender}} {{ registration.assigned_division.name }}
+          <a href="{% url 'details:division' division_id=registration.assigned_division.id %}" class="inline-icon__link">
+            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
+          </a>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-</div>
+</section>
+
+<section class="main-section danger-section">
+  <div class="pl-2">
+
+    <h2>Delete This Team</h2>
+    <div class="paragraph">
+      <span class="paragraph__heading">This is a heading</span>
+      <hr>
+      <p>
+        this is a paragraph this is a paragraph this is a paragraph this is a paragraph this is a paragraph this is a 
+        paragraph this is a paragraph this is a paragraph this is a paragraph this is a paragraph
+      </p>
+    </div>
+
+    <ul class="action-link__container">
+      <li><a href="{% url 'app:team_delete' team_id=team.id %}" class="action-link danger-link">Continue</a></li>
+    </ul>
+
+  </div>
+</section>
 
 {% endblock %}
 

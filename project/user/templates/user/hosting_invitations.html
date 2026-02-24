@@ -2,19 +2,23 @@
 
 {% block content %}
 
+<section class="main-section">
+ 
 <h1>Invitations</h1>
 
 {% include 'components/event_summary_card.html' %}
 
+</section>
+
+<section class="main-section">
 <div class="action-link__container">
   <a href="{% url 'user:hosting_event_invite' event_id=event.id %}" class="action-link">View Sharable Invitation</a>
   <a href="{% url 'user:hosting_event_embed' event_id=event.id %}" class="action-link">Embed</a>
 </div>
 
-<div class="content-container">
   <h2>RSVPs</h2>
 
-  <table class="info-list-table">
+  <table class="item-table">
     <thead>
       <tr>
         <th>Name</th>
@@ -32,7 +36,11 @@
         <td>{{ rsvp.email}}</td>
         <td>{{ rsvp.phone}}</td>
         <td>{{ rsvp.divisions.count }}</td>
-        <td><a href="{% url 'app:rsvp_convert' rsvp_id=rsvp.id %}"><img src="/assets/icons/magnifying-glass.svg" class="inline-icon"></a></td>
+        <td>
+          <a href="{% url 'app:rsvp_convert' rsvp_id=rsvp.id %}" class="inline-icon__link">
+            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
+          </a>
+        </td>
       </tr>
     {% endfor %}
     </tbody>
@@ -40,4 +48,5 @@
   </table>
 </div>
 
+</section>
 {% endblock %}

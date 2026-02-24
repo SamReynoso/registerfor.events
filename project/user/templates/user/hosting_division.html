@@ -2,23 +2,18 @@
 
 {% block content %}
 
-<h1>Manage Division</h1>
+<section class="main-section">
 
-{% include "components/event_summary_card.html" with event=division.event%}
+  <h1>Manage Division</h1>
+  <dl>
+    <dt>Event</dt><dd>{{ division.event.name }}</dd>
+    <dt>Event start</dt><dd>{{ division.event.start_date }}</dd>
+    <dt>Division</dt><dd><strong>{{ division.name }} {{ division.gender }}</strong></dd>
+  </dl>
 
-<div class="action-link__container">
-  <a href="" class="action-link">Delete Division</a>
-</div>
-
-<div class="content-container">
-<h2>Division Details</h2>
-
-        <dl>
-          <dt>Division</dt><dd>{{ division.name}}</dd>
-          <dt>Gender</dt><dd>{{ division.gender }}</dd>
-        </dl>
+  <h2>Registrations</h2>
   
-  <table class="info-list-table">
+  <table class="item-table">
     <thead>
       <tr>
         <th>Team Name</th>
@@ -34,7 +29,10 @@
       <tr>
         {% if registration.team %}
         <td>
-          <a href="{% url 'details:team' team_id=registration.team.id %}">{{ registration.team.name }}</a>
+            {{ registration.team.name }}
+          <a href="{% url 'details:team' team_id=registration.team.id %}" class="inline-icon__link">
+            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
+          </a>
         </td>
         {% else %}
         <td>TBA</td>
@@ -47,6 +45,16 @@
       {% endfor %}
     </tbody>
   </table>
+
+</section>
+
+  {% include "components/event_summary_card.html" with event=division.event%}
+
+<section class="main-section danger-section">
+
+<div class="action-link__container">
+  <a href="" class="action-link">Delete Division</a>
 </div>
+</section>
 
 {% endblock %}
