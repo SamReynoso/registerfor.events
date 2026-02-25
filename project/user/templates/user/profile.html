@@ -20,22 +20,8 @@
     <img src="{{ user.profile.get_avatar_url }}" class="img">
   </div>
 
-  <div class="paragraph mt-2">
-
-    <span class="paragraph__heading">Bio: 
-      <a href="#" class="inline-icon__link">
-        <img src="/assets/icons/edit-text.svg" class="inline-icon dark-invert">
-      </a>
-    </span>
-    <hr>
-    <p>
-      It might be worth it to add user bios to fill up space. 
-    </p>
-
-  </div>
-
-
 </section>
+
 <section class="main-section">
   <h2>Contact Information</h2>
 
@@ -49,21 +35,14 @@
 
   <ul class="action-link__container">
     <li><a href="{% url 'app:profile_update' %}" class="action-link">Update</a></li>
-    <li><a href="{% url 'app:profile_update' %}" class="action-link">Privacy</a></li>
   </ul>
 
   <div class="paragraph mt-2">
     <span class="paragraph__heading">About Public Info</span>
     <hr>
     <p>
-      This information is used when creating events, teams, regististion, and interaction with other users.
-      If you are looking to update your account email or account related information got to the account page.
+      Nothing
     </p>
-    <ul>
-      <li>
-      <a href="#">Account</a>
-      </li>
-    </ul>
   </div>
 
 </section>

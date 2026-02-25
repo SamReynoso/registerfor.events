@@ -3,33 +3,37 @@
 
 {% block content %}
 
-  <a href="{% url 'mailbox:conversation_delete' user_id=recipient.id %}">Delete</a><br>
+<a href="{% url 'mailbox:conversation_delete' user_id=recipient.id %}">Delete</a><br>
 
 {% for part in conversation.participants.all %}
   convo with: <a href="{% url 'details:profile' profile_id=part.id %}">{{ part }}</a><br>
 {% endfor %}
 
 <div>
-    <ul class="direct-message-list">
-        {% for msg in conversation.direct_messages.all %}
-          {% if msg.sender == sender %}
-            <li class="direct-message-list__message sent">
-              {{ msg.body}}
-            </li>
-          {% else %}
-            <li class="direct-message-list__memessage received">
-              {{ msg.body}}
-            </li>
-          {% endif %}
-        {% endfor %}
-    </ul>
+  <ul class="direct-message-list">
+      {% for msg in conversation.direct_messages.all %}
+        {% if msg.sender == sender %}
+          <li class="direct-message-list__message sent">
+            {{ msg.body}}
+          </li>
+        {% else %}
+          <li class="direct-message-list__memessage received">
+            {{ msg.body}}
+          </li>
+        {% endif %}
+      {% endfor %}
+  </ul>
 
-    <div class="reply-box">
-        <form method="post">
-            {% csrf_token %}
-            <textarea name="body" rows="4"></textarea><br>
-            <input type="submit" class="btn" value="Send">
-        </form>
-    </div>
+  <div class="reply-box">
+
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="body" rows="4"></textarea><br>
+        <button type="submit" class="btn mt-2">
+          send
+        </button>
+    </form>
+
+  </div>
 </div>
 {% endblock %}

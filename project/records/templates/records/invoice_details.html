@@ -1,94 +1,12 @@
 {% extends "base/base.html" %}
 {% block content %}
 
-<style>
-.container {
-  padding: 2rem;
-}
-
-.invoice-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.action-link__container {
-    text-align: right;
-    margin-bottom: 20px;
-}
-
-.action-link {
-    display: inline-block;
-    padding: 8px 14px;
-    border-radius: 3px;
-    font-size: 14px;
-    text-decoration: none;
-}
-
-.action-link:hover {
-    opacity: 0.9;
-}
-
-.content-container {
-    border: 1px solid #e5e7eb;
-    padding: 20px;
-    margin-bottom: 25px;
-}
-
-.card-title {
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: .5px;
-    margin-bottom: 12px;
-}
-
-.stat-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-}
-
-.badge {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.badge-paid { background: #dcfce7; color: #166534; }
-.badge-due { background: #fef3c7; color: #92400e; }
-.badge-overdue { background: #fee2e2; color: #991b1b; }
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-}
-
-th, td {
-    padding: 8px 6px;
-    border-bottom: 1px solid #e5e7eb;
-    text-align: left;
-}
-
-th {
-    font-weight: 600;
-    font-size: 13px;
-}
-
-td:last-child, th:last-child {
-    text-align: right;
-}
-</style>
-
 <div class="invoice-header">
     <h1>Invoice #{{ invoice.id }}</h1>
 </div>
 
 <div class="action-link__container">
   <a href="{% url 'records:view_invoice_pdf' invoice_id=invoice.id %}" class="action-link">View PDF</a>
-  <a href="#" class="action-link">Email Reminder</a>
 </div>
 
 <div class="invoice-container">

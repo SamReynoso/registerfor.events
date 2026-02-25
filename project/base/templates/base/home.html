@@ -12,59 +12,14 @@
   <h2 style="margin-bottom: 1rem;">Explore Sports<h2>
 
   <div class="paragraph mb-3">
-    <span class="paragraph__heading">This is a heading</span>
+    <span class="paragraph__heading">Participate In Local Sports</span>
     <hr>
     <p>
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
+      Explore, if you are looking for basketball events in Bakersfield, CA.
     </p>
   </div>
 
-  <div class="sports-card__container">
-
-    <a href="{% url 'details:search_results' %}?sport=basketball">
-      <div class="sports-card pad">
-        <img src="/assets/sport-icons/basketball.webp" class="sport-card__image dark-invert">
-        <p class="sports-card__text">Basketball</p>
-      </div>
-    </a>
-
-    <a href="{% url 'details:search_results' %}?sport=basketball">
-      <div class="sports-card pad">
-        <img src="/assets/sport-icons/basketball.webp" class="sport-card__image dark-invert">
-        <p class="sports-card__text">Basketball</p>
-      </div>
-    </a>
-
-
-    <a href="{% url 'details:search_results' %}?sport=basketball">
-      <div class="sports-card pad">
-        <img src="/assets/sport-icons/basketball.webp" class="sport-card__image dark-invert">
-        <p class="sports-card__text">Basketball</p>
-      </div>
-    </a>
-
-    <a href="{% url 'details:search_results' %}?sport=basketball">
-      <div class="sports-card pad">
-        <img src="/assets/sport-icons/basketball.webp" class="sport-card__image dark-invert">
-        <p class="sports-card__text">Basketball</p>
-      </div>
-    </a>
-
-    <a href="{% url 'details:search_results' %}?sport=basketball">
-      <div class="sports-card pad">
-        <img src="/assets/sport-icons/basketball.webp" class="sport-card__image dark-invert">
-        <p class="sports-card__text">Basketball</p>
-      </div>
-    </a>
+  <div class="sports-card__container pt-2 mt-2">
 
     <a href="{% url 'details:search_results' %}?sport=basketball">
       <div class="sports-card pad">
@@ -75,7 +30,6 @@
 
   </div>
 
-  <a href="#">More</a>
 
 </section>
 
@@ -83,23 +37,15 @@
   <h2>Create Events</h2>
 
   <div class="paragraph mb-3">
-    <span class="paragraph__heading">This is a heading</span>
+    <span class="paragraph__heading">Register For A Register For Events Account</span>
     <hr>
     <p>
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
+      Create an account today and start listing your event, inviting you members, and managing you registrations in one
+      place.
     </p>
   </div>
 
-  <a href="#">Create an Account</a>
+  <a href="{% url 'base:register' %}">Create an Account</a>
 
 </section>
 
@@ -107,23 +53,19 @@
   <h2>Stay Connected</h2>
 
   <div class="paragraph mb-3">
-    <span class="paragraph__heading">This is a heading</span>
+    <span class="paragraph__heading">Register For Event Has Got You Covered</span>
     <hr>
+
+    <p class="mb-2">
+      Stay in the loop with registration updates, and event announcements from the host, everything happens 
+      automatically. Attendees are notified when events change, registrations are updated, or games are canceled.
+      Organizers and players always know what’s going on
+    </p>
+
     <p>
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
+      no missed messages, no confusion.
     </p>
   </div>
-
-  <a href="#">Learn</a>
 
 </section>
 {% endblock %}
