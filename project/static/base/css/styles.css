@@ -52,10 +52,11 @@ body {
 
 h1 {
   font-size: 1.9rem;
+  margin-bottom: 1.5rem;
 }
 
 h2 {
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   margin-bottom: 1rem;
 }
 
@@ -110,7 +111,7 @@ dd {
 }
 
 details {
-  background-color: rgb(200, 200, 200); 
+  background-color: rgb(70, 70, 70); 
   padding: .5rem;
   margin-bottom: .5rem;
 }

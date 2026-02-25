@@ -40,6 +40,11 @@
 
   <h2>Interact</h2>
 
+  <div class="action-link__container">
+    <a href="{% url 'app:event_announcement' event_id=event.id %}" class="action-link">Create Announcement</a>
+    <a href="{% url 'user:hosting_invitations' event_id=event.id %}" class="action-link">Invitations</a>
+  </div>
+
   <div class="paragraph">
     <span class="paragraph__heading">This is a heading</span>
     <hr>
@@ -56,13 +61,6 @@
       this is a paragraph
     </p>
   </div>
-
-
-  <div class="action-link__container">
-    <a href="{% url 'app:event_announcement' event_id=event.id %}" class="action-link">Create Announcement</a>
-    <a href="{% url 'user:hosting_invitations' event_id=event.id %}" class="action-link">Invitations</a>
-  </div>
-
 
 </section>
 

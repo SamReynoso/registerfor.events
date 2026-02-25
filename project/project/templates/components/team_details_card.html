@@ -1,42 +1,28 @@
-<div>
-    <div style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 1rem;">
+<div style="display: flex; flex-direction: row; justify-content: space-around;"> 
 
-      <div class="img-team-photo__container-full"
-        <img src="{{ team.get_photo_url }}" class="img-fill">
-      </div>
-
-      <div>
-        <h2>Info</h2>
-        <dl>
-          <dt>Name</dt><dd>'{{ team.name }}'</dd>
-          <dt>Sport</dt><dd>{{ team.sport }}</dd>
-          <dt>Gender</dt><dd>{{ team.gender }}</dd>
-          <dt>Division</dt><dd>{{ team.division }}</dd>
-        </dl>
-      </div>
-
-    </div>
-
-    <div style="margin: 1rem;">
-      <h3>Contact info<h3>
-      <dl>
-
-        <dt>Contact</dt>
-        <dd>
-          <a href="{% url 'details:profile' profile_id=team.owner.profile.id %}">
-            {{ team.owner.profile.name }}
-          </a>
-        </dd>
-        <dt>Email</dt><dd>{{ team.owner.profile.email}}</dd>
-        <dt>Phone</dt><dd>{{ team.owner.profile.phone }}</dd>
-      </dl>
-    </div>
-
-    {% with event.id|stringformat:"s" as id_str %}
-      {% if request.path != "/details/event/"|add:id_str %}
-        <div style="margin: 1rem;">
-        </div>
-      {% endif %}
-    {% endwith %}
+  <div class="img-team-photo__container-full"
+    <img src="{{ team.get_photo_url }}" class="img-fill">
   </div>
+
+  <div>
+    <h2>Info</h2>
+    <dl>
+      <dt>Name</dt><dd>'{{ team.name }}'</dd>
+      <dt>Sport</dt><dd>{{ team.sport }}</dd>
+      <dt>Gender</dt><dd>{{ team.gender }}</dd>
+      <dt>Division</dt><dd>{{ team.division }}</dd>
+    </dl>
+
+  <dl>
+    <dt>Contact</dt>
+    <dd>
+      <a href="{% url 'details:profile' profile_id=team.owner.profile.id %}">
+        {{ team.owner.profile.name }}
+      </a>
+    </dd>
+    <dt>Email</dt><dd>{{ team.owner.profile.email}}</dd>
+    <dt>Phone</dt><dd>{{ team.owner.profile.phone }}</dd>
+  </dl>
+  </div>
+
 </div>

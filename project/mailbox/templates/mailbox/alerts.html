@@ -3,75 +3,16 @@
 
 {% block content %}
 
-<h2>Alerts</h2>
+<h1>Alerts</h1>
 
-<form method="post">
+<form method="post" class="mb-2">
   {% csrf_token %}
-  <button type="submit"
-  <button>Clear Alerts</button>
+  <button type="submit" class="btn">Clear Alerts</button>
 </form>
 
 <div class="alert-container">
 
-  <h2>New alerts</h2>
-
-  {% for alert in new_alerts %}
-
-    {% if alert.type == 'new_registration' %}
-      <div class="alert-card">
-        <h3>New Registration</h3>
-        <h4>{{ alert.title }}</h4>
-        <p>{{ alert.body }}</p>
-        <a href="{% url 'user:hosting' %}">Hosting</a>
-      </div>
-    {% endif %}
-
-    {% if alert.type == 'team_withdran' %}
-      <div class="alert-card">
-        <h3>Team withdrew from an event</h3>
-        <h4>{{ alert.title }}</h4>
-        <p>{{ alert.body }}</p>
-        <a href="{% url 'user:hosting' %}">Hosting</a>
-      </div>
-    {% endif %}
-
-    {% if alert.type == 'team_withdran_by_deletion' %}
-      <div class="alert-card">
-        <h3>Participating team deleted</h3>
-        <h4>{{ alert.title }}</h4>
-        <p>{{ alert.body }}</p>
-        <a href="{% url 'user:hosting' %}">Hosting</a>
-      </div>
-    {% endif %}
-
-    {% if alert.type == 'host_canceled_registration' %}
-      <div class="alert-card">
-        <h3>Host canceled registration</h3>
-        <h4>{{ alert.title }}</h4>
-        <p>{{ alert.body }}</p>
-        <a href="{% url 'user:events' %}">My Events</a>
-      </div>
-    {% endif %}
-
-    {% if alert.type == 'host_canceled_event' %}
-      <div class="alert-card">
-        <h3>Event Cancellation</h3>
-        <h4>{{ alert.title }}</h4>
-        <p>{{ alert.body }}</p>
-        <a href="{% url 'user:events' %}">My Events</a>
-      </div>
-    {% endif %}
-
-  {% endfor %}
-
-  <hr>
-
-
-  <h2>Read alerts</h2>
-
-  <hr>
-
-  {% for alert in old_alerts %}
+  {% for alert in alerts %}
     {% if alert.type == 'new_registration' %}
       <details class="alert-card">
         <summary>New Registration</summary>

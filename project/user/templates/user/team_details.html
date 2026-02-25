@@ -22,12 +22,12 @@
 
   <h3>Team Info</h3>
 
-  <table class='contact-info-table'>
-    <tr><th>Name</th><td>{{ team.name }}</td></tr>
-    <tr><th>Sport</th><td>{{ team.sport }}</td></tr><tr>
-    <tr><th>gender</th><td>{{ team.gender }}</td></tr>
-    <tr><th>Division<td>{{ team.division }}</td></tr>
-  </table>
+  <dl>
+    <dt>Name</dt><dd>{{ team.name }}</dd>
+    <dt>Sport</dt><dd>{{ team.sport }}</dd>
+    <dt>gender</dt><dd>{{ team.gender }}</dd>
+    <dt>Division</dt><dd>{{ team.division }}</dd>
+  </dl>
 
 <ul class="action-link__container">
   <li><a href="{% url 'app:team_update' team_id=team.id %}" class="action-link">Update Team</a><br></li>
@@ -47,31 +47,25 @@
     <thead>
       <tr>
         <th>Event Name</th>
-        <th>Sport</th>
+        <th>Start</th>
         <th>location</th>
-        <th>Division</th>
+        <th>Sport</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       {% for registration in registrations %}
       <tr>
-        <td>
-          {{ registration.event.name }}
-          <a href="{% url 'details:event' event_id=registration.event.id %}" class="inline-icon__link">
-            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
-          </a>
-        </td>
-        <td>
-          {{ registration.event.sport }}
-        </td>
+        <td>{{ registration.event.name }}</td>
+        <td>{{ registration.event.start_date }}</td>
         <td>
           {{ registration.event.address }},
           {{ registration.event.city }},
           {{ registration.event.state }},
         </td>
+        <td>{{ registration.event.sport }}</td>
         <td>
-          {{ registration.assigned_division.gender}} {{ registration.assigned_division.name }}
-          <a href="{% url 'details:division' division_id=registration.assigned_division.id %}" class="inline-icon__link">
+          <a href="{% url 'user:registration_details' registration_id=registration.id %}" class="inline-icon__link">
             <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
           </a>
         </td>

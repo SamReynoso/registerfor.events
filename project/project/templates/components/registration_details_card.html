@@ -1,122 +1,41 @@
-<div class="event-details-card">
+<table class="item-table">
 
-  <div class="event-details-card__content">
-
-    <div style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 1rem;">
-
-      <div>
-        <h3>Event Registration for {{ registration.event.name }}</h3>
-      </div>
-
-    </div>
-
-
-  <table class="item-table">
-
-    <tr><th colspan="2"></th></tr>
-    <tr><th colspan="2"><h2>Team Details</h2></th></tr>
-
+  <thead>
     <tr>
-      <th>Team Name</th>
-      {% if registration.team %}
-      <td>{{ registration.team.name}}</td>
-      {% else %}
-      <td>TBA</td>
-      {% endif %}
+      <th>Event</th>
+      <th>Host</th>
+      <th>Team</th>
+      <th>Divistion</th>
     </tr>
+  </thead>
 
+  <tbody>
     <tr>
-      <th>Team Gender</th>
-      <td>{{ registration.assigned_division.gender }}</td>
-    </tr>
-
-    <tr>
-      <th>Team Division</th>
-      <td>{{ registration.assigned_division.name}}</td>
-    </tr>
-
-    <tr>
-      <th>Team Contact Name</th>
-      <td>{{ registration.contact_name }}</td>
-    </tr>
-
-    <tr>
-      <th>Team Contact Email</th>
-      <td>{{ registration.email }}</td>
-    </tr>
-
-    <tr>
-      <th>Team Contact Phone</th>
-      <td>{{ registration.phone}}</td>
-    </tr>
-
-    <tr><th colspan="2"></th></tr>
-    <tr><th colspan="2"><h2>Event Details</h2></th></tr>
-
-    <tr>
-      <th>Event Name</th>
-      <td>{{ registration.event.name }}</td>
-    </tr>
-
-    <tr>
-      <th>Event Sport</th>
-      <td>{{ registration.event.sport }}</td>
-    </tr>
-
-    <tr>
-      <th>Event Starts</th>
-      <td>{{ registration.event.start_date }}</td>
-    </tr>
-
-    </tr>
-      <th>Event Ends</th>
-      <td>{{ registration.event.end_date }}</td>
-    </tr>
-
-    </tr>
-      <th>Event Status</th>
-      <td>{{ registration.event.status }}</td>
-    </tr>
-
-    <tr>
-      <th>Event Address</th>
-      <td>{{ registration.event.address }}</td>
-    </tr>
-
-    <tr>
-      <th>Event City</th>
-      <td>{{ registration.event.city }}</td>
-    </tr>
-
-    <tr>
-      <th>Event State</th>
-      <td>{{ registration.event.state }}</td>
-    </tr>
-
-    <tr><th colspan="2"></th></tr>
-    <tr><th colspan="2"><h2>Host Info</h2></th></tr>
-
-
-    <tr>
-      <th>Host Name</th>
       <td>
-        <a href="{% url 'details:profile' registration.event.owner.profile.id %}">
-            {{ registration.event.owner.profile.name }}
-          </a>
+        {{registration.event.name}}
+        <a href="{% url "details:event" event_id=registration.event.id %}" class="inline-icon__link">
+              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+        </a>
+      </td>
+      <td>
+        {{registration.event.owner.profile.name }}
+        <a href="{% url "details:profile" profile_id=registration.event.owner.profile.id %}" class="inline-icon__link">
+          <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+        </a>
+      </td>
+      <td>
+        {{registration.team.name}}
+        <a href="{% url "details:team" team_id=registration.team.id %}" class="inline-icon__link">
+          <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+        </a>
+      </td>
+      <td>
+        {{registration.assigned_division.name}} {{ registration.assigned_division.gender }}
+        <a href="{% url "details:division" division_id=registration.assigned_division.id %}" class="inline-icon__link">
+          <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+        </a>
       </td>
     </tr>
+  </tbody>
 
-    <tr>
-      <th>Host Email</th>
-      <td>{{ registration.event.owner.profile.email }}</td>
-    </tr>
-
-    <tr>
-      <th>Host Phone</th>
-      <td>{{ registration.event.owner.profile.phone }}</td>
-    </tr>
-  </table>
-
-  </div>
-
-</div>
+</table>

@@ -13,6 +13,12 @@ def records(request):
     return render(request, 'records/records.html', context)
 
 
+def invoices(request):
+    invoices = Invoice.objects.filter(owner=request.user).all()
+    context = {'invoices': invoices}
+    return render(request, 'records/invoices.html', context)
+
+
 def invoice_details(request, invoice_id: int):
     invoice = get_invoice(request, invoice_id)
     if invoice is None:
@@ -21,18 +27,10 @@ def invoice_details(request, invoice_id: int):
     return render(request, 'records/invoice_details.html', context)
 
 
-def records_registrations(request):
+def registrations(request):
     registrations = RegistrationRecord.objects.filter(owner=request.user).all()
     context = {'registrations': registrations}
-    return render(request, 'records/records_registrations.html', context)
-
-
-def registration_details(request, registration_id: int):
-    registration = get_object_or_404(RegistrationRecord, id=registration_id)
-    if registration.owner != request.user:
-        return HttpResponse(status=403)
-    context = {'registration': registration}
-    return render(request, 'records/registration_details.html', context)
+    return render(request, 'records/registrations.html', context)
 
 
 def get_invoice(request, invoice_id):

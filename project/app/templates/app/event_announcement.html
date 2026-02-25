@@ -4,16 +4,20 @@
 
 <section class="main-section">
 
-  <h2>Event Announcement</h2>
+  <h1>Event Announcement</h1>
 
-  <div class="paragraph">
+
+  <div class="paragraph mt-2">
     <span class="paragraph__heading">Make An Announcement To All Event Participants</span>
     <hr>
     <p>
       this is a paragraph this is a paragraph this is a paragraph this is a paragraph this is a paragraph
     </p>
   </div>
-  <form method="post" class="form">
+
+  {% include "components/event_preview_card.html" %}
+
+  <form method="post" class="form mt-2">
 
     <h3>Make an announcement to all participants</h3>
 
@@ -27,12 +31,5 @@
 
 </section>
 
-<section class="main-section">
-
-  <h2>Event Details</h2>
-
-  {% include "components/event_summary_card.html" %}
-
-</section>
 
 {% endblock %}

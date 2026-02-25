@@ -41,6 +41,14 @@ urlpatterns = [
          views.hosting_division,
          name='hosting_division'),
 
+    path('hosting/event/registration/<int:registration_id>/',
+         views.hosting_registration,
+         name='hosting_registration'),
+
+    path('hosting/event/division/<int:division_id>/',
+         views.hosting_division,
+         name='hosting_division'),
+
     path('hosting/<int:event_id>/invite/',
          views.hosting_event_invite,
          name='hosting_event_invite'),

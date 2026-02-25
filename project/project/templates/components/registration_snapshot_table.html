@@ -1,0 +1,100 @@
+<table class="item-table">
+
+  <tr><th colspan="2"><h2 class="pt-2">Team Details</h2></th></tr>
+
+  <tr>
+    <th>Team Name</th>
+    {% if registration.team %}
+    <td>{{ registration.team.name}}</td>
+    {% else %}
+    <td>TBA</td>
+    {% endif %}
+  </tr>
+
+  <tr>
+    <th>Team Gender</th>
+    <td>{{ registration.assigned_division.gender }}</td>
+  </tr>
+
+  <tr>
+    <th>Team Division</th>
+    <td>{{ registration.assigned_division.name}}</td>
+  </tr>
+
+  <tr>
+    <th>Team Contact Name</th>
+    <td>{{ registration.contact_name }}</td>
+  </tr>
+
+  <tr>
+    <th>Team Contact Email</th>
+    <td>{{ registration.email }}</td>
+  </tr>
+
+  <tr>
+    <th>Team Contact Phone</th>
+    <td>{{ registration.phone}}</td>
+  </tr>
+
+  <tr><th colspan="2"><h2 class="pt-2">Event Details</h2></th></tr>
+
+  <tr>
+    <th>Event Name</th>
+    <td>{{ registration.event.name }}</td>
+  </tr>
+
+  <tr>
+    <th>Event Sport</th>
+    <td>{{ registration.event.sport }}</td>
+  </tr>
+
+  <tr>
+    <th>Event Starts</th>
+    <td>{{ registration.event.start_date }}</td>
+  </tr>
+
+  </tr>
+    <th>Event Ends</th>
+    <td>{{ registration.event.end_date }}</td>
+  </tr>
+
+  </tr>
+    <th>Event Status</th>
+    <td>{{ registration.event.status }}</td>
+  </tr>
+
+  <tr>
+    <th>Event Address</th>
+    <td>{{ registration.event.address }}</td>
+  </tr>
+
+  <tr>
+    <th>Event City</th>
+    <td>{{ registration.event.city }}</td>
+  </tr>
+
+  <tr>
+    <th>Event State</th>
+    <td>{{ registration.event.state }}</td>
+  </tr>
+
+  <tr><th colspan="2"><h2 class="pt-2">Host Info</h2></th></tr>
+
+
+  <tr>
+    <th>Host Name</th>
+    <td>
+      {{ registration.event.owner.profile.name }}
+    </td>
+  </tr>
+
+  <tr>
+    <th>Host Email</th>
+    <td>{{ registration.event.owner.profile.email }}</td>
+  </tr>
+
+  <tr>
+    <th>Host Phone</th>
+    <td>{{ registration.event.owner.profile.phone }}</td>
+  </tr>
+</table>

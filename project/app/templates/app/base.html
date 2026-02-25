@@ -1,27 +1,6 @@
-{% extends "base/base.html" %}
+{% extends "user/base.html" %}
 
 
-{% block header%}
-
-  <h1>Recent Activity</h1>
-
-  <ul class="action-link__container">
-    <li>
-      <a href="{% url 'user:events' %}">My Events</a>
-    </li>
-    <li>
-      <a href="{% url 'user:teams' %}">My Teams</a>
-    </li>
-    <li>
-      <a href="{% url 'user:hosting' %}">Hosting</a>
-    </li>
-    <li>
-      <a href="{% url 'user:profile' %}">Profile</a>
-    </li>
-  </ul>
-
-
-{% endblock %}
 
 {% block content %}
   <p> This is the base create page.</p>

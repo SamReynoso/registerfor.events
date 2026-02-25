@@ -10,14 +10,13 @@ urlpatterns = [
          views.records,
          name='records'),
 
+    path('invoices/',
+         views.invoices,
+         name='invoices'),
+
     path('registrations/',
-         views.records_registrations,
+         views.registrations,
          name='records_registrations'),
-
-    path('registrations/<int:registration_id>',
-         views.registration_details,
-         name='registration_details'),
-
 
     path("invoices/<int:invoice_id>/",
          views.invoice_details,

@@ -2,6 +2,10 @@
 {% block content %}
 
 <style>
+.container {
+  padding: 2rem;
+}
+
 .invoice-header {
     display: flex;
     justify-content: space-between;
@@ -17,8 +21,6 @@
 .action-link {
     display: inline-block;
     padding: 8px 14px;
-    background: #111827;
-    color: #fff;
     border-radius: 3px;
     font-size: 14px;
     text-decoration: none;
@@ -29,7 +31,6 @@
 }
 
 .content-container {
-    background: #ffffff;
     border: 1px solid #e5e7eb;
     padding: 20px;
     margin-bottom: 25px;
@@ -39,7 +40,6 @@
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: .5px;
-    color: #6b7280;
     margin-bottom: 12px;
 }
 
@@ -60,12 +60,6 @@
 .badge-due { background: #fef3c7; color: #92400e; }
 .badge-overdue { background: #fee2e2; color: #991b1b; }
 
-.grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
 table {
     width: 100%;
     border-collapse: collapse;
@@ -81,7 +75,6 @@ th, td {
 th {
     font-weight: 600;
     font-size: 13px;
-    color: #374151;
 }
 
 td:last-child, th:last-child {
@@ -94,12 +87,11 @@ td:last-child, th:last-child {
 </div>
 
 <div class="action-link__container">
-  <a href="#" class="action-link">View PDF</a>
+  <a href="{% url 'records:view_invoice_pdf' invoice_id=invoice.id %}" class="action-link">View PDF</a>
   <a href="#" class="action-link">Email Reminder</a>
-  <a href="#" class="action-link">Update</a>
 </div>
 
-<div class="content-container">
+<div class="invoice-container">
   <div class="card-title">Invoice Summary</div>
 
   <div class="stat-row">

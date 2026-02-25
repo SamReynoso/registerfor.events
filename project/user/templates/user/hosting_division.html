@@ -4,13 +4,13 @@
 
 <section class="main-section">
 
-  <h1>Manage Division</h1>
-  <dl>
-    <dt>Event</dt><dd>{{ division.event.name }}</dd>
-    <dt>Event start</dt><dd>{{ division.event.start_date }}</dd>
-    <dt>Division</dt><dd><strong>{{ division.name }} {{ division.gender }}</strong></dd>
-  </dl>
+  <h1>Manage Division ({{ division.name }} {{ division.gender }})</h2>
 
+    <h3>Event Details</h3>
+  {% include "components/event_preview_card.html" with event=division.event%}
+
+</section>
+<section class="main-section">
   <h2>Registrations</h2>
   
   <table class="item-table">
@@ -40,7 +40,11 @@
         <td>{{ registration.contact_name}}</td>
         <td>{{ registration.email}}</td>
         <td>{{ registration.phone}}</td>
-        <td><a href="{% url 'app:participant_edit' registration_id=registration.id %}">Cancel</a></td>
+        <td>
+          <a href="{% url 'user:hosting_registration' registration_id=registration.id %}" class="inline-icon__link">
+              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+          </a>
+        </td>
       </tr>
       {% endfor %}
     </tbody>
@@ -48,13 +52,27 @@
 
 </section>
 
-  {% include "components/event_summary_card.html" with event=division.event%}
 
 <section class="main-section danger-section">
+  <div class="pl-2">
 
-<div class="action-link__container">
-  <a href="" class="action-link">Delete Division</a>
-</div>
+    <h2>Delete This Division</h2>
+
+    <div class="paragraph mb-3">
+      <span class="paragraph__heading">This is a heading</span>
+      <hr>
+      <p>
+        Deleting this division will cancel all regierted teams in it. You can then remove the division from available 
+        division on your hosting page for this event.
+      </p>
+    </div>
+
+
+    <div class="action-link__container">
+      <a href="" class="action-link danger-link">Continue To Delete Confermation Page</a>
+    </div>
+  </div>
+
 </section>
 
 {% endblock %}

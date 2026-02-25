@@ -1,0 +1,24 @@
+<div style="display: flex; flex-direction: row;" class="bordered p-1">
+
+  <div class="img-poster__container-small">
+    <img src="{{ team.get_photo_url }}" class="img-fill">
+  </div>
+
+  <div class="ml-2 pl-2">
+    <h3>
+      {{ team.name }}
+      {% with team.id|stringformat:"s" as id_str %}
+        {% if request.path != "/details/team/"|add:id_str %}
+          <a href="{% url 'details:team' team_id=team.id %}" class="inline-icon__link">
+            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
+          </a>
+        {% endif %}
+      {% endwith %}
+    </h3>
+    <dl>
+      <dt>Division</dt><dd></dd>
+      <dt>Gender</dt><dd></dd>
+    </dl>
+  </div>
+
+</div>

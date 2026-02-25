@@ -1,11 +1,35 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-  <h1>Withdraw from this Event.</h1>
-  {% include "components/registration_details_card.html" with team=registration.team %}
-  <form method="post">
+<section class="main-section">
+
+  <h2>Withdraw From This Event</h2>
+
+  <div class="mb-2">
+    {% include "components/registration_details_card.html" with team=registration.team %}
+  </div>
+
+  <form method="post" class="form">
     <h2>Are you sure you want to withdraw from this event?</h2>
+<div class="paragraph">
+    <span class="paragraph__heading">Events You're Hosting</span>
+    <hr>
+    <p>
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+    </p>
+  </div>
       {% csrf_token %}
-      <button type="submit">Withdraw</button>
+      <button type="submit" class="btn-danger">Withdraw</button>
   </form>
+
+</section>
 {% endblock %}

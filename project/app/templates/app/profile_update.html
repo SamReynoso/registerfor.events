@@ -1,17 +1,18 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-<h1>Update Profile</h1>
-<a href="{% url 'details:profile' profile_id=user.profile.id%}">View profile</a>
+<section class="main-section">
+  <h1>Update Profile</h1>
 
-<form method="post" class="event-search-form">
-  <h2>Public Contact Information</h2>
-  {% csrf_token %}
-  <input type="hidden" name="next" value="{{ request.GET.next }}">
-  <div class="min-height-25">
-    {{ form.as_p }}
-  </div>
-  <button type="submit">Save</button>
-<form>
+  <form method="post" class="form">
+    <h2>Public Contact Information</h2>
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.GET.next }}">
+    <div class="min-height-25">
+      {{ form.as_p }}
+    </div>
+    <button type="submit" class="mt-2">Save</button>
+  <form>
+</section>
 
 {% endblock %}

@@ -1,11 +1,17 @@
 {% extends "base/base.html" %}
 
+
+{% block header %}
+<h1>Your Next Game Starts Here</h1>
+<strong>Find games. Join games. Start games.</strong>
+{% endblock %}
+
 {% block content %}
 
 <section class="main-section">
   <h2 style="margin-bottom: 1rem;">Explore Sports<h2>
 
-  <div class="paragraph">
+  <div class="paragraph mb-3">
     <span class="paragraph__heading">This is a heading</span>
     <hr>
     <p>
@@ -76,7 +82,7 @@
 <section class="main-section">
   <h2>Create Events</h2>
 
-  <div class="paragraph">
+  <div class="paragraph mb-3">
     <span class="paragraph__heading">This is a heading</span>
     <hr>
     <p>
@@ -96,9 +102,11 @@
   <a href="#">Create an Account</a>
 
 </section>
+
+<section class="main-section">
   <h2>Stay Connected</h2>
 
-  <div class="paragraph">
+  <div class="paragraph mb-3">
     <span class="paragraph__heading">This is a heading</span>
     <hr>
     <p>
@@ -116,8 +124,6 @@
   </div>
 
   <a href="#">Learn</a>
-
-<section class="main-section">
 
 </section>
 {% endblock %}

@@ -3,8 +3,10 @@
 {% block content %}
 
 <section class="main-section">
+
   <h1>Hosting</h1>
-  <div class="paragraph">
+
+  <div class="paragraph mb-2">
     <span class="paragraph__heading">Events You're Hosting</span>
     <hr>
     <p>
@@ -45,8 +47,11 @@
           <td>{{ event.state }}</td>
           <td>{{ event.sport }}</td>
           <td>{{ event.status }}</td>
-          <td><a href="{% url "user:hosting_event" event_id=event.id %}" class="inline-icon__link">
-              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
+          <td>
+            <a href="{% url "user:hosting_event" event_id=event.id %}" class="inline-icon__link">
+              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+              <a>
+          </td>
         </tr>
       {% endfor %}
     </tbody>

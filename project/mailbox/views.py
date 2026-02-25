@@ -11,14 +11,7 @@ def alerts_view(request):
     if request.method == 'POST':
         alerts.delete()
 
-    new_alerts = list(alerts.filter(is_read=False))
-    old_alerts = list(alerts.filter(is_read=True))
-
-    alerts.filter(id__in=[a.id for a in new_alerts]).update(is_read=True)
-    context = {
-            'new_alerts': new_alerts,
-            'old_alerts': old_alerts,
-            }
+    context = {'alerts': alerts}
     return render(request, 'mailbox/alerts.html', context)
 
 

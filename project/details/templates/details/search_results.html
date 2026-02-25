@@ -1,7 +1,9 @@
 {% extends "details/base.html" %}
 {% block header%}
 <form method="get" action="/details/search" class="form">
-  <div class="row gap-1 pad-b-1 m-auto">
+
+  <div class="row g-2 m-a">
+
     <label>
       <span class="text-small text-muted">sport</span>
     <select name="sport">
@@ -32,7 +34,7 @@
 
   </div>
 
-  <details>
+  <details class="mt-2">
     <summary>Click to reveal division options</summary>
 
     <fieldset>
@@ -59,7 +61,9 @@
     </fieldset>
 
   </details>
-  <button type="submit" class="btn">Search Events</button>
+
+  <button type="submit" class="mt-2">Search Events</button>
+
 </form>
 
 {% endblock %}
@@ -68,7 +72,7 @@
 <h4>Results</h4>
 <hr style="margin-bottom: 1rem;">
 <section id="results">
-<table class="info-list-table">
+<table class="item-table">
   <thead>
     <tr>
       <th>Event Name</th>
@@ -76,7 +80,7 @@
       <th>Sport</th>
       <th>City</th>
       <th>State</th>
-      <th>Details</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -99,7 +103,9 @@
         {{ event.state }}
       </td>
       <td>
-        <a href="{% url "details:event" event_id=event.id %}">View</a>
+        <a href="{% url "details:event" event_id=event.id %}" class="inline-icon__link">
+              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+        </a>
       </td>
     </tr>
     {% endfor %}

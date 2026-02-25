@@ -53,6 +53,19 @@ def hosting_event(request, event_id: int):
 
 
 @login_required(login_url='/login/')
+def hosting_registration(request, registration_id: int):
+    registration = get_object_or_404(Registration, id=registration_id)
+    if registration.event.owner != request.user:
+        return HttpResponseForbidden(
+                "You don't own this registration's event."
+                )
+    context = {
+            'registration': registration
+            }
+    return render(request, 'user/hosting_registration.html', context)
+
+
+@login_required(login_url='/login/')
 def hosting_invitations(request, event_id: int):
     event = get_object_or_404(Event, id=event_id)
     if event.owner != request.user:

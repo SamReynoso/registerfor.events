@@ -150,7 +150,7 @@ def event_divisions(request, event_id: int):
 
 
 @login_required(login_url='/login/')
-def participant_edit(request, registration_id: int):
+def registration_cancel(request, registration_id: int):
     registration = get_object_or_404(Registration, id=registration_id)
     if request.method == 'POST':
         host_canceled_registration_alert_team_owner(registration)
@@ -159,7 +159,7 @@ def participant_edit(request, registration_id: int):
         return redirect('user:hosting_division',
                         division_id=registration.assigned_division.id)
     context = {'registration': registration}
-    return render(request, 'app/event_participant_edit.html', context)
+    return render(request, 'app/host_registration_cancel.html', context)
 
 
 @login_required(login_url='/login/')

@@ -1,13 +1,37 @@
 {% extends "user/base.html" %}
 
 {% block content %}
-<h1>Registration Details</h1>
+<section class="main-section">
+  <h1 class="mb-2">Registration Details</h1>
 
-<div class="action-link__container">
-  <a href="{% url 'app:registration_withdraw' registration_id=registration.id %}" class="action-link">Withdraw</a>
-</div>
+  {% include "components/registration_details_card.html" with registration=registration %}
+</section>
 
-{% include "components/registration_details_card.html" with registration=registration %}
+<section class="main-section">
+  <h1 class="mb-2">Registration Snapshot</h1>
+
+  {% include "components/registration_snapshot_table.html" with registration=registration %}
+</section>
+
+<section class="main-section danger-section">
+  <div class="pl-2">
+    <h2>Withdraw Your Registration</h2>
+
+    <div class="paragraph">
+      <span class="paragraph__heading">
+        Follow this link to the confirmation page
+      </span>
+    </div>
+
+      
+    <div class="action-link__container">
+      <a href="{% url 'app:registration_withdraw' registration_id=registration.id %}" class="action-link danger-link">
+        Continure
+     </a>
+    </div>
+  </div>
+</section>
+
 
 {% endblock %}
 

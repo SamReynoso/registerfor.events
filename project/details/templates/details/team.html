@@ -2,12 +2,14 @@
 
 {% block content %}
 <section class="main-section"> 
-<h1>Team Details</h1>
-{% include "components/team_details_card.html" %}
+  <h1 class="mb-2">Team Details</h1>
+  {% include "components/team_details_card.html" %}
 </section>
 
 <section class="main-section"> 
+
   <h2>Events</h2>
+
   <table class="item-table">
     <thead>
       <tr>
@@ -32,5 +34,6 @@
       {% endfor %}
     </tbody>
   </table>
+
 </section>
 {% endblock %}

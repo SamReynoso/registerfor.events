@@ -29,6 +29,12 @@
   border: 1px solid var(--border-color);
 }
 
+.img-poster__container-small{
+  width: 120px;
+  height: 120px;
+  border: 1px solid var(--border-color);
+}
+
 .img-team-photo__container-full{
   width: 350px;
   aspect-ratio: 1;
