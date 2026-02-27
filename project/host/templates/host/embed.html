@@ -1,0 +1,34 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+
+
+<h1>Embed On Your Site</h1>
+
+
+<iframe 
+  src="{{ site_url }}{% url 'invite:embedded' event_id=event.id %}"
+  width="100%" 
+  height="450px" 
+  frameborder="0"
+></iframe>
+
+<div>
+  <h2>Copy This:</h2>
+  <textarea
+    value="None"
+    readOnly
+    rows=4
+    class="copy-box"
+    >
+
+<iframe src="{{ site_url }}{% url 'invite:embedded' event_id=event.id %}" width="100%" height="650px" frameborder="0" style="border:0;"></iframe>
+  </textarea>
+
+  <p style="margin-top: 10px; fontSize: 14px; color: #666;">
+    Paste this into any website HTML.
+  </p>
+</dev>
+
+
+{% endblock %}

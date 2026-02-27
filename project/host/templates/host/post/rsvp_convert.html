@@ -1,0 +1,47 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+
+<h1>Invitations</h1>
+
+<div class="content-container">
+  <h1 style="margin-bottom: 1rem">RSVP</h1>
+
+  <div style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 1rem;">
+
+    <div class="event-poster-thumbnail__container"
+      <img src="{{ rsvp.event.get_poster_url }}" class="event-poster-thumbnail">
+    </div>
+
+    <div>
+      <h2>Event Info</h2>
+      <dl>
+        <dt>Name</dt><dd><a href="{% url 'explore:event' rsvp.event.id %}">{{ rsvp.event.name }}</a></dd>
+        <dt>Sport</dt><dd>{{ rsvp.event.sport }}</dd>
+        <dt>Starts</dt><dd>{{ rsvp.event.start_date }}</dd>
+        <dt>Ends</dt><dd>{{ rsvp.event.end_date }}</dd>
+        <dt>Host</dt><dd><a href="{% url 'explore:profile' rsvp.event.owner.profile.id %}">{{ rsvp.event.owner.profile }}</a></dd>
+        <dt>Status</dt><dd>{{ rsvp.event.status }}</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div style="max-width: 400px; margin: auto;">
+    {% include 'components/rsvp_details_card.html' %}
+  </div>
+
+</div>
+
+<div class="content-container">
+  <h1>Convert to Registration</h1>
+
+  <form method='post' class="divisions-checkbox-form">
+
+    <h2>Convert this RSVP to a registration for this event.</h2>
+    {% csrf_token %}
+    <button type="submit">Convert</button>
+
+  </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "base/base.html" %}
+{% block content %}
+
+<div class="invoice-header">
+    <h1>Invoice #{{ invoice.id }}</h1>
+</div>
+
+<div class="action-link__container">
+  <a href="{% url 'invoice:invoice_pdf' invoice_id=invoice.id %}" class="action-link">View PDF</a>
+</div>
+
+<div class="invoice-container">
+  <div class="card-title">Invoice Summary</div>
+
+  <div class="stat-row">
+      <span>Status</span>
+      <span>
+        {% if invoice.status == "paid" %}
+          <span class="badge badge-paid">Paid</span>
+        {% elif invoice.status == "overdue" %}
+          <span class="badge badge-overdue">Overdue</span>
+        {% else %}
+          <span class="badge badge-due">Due</span>
+        {% endif %}
+      </span>
+  </div>
+
+  <div class="stat-row">
+      <span>Issued</span>
+      <span>{{ invoice.created_at }}</span>
+  </div>
+
+  <div class="stat-row">
+      <span>Due Date</span>
+      <span>{{ invoice.due_date }}</span>
+  </div>
+
+  <div class="stat-row" style="font-weight:600; font-size:16px; margin-top:10px;">
+      <span>Total</span>
+      <span>${{ total_cost|floatformat:2 }}</span>
+  </div>
+</div>
+
+<div class="content-container">
+  <div class="card-title">Related Information</div>
+
+  <div class="grid-2">
+      <div>
+          <strong>Event</strong><br>
+          {{ invoice.event.name }}<br>
+          {{ invoice.event.start_date }} – {{ invoice.event.end_date }}
+      </div>
+
+      <div>
+          <strong>Event Owner</strong><br>
+          {{ invoice.event.owner.profile.first_name }} {{ invoice.event.owner.profile.last_name }}<br>
+          {{ invoice.event.owner.profile.email }}
+      </div>
+
+      <div>
+          <strong>Contact</strong><br>
+          {{ invoice.contact.profile.first_name }} {{ invoice.contact.profile.last_name }}<br>
+          {{ invoice.contact.profile.email }}
+      </div>
+  </div>
+
+  {% if invoice.registration_records.all %}
+  <hr style="margin:20px 0; border:none; border-top:1px solid #eee;">
+  <strong>Teams</strong>
+  <ul style="margin-top:10px;">
+      {% for record in invoice.registration_records.all %}
+          <li>
+              {{ record.team_name }} — {{ record.division_name }} ({{ record.gender }})
+          </li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+
+<div class="content-container">
+  <div class="card-title">Registration Snapshot</div>
+
+  <div class="grid-2">
+      <div>
+          <strong>Name</strong><br>
+          {{ invoice.first_name }} {{ invoice.last_name }}
+      </div>
+      <div>
+          <strong>Email</strong><br>
+          {{ invoice.email }}
+      </div>
+      <div>
+          <strong>Phone</strong><br>
+          {{ invoice.phone }}
+      </div>
+  </div>
+</div>
+
+<div class="content-container">
+  <div class="card-title">Division & Pricing</div>
+
+  <table>
+      <thead>
+          <tr>
+              <th>Division</th>
+              <th>Gender</th>
+              <th>Unit Price</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for record in invoice.registration_records.all %}
+          <tr>
+              <td>{{ record.division_name }}</td>
+              <td>{{ record.gender }}</td>
+              <td>${{ record.unit_price|floatformat:2 }}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</div>
+
+{% endblock %}

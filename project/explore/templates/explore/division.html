@@ -1,0 +1,60 @@
+{% extends "explore/base.html" %}
+
+{% block content %}
+<section class="main-section"> 
+  <h1>Division Details</h1>
+
+  <dl>
+    <dt>Event</dt><dd>{{ division.event.name }}</dd>
+    <dt>Event start</dt><dd>{{ division.event.start_date }}</dd>
+    <dt>Division</dt><dd><strong>{{ division.name }} {{ division.gender }}</strong></dd>
+  </dl>
+  
+  <table class="item-table">
+    <thead>
+      <tr>
+        <th>Team Names</th>
+        <th>Contact</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for registration in division.registrations.all %}
+      <tr>
+        {% if registration.team %}
+
+        <td>
+          {{ registration.team.name }}
+          <a href="{% url 'explore:team' team_id=registration.team.id %}" class="inline-icon__link">
+            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
+          </a>
+        </td>
+
+        <td>
+          {{ registration.contact_name}}
+          <a href="{% url 'explore:profile' profile_id=registration.event.owner.profile.id %}" class="inline-icon__link">
+            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
+          </a>
+        </td>
+
+        {% else %}
+
+        <td>TBA</td>
+        <td>{{ registration.contact_name}}</td>
+
+        {% endif %}
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+
+</section> 
+
+<section class="main-section"> 
+  <h2>Event Details</h2>
+  {% include "components/event_summary_card.html" with event=division.event %}
+
+</section> 
+
+
+{% endblock %}

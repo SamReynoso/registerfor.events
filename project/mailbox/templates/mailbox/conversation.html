@@ -6,7 +6,7 @@
 <a href="{% url 'mailbox:conversation_delete' user_id=recipient.id %}">Delete</a><br>
 
 {% for part in conversation.participants.all %}
-  convo with: <a href="{% url 'details:profile' profile_id=part.id %}">{{ part }}</a><br>
+  convo with: <a href="{% url 'explore:profile' profile_id=part.id %}">{{ part }}</a><br>
 {% endfor %}
 
 <div>

@@ -16,6 +16,48 @@ from django.conf import settings
 from django.db import models
 
 
+class Sports(models.TextChoices):
+    BASKETBALL = 'basketball', 'Basketball'
+
+
+class Genders(models.TextChoices):
+    MALE = 'male', 'Male'
+    FEMALE = 'female', 'Female'
+    MIXED = 'mixed', 'Mixed'
+
+
+class DivisionChoices(models.TextChoices):
+    U6 = "U6"
+    U8 = "U8"
+    U10 = "u10", "U10"
+    U12 = "u12", "U12"
+    U14 = "u14", "U14"
+    U16 = "u16", "U16"
+    U18 = "u18", "U18"
+    U20 = "u20", "U20"
+    ADULT = "adult", "Adult"
+    MASTERS30 = "masters30", "Masters30"
+    MASTERS40 = "masters40", "Masters40"
+    MASTERS50 = "masters50", "Masters50"
+    MASTERS60 = "masters60", "Masters60"
+    MASTERS70 = "masters70", "Masters70"
+
+
+class States(models.TextChoices):
+    CALIFONIA = "calilfornia", "California"
+
+
+class Cities(models.TextChoices):
+    BAKERSFIELD = "bakersfield", "Bakersfield"
+
+
+class RegistrationStatus(models.TextChoices):
+    PENDING = 'pending', 'Pending'
+    CANCELLED = 'cancelled', 'Canelled'
+    WITHDRAWN = 'withdrawn', 'Withdrawn'
+    ATTENDED = 'attended', 'Attended',
+
+
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 related_name='profile',
@@ -57,41 +99,6 @@ class Profile(models.Model):
         return self.name
 
 
-class Sports(models.TextChoices):
-    BASKETBALL = 'basketball', 'Basketball'
-
-
-class Genders(models.TextChoices):
-    MALE = 'male', 'Male'
-    FEMALE = 'female', 'Female'
-    MIXED = 'mixed', 'Mixed'
-
-
-class DivisionChoices(models.TextChoices):
-    U6 = "U6"
-    U8 = "U8"
-    U10 = "u10", "U10"
-    U12 = "u12", "U12"
-    U14 = "u14", "U14"
-    U16 = "u16", "U16"
-    U18 = "u18", "U18"
-    U20 = "u20", "U20"
-    ADULT = "adult", "Adult"
-    MASTERS30 = "masters30", "Masters30"
-    MASTERS40 = "masters40", "Masters40"
-    MASTERS50 = "masters50", "Masters50"
-    MASTERS60 = "masters60", "Masters60"
-    MASTERS70 = "masters70", "Masters70"
-
-
-class States(models.TextChoices):
-    CALIFONIA = "calilfornia", "California"
-
-
-class Cities(models.TextChoices):
-    BAKERSFIELD = "bakersfield", "Bakersfield"
-
-
 class Event(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='events',
@@ -116,6 +123,11 @@ class Event(models.Model):
             blank=True,
             null=True)
 
+    unit_price = models.DecimalField(max_digits=10,
+                                     decimal_places=2,
+                                     null=True,
+                                     blank=True)
+
     def status(self):
         today = timezone.localdate()
         if today < self.start_date:
@@ -130,7 +142,9 @@ class Event(models.Model):
         return ''
 
     def delete(self, *args, **kwargs):
-        for reg in self.registrations.filter(upcoming=True).all():
+        for reg in self.registrations.filter(
+                status=RegistrationStatus.PENDING
+                ).all():
             host_canceled_event_alert_team_owner(reg)
             send_event_canceled_email(reg.owner)
         return super().delete(*args, **kwargs)
@@ -142,6 +156,12 @@ class Division(models.Model):
                               on_delete=models.CASCADE)
     gender = models.CharField(max_length=20, choices=Genders.choices)
     name = models.CharField(max_length=20, choices=DivisionChoices.choices)
+
+    # In the create form it would be best to add "use event default"
+    unit_price = models.DecimalField(max_digits=10,
+                                     decimal_places=2,
+                                     null=True,
+                                     blank=True)
 
     class Meta:
         constraints = [
@@ -185,40 +205,42 @@ class Team(models.Model):
         return super().delete(*args, **kwargs)
 
 
+class RegistrationManager(models.Manager):
+    def create_from_objects(self, owner, event: Event,):
+        return self.create(
+                owner=owner,
+                event=event,
+
+                first_name=owner.profile.first_name,
+                last_name=owner.profile.last_name,
+                email=owner.profile.email,
+                phone=owner.profile.phone,
+                )
+
+
 class Registration(models.Model):
+    objects = RegistrationManager()
+
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
-                              related_name='registrations',
                               on_delete=models.CASCADE,
-                              blank=True,
-                              null=True,
-                              )
-    team = models.ForeignKey(Team,
-                             related_name='registrations',
-                             blank=True,
-                             null=True,
-                             on_delete=models.CASCADE,
-                             )
+                              related_name="registration_records")
+
     event = models.ForeignKey(Event,
-                              related_name='registrations',
-                              on_delete=models.CASCADE)
+                              on_delete=models.CASCADE,
+                              related_name='registrations')
 
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.EmailField()
     phone = PhoneNumberField()
-    assigned_division = models.ForeignKey(Division,
-                                          related_name='registrations',
-                                          on_delete=models.CASCADE)
 
-    upcoming = models.BooleanField(default=True)
+    status = models.CharField(
+        max_length=20,
+        choices=RegistrationStatus.choices,
+        default=RegistrationStatus.PENDING,
+    )
 
-    email_is_confirmed = models.BooleanField(default=False)
-    phone_is_confirmed = models.BooleanField(default=False)
-
-    # team_name = models...
-    # canceled = models.BooleanField(default=False)
-    # withdrawn = models.BooleanField(default=False)
-    # attended = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     @property
     def contact_name(self):
@@ -226,7 +248,50 @@ class Registration(models.Model):
             return self.owner.profile.name
         return self.first_name + ' ' + self.last_name
 
+    @property
+    def teams(self):
+        return [item.team for item in self.items.all() if item.team]
+
     def save(self, *args, **kwargs):
         if self.pk is None:
             new_registrations_alert_event_owner(self)
         super().save(*args, **kwargs)
+
+
+class RegistrationItem(models.Model):
+
+    registration = models.ForeignKey(Registration,
+                                     related_name='items',
+                                     on_delete=models.CASCADE
+                                     )
+    team = models.ForeignKey(Team,
+                             related_name='items',
+                             blank=True,
+                             null=True,
+                             on_delete=models.CASCADE,
+                             )
+    division = models.ForeignKey(Division,
+                                 related_name='items',
+                                 on_delete=models.CASCADE)
+
+    unit_price = models.DecimalField(max_digits=10,
+                                     decimal_places=2,
+                                     null=True,
+                                     blank=True)
+
+    @property
+    def team_name(self):
+        if self.team:
+            return self.team.name
+        # return self.registration.owner.name
+        return "TBA"
+
+    @property
+    def has_team(self):
+        if self.team:
+            return True
+        return False
+
+    # make this a text choice when implemented
+    # withdrawn = models.BooleanField(default=False)
+    # canceled = models.BooleanField(default=False)

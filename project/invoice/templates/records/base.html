@@ -1,0 +1,14 @@
+{% extends "base/base.html" %}
+
+{% block header %}
+
+  <ul class="nav-link__container">
+    <li>
+      <a href="{% url 'user:hosting' %}">Hosting</a>
+    </li>
+    <li>
+      <a href="{% url 'invoice:invoices' %}">Invoices</a>
+    </li>
+  </ul>
+
+{% endblock %}

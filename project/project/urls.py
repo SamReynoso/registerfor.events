@@ -6,13 +6,19 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('', include('base.urls')),
-    path('account/', include('user.urls')),
     path('admin/', admin.site.urls),
-    path('app/', include('app.urls')),
-    path('details/', include('details.urls')),
+
+    path('', include('base.urls')),
+    path('explore/', include('explore.urls')),
+
+    path('account/', include('user.urls')),
+    path('play/', include('play.urls')),
+    path('host/', include('host.urls')),
+
     path('mailbox/', include('mailbox.urls')),
-    path('records/', include('records.urls')),
+    path('invoice/', include('invoice.urls')),
+    path('share/', include('share.urls')),
+    path('app/', include('app.urls')),
 
     path("password-reset/",
          auth_views.PasswordResetView.as_view(

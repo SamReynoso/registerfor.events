@@ -1,41 +1,5 @@
 <table class="item-table">
 
-  <tr><th colspan="2"><h2 class="pt-2">Team Details</h2></th></tr>
-
-  <tr>
-    <th>Team Name</th>
-    {% if registration.team %}
-    <td>{{ registration.team.name}}</td>
-    {% else %}
-    <td>TBA</td>
-    {% endif %}
-  </tr>
-
-  <tr>
-    <th>Team Gender</th>
-    <td>{{ registration.assigned_division.gender }}</td>
-  </tr>
-
-  <tr>
-    <th>Team Division</th>
-    <td>{{ registration.assigned_division.name}}</td>
-  </tr>
-
-  <tr>
-    <th>Team Contact Name</th>
-    <td>{{ registration.contact_name }}</td>
-  </tr>
-
-  <tr>
-    <th>Team Contact Email</th>
-    <td>{{ registration.email }}</td>
-  </tr>
-
-  <tr>
-    <th>Team Contact Phone</th>
-    <td>{{ registration.phone}}</td>
-  </tr>
-
   <tr><th colspan="2"><h2 class="pt-2">Event Details</h2></th></tr>
 
   <tr>
@@ -97,4 +61,20 @@
     <th>Host Phone</th>
     <td>{{ registration.event.owner.profile.phone }}</td>
   </tr>
+
+  <tr><th colspan="2"><h2 class="pt-2">Team Details</h2></th></tr>
+
+  {% for item in registration.items.all %}
+  <tr>
+    <th>Team Name</th>
+    <th>Team Division</th>
+  </tr>
+
+  <tr>
+    <td>{{ item.team_name}}</td>
+    <td>{{ item.division.name}} - {{ item.division.gender }}</td>
+  </tr>
+  {% endfor %}
+
+
 </table>

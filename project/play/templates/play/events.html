@@ -1,0 +1,61 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+
+<section class="main-section">
+  <h1>My Events</h1>
+
+  <div class="paragraph mb-2">
+    <span class="paragraph__heading">Event I'm In</span>
+    <hr>
+    <p>
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+    </p>
+  </div>
+
+<section class="main-section">
+  <table class="item-table">
+    <thead>
+      <tr>
+        <th>Event Name</th>
+        <th>Host</th>
+        <th>My Team</th>
+        <th>Divisions</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for registration in registrations.all %}
+      <tr>
+        <td>
+            {{ registration.event.name }}
+        </td>
+        <td>
+            {{ registration.event.owner}}
+        </td>
+        <td>
+            {{ registration.team.name }}
+        </td>
+        <td>
+          {{ registration.team.division}}
+          {{ registration.team.gender}}
+        </td>
+        <td>
+          <a href="{% url "play:registration_details" registration_id=registration.id %}" class="inline-icon__link">
+              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+              <a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+{% endblock %}

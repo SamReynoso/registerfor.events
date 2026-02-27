@@ -1,0 +1,99 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+<section class="main-section">
+<h1>Team Details</h1>
+
+  <h2 class="ml-2 mt-2 mb-1">
+    {{ team.name }}
+    <a href="{% url 'explore:team' team_id=team.id %}" class="inline-icon__link">
+      <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
+    </a>
+  </h2>
+
+  <ul class="action-link__container">
+    <li><a href="{% url 'play:team_photo_update' team_id=team.id%}" class="action-link">Change Photo</a><br></li>
+    <li><a href="{% url 'play:team_photo_delete' team_id=team.id%}" class="action-link">Delete Photo</a></li>
+  </ul>
+
+  <div class="img-team-photo__container-full"
+    <img src="{{ team.get_photo_url }}" class="thumbnail">
+  </div>
+
+  <h3>Team Info</h3>
+
+  <dl>
+    <dt>Name</dt><dd>{{ team.name }}</dd>
+    <dt>Sport</dt><dd>{{ team.sport }}</dd>
+    <dt>gender</dt><dd>{{ team.gender }}</dd>
+    <dt>Division</dt><dd>{{ team.division }}</dd>
+  </dl>
+
+<ul class="action-link__container">
+  <li><a href="{% url 'play:team_update' team_id=team.id %}" class="action-link">Update Team</a><br></li>
+</ul>
+
+</section>
+
+<section class="main-section">
+
+  <h2>Upcoming Events </h2>
+
+  <ul class="nav-list">
+    <li><a href="#"></a></li>
+  </ul>
+
+  <table class="item-table">
+    <thead>
+      <tr>
+        <th>Event Name</th>
+        <th>Start</th>
+        <th>location</th>
+        <th>Sport</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for registration in registrations %}
+      <tr>
+        <td>{{ registration.event.name }}</td>
+        <td>{{ registration.event.start_date }}</td>
+        <td>
+          {{ registration.event.address }},
+          {{ registration.event.city }},
+          {{ registration.event.state }},
+        </td>
+        <td>{{ registration.event.sport }}</td>
+        <td>
+          <a href="{% url 'play:registration' registration_id=registration.id %}" class="inline-icon__link">
+            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="main-section danger-section">
+  <div class="pl-2">
+
+    <h2>Delete This Team</h2>
+    <div class="paragraph">
+      <span class="paragraph__heading">This is a heading</span>
+      <hr>
+      <p>
+        this is a paragraph this is a paragraph this is a paragraph this is a paragraph this is a paragraph this is a 
+        paragraph this is a paragraph this is a paragraph this is a paragraph this is a paragraph
+      </p>
+    </div>
+
+    <ul class="action-link__container">
+      <li><a href="{% url 'play:team_delete' team_id=team.id %}" class="action-link danger-link">Continue</a></li>
+    </ul>
+
+  </div>
+</section>
+
+{% endblock %}
+

@@ -15,8 +15,11 @@ def registration_withdrawn_alert_event_owner(registration):
     Alert.objects.create(
             recipient=registration.event.owner,
             type='team_withdrawn',
-            title=f"Registration withdrawn by '{registration.team.name}.'",
-            body='A team has withdrawn from participation in you event ' +
+            title=(
+                "Registration withdrawn by "
+                f"'{registration.owner.profile.name}.'"
+                ),
+            body='A team withdrew from your event ' +
             f"'{registration.event.name}'",
             # target=registration.owner
             )

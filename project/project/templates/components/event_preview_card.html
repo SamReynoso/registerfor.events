@@ -9,7 +9,7 @@
       {{ event.name }}
       {% with event.id|stringformat:"s" as id_str %}
         {% if request.path != "/details/event/"|add:id_str %}
-          <a href="{% url 'details:event' event_id=event.id %}" class="inline-icon__link">
+          <a href="{% url 'explore:event' event_id=event.id %}" class="inline-icon__link">
             <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
           </a>
         {% endif %}

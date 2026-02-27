@@ -5,15 +5,15 @@
 <section class="main-section">
 
   <h1 class="mb-2">My Profile 
-    <a href="{% url 'details:profile' profile_id=user.profile.id%}" class="inline-icon__link">
+    <a href="{% url 'explore:profile' profile_id=user.profile.id%}" class="inline-icon__link">
       <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
     </a>
   </h1>
 
 
   <ul class="action-link__container">
-    <li><a href="{% url 'app:profile_avatar_update' %}" class="action-link">Update</a></li>
-    <li><a href="{% url 'app:profile_avatar_delete' %}" class="action-link">Delete</a></li>
+    <li><a href="{% url 'user:profile_avatar_update' %}" class="action-link">Update</a></li>
+    <li><a href="{% url 'user:profile_avatar_delete' %}" class="action-link">Delete</a></li>
   </ul>
 
   <div class="img-profile__container-full">
@@ -34,7 +34,7 @@
   </dl>
 
   <ul class="action-link__container">
-    <li><a href="{% url 'app:profile_update' %}" class="action-link">Update</a></li>
+    <li><a href="{% url 'user:profile_update' %}" class="action-link">Update</a></li>
   </ul>
 
   <div class="paragraph mt-2">

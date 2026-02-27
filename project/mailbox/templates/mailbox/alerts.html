@@ -18,7 +18,7 @@
         <summary>New Registration</summary>
         <h4>{{ alert.title }}</h4>
         <p>{{ alert.body }}</p>
-        <a href="{% url 'user:hosting' %}">Hosting</a>
+        <a href="{% url 'host:hosting' %}">Hosting</a>
       </details>
     {% endif %}
 
@@ -36,7 +36,7 @@
         <summary>Participating team deleted</summary>
         <h4>{{ alert.title }}</h4>
         <p>{{ alert.body }}</p>
-        <a href="{% url 'user:hosting' %}">Hosting</a>
+        <a href="{% url 'host:hosting' %}">Hosting</a>
       </details>
     {% endif %}
 

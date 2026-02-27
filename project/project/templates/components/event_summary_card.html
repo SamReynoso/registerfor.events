@@ -1,13 +1,9 @@
 <div>
   <h3>
     {{ event.name }}
-    {% with event.id|stringformat:"s" as id_str %}
-      {% if request.path != "/details/event/"|add:id_str %}
-        <a href="{% url 'details:event' event_id=event.id %}" class="inline-icon__link">
-          <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
-        </a>
-      {% endif %}
-    {% endwith %}
+      <a href="{% url 'explore:event' event_id=event.id %}" class="inline-icon__link">
+        <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
+      </a>
   </h3>
   <div class="event-details-card__content">
 
@@ -24,7 +20,7 @@
           <dt>Sport</dt><dd>{{ event.sport }}</dd>
           <dt>Starts</dt><dd>{{ event.start_date }}</dd>
           <dt>Ends</dt><dd>{{ event.end_date }}</dd>
-          <dt>Host</dt><dd><a href="{% url 'details:profile' event.owner.profile.id %}">{{ event.owner.profile }}</a></dd>
+          <dt>Host</dt><dd><a href="{% url 'explore:profile' event.owner.profile.id %}">{{ event.owner.profile }}</a></dd>
           <dt>Status</dt><dd>{{ event.status }}</dd>
         </dl>
       </div>

@@ -85,7 +85,7 @@ def send_new_registration_email(registration, user, heading):
         to_user=user,
         template='email/registration_email.html',
         context=context,
-        cta_viewname='user:registration_details',
+        cta_viewname='play:registration',
         view_kwargs={'registration_id': registration.id}
     )
 
@@ -165,7 +165,7 @@ def send_rsvp_email(rsvp):
         to_user=rsvp.event.owner,
         template='email/rsvp_email.html',
         context=context,
-        cta_viewname='details:event',
+        cta_viewname='explore:event',
         view_kwargs={'event_id': rsvp.event.id}
     )
 

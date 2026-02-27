@@ -1,0 +1,47 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+<section class="main-section">
+
+  <h1 class="mb-2">Registration Details</h1>
+
+  {% include "components/registration_details_card.html" with registration=registration %}
+
+  <ul class="action-link__container mt-2">
+    <li>
+      <a href="#" class="action-link">Modify Registration</a>
+    </li>
+  </ul>
+
+</section>
+
+<section class="main-section">
+
+  <h1 class="mb-2">Registration Snapshot</h1>
+
+  {% include "components/registration_snapshot_table.html" with registration=registration %}
+
+</section>
+
+<section class="main-section danger-section">
+  <div class="pl-2">
+    <h2>Withdraw Your Registration</h2>
+
+    <div class="paragraph">
+      <span class="paragraph__heading">
+        Follow this link to the confirmation page
+      </span>
+    </div>
+
+      
+    <div class="action-link__container">
+      <a href="{% url 'play:withdraw' registration_id=registration.id %}" class="action-link danger-link">
+        Continure
+     </a>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}
+

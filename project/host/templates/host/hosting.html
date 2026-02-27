@@ -1,0 +1,61 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+
+<section class="main-section">
+
+  <h1>Hosting</h1>
+
+  <div class="paragraph mb-2">
+    <span class="paragraph__heading">Events You're Hosting</span>
+    <hr>
+    <p>
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+    </p>
+  </div>
+
+  <div class="action-link__container mb-1">
+    <a href="{% url 'host:event_create' %}" class="action-link">Create Event</a>
+    <a href="{% url 'invoice:invoices' %}" class="action-link">Records</a>
+  </div>
+
+  <table class="item-table">
+    <thead>
+      <tr>
+        <th>Event Name</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Sport</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for event in events.all %}
+        <tr>
+          <td>{{ event.name }}</td>
+          <td>{{ event.city }}</td>
+          <td>{{ event.state }}</td>
+          <td>{{ event.sport }}</td>
+          <td>{{ event.status }}</td>
+          <td>
+            <a href="{% url "host:event" event_id=event.id %}" class="inline-icon__link">
+              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+              <a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</section>
+{% endblock %}

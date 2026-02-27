@@ -50,11 +50,15 @@ INSTALLED_APPS = [
 
     'app',
     'base',
-    'user',
-    'models',
-    'details',
+    'explore',
+    'host',
+    'invoice',
+    'share',
     'mailbox',
-    'records',
+    'models',
+    'play',
+    'user',
+
 ]
 
 

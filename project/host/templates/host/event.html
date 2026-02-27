@@ -1,0 +1,120 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+
+<section class="main-section">
+  <h1>Event</h1>
+  <h2 class="ml-2 mt-2">
+    {{ event.name }}
+    <a href="{% url 'explore:event' event_id=event.id %}" class="inline-icon__link">
+      <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
+    </a>
+  </h2>
+
+  <ul class="action-link__container">
+    <li><a href="{% url 'host:event_poster_update' event_id=event.id %}" class="action-link">Change Poster</a></li>
+    <li><a href="{% url 'host:event_poster_delete' event_id=event.id %}" class="action-link">Delete Poster</a></li>
+  </ul>
+
+  <div class="img-poster__container-full mb-1">
+    <img src="{{ event.get_poster_url }}" class="img-fill">
+  </div>
+
+  <h3>Event Info</h3>
+
+  <dl>
+    <dt>Sport</dt><dd>{{ event.sport }}</dd>
+    <dt>City</dt><dd>{{ event.city }}</dd>
+    <dt>State</dt><dd>{{ event.state}}</dd>
+    <dt>Visibility</dt><dd>{{ event.public }}</dd>
+    <dt>Status:</dt><dd>{{ event.status }}</dd>
+  </dl>
+
+  <ul class="action-link__container">
+    <li><a href="{% url 'host:event_update' event_id=event.id %}" class="action-link">Update Event</a></li>
+  </ul>
+
+</section>
+
+<section class="main-section">
+
+  <h2>Interact</h2>
+
+  <div class="action-link__container">
+    <a href="{% url 'host:event_announcement_create' event_id=event.id %}" class="action-link">Create Announcement</a>
+    <a href="{% url 'host:invitations' event_id=event.id %}" class="action-link">Invitations</a>
+  </div>
+
+  <div class="paragraph">
+    <span class="paragraph__heading">This is a heading</span>
+    <hr>
+    <p>
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+      this is a paragraph
+    </p>
+  </div>
+
+</section>
+
+
+<section class="main-section">
+
+  <h2>Divisions</h2>
+
+  <ul class="action-link__container">
+    <li><a href="{% url 'host:event_divisions' event_id=event.id %}" class="action-link">Add/Remove Division</a></li>
+  </ul>
+
+  <table class="item-table">
+    <thead>
+      <tr><th>Gender</th><th>Division</th><th>Entries</th><th></ht></tr>
+    </thead>
+
+    <tbody>
+    {% for division in event.divisions.all %}
+      <tr>
+        <td>{{ division.gender }}</td>
+        <td>{{ division.name }}</td>
+        <td>{{ division.registrations.count}}</td>
+        <td><a href="{% url 'host:division' division_id=division.id %}">Manage</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+
+  </table>
+</section>
+
+<section class="main-section danger-section">
+
+  <div class="pl-2">
+
+    <h2>Cancel This Event</h2>
+    <div class="paragraph">
+      <span class="paragraph__heading">This is a heading</span>
+      <hr>
+      <p>
+        this is a paragraph this is a paragraph this is a paragraph this is a paragraph this is a paragraph this is a 
+      </p>
+    </div>
+
+    <ul class="action-link__container">
+      <li>
+        <a href="{% url 'host:event_delete' event_id=event.id %}" class="action-link danger-link">
+          Continure to Cancel
+        </a>
+      </li>
+    </ul>
+
+  </div>
+  
+</section>
+
+{% endblock %}
