@@ -152,7 +152,7 @@ def register_for_event(request, event_id: int):
 
 
 @login_required(login_url='/login/')
-def registration_withdraw(request, registration_id: int):
+def withdraw(request, registration_id: int):
     registration = get_object_or_404(Registration, id=registration_id)
     if request.method == 'POST':
         registration_withdrawn_alert_event_owner(registration)

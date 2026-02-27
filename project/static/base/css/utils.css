@@ -125,6 +125,10 @@
   font-size: .7rem;
 }
 
+.text-medium {
+  font-size: .8rem;
+}
+
 .text-muted {
   color: var(--muted-text-color);
 }

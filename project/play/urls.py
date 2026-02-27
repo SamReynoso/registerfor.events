@@ -22,6 +22,10 @@ urlpatterns = [
          views.registration,
          name='registration'),
 
+    path('registration/item/<int:registration_item_id>/',
+         views.registration_item,
+         name='registration_item'),
+
 ] + [
     path('team/create/',
          post.team_create,
@@ -44,6 +48,6 @@ urlpatterns = [
          post.register_for_event,
          name='register_for_event'),
     path('registration/withdraw/<int:registration_id>/',
-         post.registration_withdraw,
-         name='registration_withdraw'),
+         post.withdraw,
+         name='withdraw'),
     ]

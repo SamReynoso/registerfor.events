@@ -54,18 +54,18 @@
       </tr>
     </thead>
     <tbody>
-      {% for registration in registrations %}
+      {% for item in items %}
       <tr>
-        <td>{{ registration.event.name }}</td>
-        <td>{{ registration.event.start_date }}</td>
+        <td>{{ item.registration.event.name }}</td>
+        <td>{{ item.registration.event.start_date }}</td>
         <td>
-          {{ registration.event.address }},
-          {{ registration.event.city }},
-          {{ registration.event.state }},
+          {{ item.registration.event.address }},
+          {{ item.registration.event.city }},
+          {{ item.registration.event.state }},
         </td>
-        <td>{{ registration.event.sport }}</td>
+        <td>{{ item.registration.event.sport }}</td>
         <td>
-          <a href="{% url 'play:registration' registration_id=registration.id %}" class="inline-icon__link">
+          <a href="{% url 'play:registration' registration_id=item.registration.id %}" class="inline-icon__link">
             <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
           </a>
         </td>

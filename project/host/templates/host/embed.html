@@ -7,7 +7,7 @@
 
 
 <iframe 
-  src="{{ site_url }}{% url 'invite:embedded' event_id=event.id %}"
+  src="{{ site_url }}{% url 'share:embedded' event_id=event.id %}"
   width="100%" 
   height="450px" 
   frameborder="0"
@@ -22,10 +22,10 @@
     class="copy-box"
     >
 
-<iframe src="{{ site_url }}{% url 'invite:embedded' event_id=event.id %}" width="100%" height="650px" frameborder="0" style="border:0;"></iframe>
+<iframe src="{{ site_url }}{% url 'share:embedded' event_id=event.id %}" width="100%" height="650px" frameborder="0" style="border:0;"></iframe>
   </textarea>
 
-  <p style="margin-top: 10px; fontSize: 14px; color: #666;">
+  <p class="text-muted text-medium mt-2">
     Paste this into any website HTML.
   </p>
 </dev>

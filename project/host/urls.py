@@ -61,12 +61,14 @@ urlpatterns = [
     path('event/registration/<int:registration_id>/cancel',
          post.registration_cancel,
          name='registration_cancel'),
+
     path('event/<int:event_id>/status/',
          post.event_status,
          name='event_status'),
     path('event/<int:event_id>/announcement/',
          post.event_announcement_create,
          name='event_announcement_create'),
+
     path('rsvp/convert/<int:rsvp_id>',
          post.rsvp_convert,
          name='rsvp_convert'),

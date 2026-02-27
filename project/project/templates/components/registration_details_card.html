@@ -19,17 +19,17 @@
         </a>
       </td>
     </tr>
-    <tr>
       {% for item in registration.items.all %}
-      <th>Team Registered</th>
+    <tr>
+      <th>Team</th>
       <td>
         {{ item.team.name}} - {{ item.division.name}} {{ item.division.gender }}
-        <a href="{% url "explore:team" team_id=item.team.id %}" class="inline-icon__link">
+        <a href="{% url "play:registration_item" registration_item_id=item.id %}" class="inline-icon__link">
           <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
         </a>
       </td>
-      {% endfor %}
     </tr>
+      {% endfor %}
   </tbody>
 
 </table>

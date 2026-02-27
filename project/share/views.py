@@ -1,12 +1,19 @@
 from django.views.decorators.clickjacking import xframe_options_exempt
-from django.conf import settings
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http import HttpResponseNotAllowed
-from models.models import Event
-from project.utils.phonenumber import parse_phone
 from project.services.email import send_rsvp_email
+from project.utils.phonenumber import parse_phone
+from django.http import HttpResponseNotAllowed
 from mailbox.forms import RsvpForm
+from django.conf import settings
 from mailbox.models import Rsvp
+from models.models import Event
+
+
+@xframe_options_exempt
+def embedded(request, event_id: int):
+    event = Event.objects.get(id=event_id)
+    context = {'event': event}
+    return render(request, 'share/embedded.html', context)
 
 
 def add_rsvp_divisions(post, rsvp, event):
@@ -44,7 +51,7 @@ def authenticated_invite(request, event):
             'subject': f'{event.name} Invitation',
             'disctiption': f'Join us on {event.start_date} in {event.city}.'
                }
-    return render(request, 'app/event_invite.html', context)
+    return render(request, 'share/event_invite.html', context)
 
 
 def anonymous_invite(request, event):
@@ -68,7 +75,7 @@ def anonymous_invite(request, event):
             'subject': f'{event.name} Invitation',
             'disctiption': f'Join us on {event.start_date} in {event.city}.'
                }
-    return render(request, 'app/event_invite.html', context)
+    return render(request, 'share/event_invite.html', context)
 
 
 def event_invite(request, event_id: int):
@@ -76,12 +83,3 @@ def event_invite(request, event_id: int):
     if request.user.is_authenticated:
         return authenticated_invite(request, event)
     return anonymous_invite(request, event)
-
-
-@xframe_options_exempt
-def embedded(request, event_id: int):
-    event = Event.objects.get(id=event_id)
-    context = {'event': event}
-    return render(request, 'invite/embedded.html', context)
-
-

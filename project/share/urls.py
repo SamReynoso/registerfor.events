@@ -5,9 +5,11 @@ from share import views
 app_name = 'share'
 
 urlpatterns = [
+        path('embedded/<int:event_id>/', views.embedded, name='embedded'),
 
-    path('rsvp/convert/<int:rsvp_id>',
-         views.rsvp_convert,
-         name='rsvp_convert'),
-
+        path('event/<int:event_id>/invite/',
+             views.event_invite,
+             name='event_invite'),
 ]
+
+

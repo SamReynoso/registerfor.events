@@ -7,24 +7,18 @@ from django.conf import settings
 from weasyprint import HTML
 
 
-def records(request):
-    invoices = Invoice.objects.filter(owner=request.user).all()
-    context = {'invoices': invoices}
-    return render(request, 'records/records.html', context)
-
-
 def invoices(request):
     invoices = Invoice.objects.filter(owner=request.user).all()
     context = {'invoices': invoices}
-    return render(request, 'records/invoices.html', context)
+    return render(request, 'invoice/invoices.html', context)
 
 
-def invoice_details(request, invoice_id: int):
+def invoice(request, invoice_id: int):
     invoice = get_invoice(request, invoice_id)
     if invoice is None:
         return HttpResponse(status=403)
     context = {'invoice': invoice}
-    return render(request, 'records/invoice_details.html', context)
+    return render(request, 'invoice/invoice.html', context)
 
 
 def get_invoice(request, invoice_id):
@@ -62,11 +56,11 @@ def get_invoice_response(request, invoice_id, disposition):
     return response
 
 
-def view_invoice(request, invoice_id):
+def view_pdf(request, invoice_id):
     return get_invoice_response(request, invoice_id, 'inline')
 
 
-def download_invoice(request, invoice_id):
+def download_pdf(request, invoice_id):
     return get_invoice_response(request, invoice_id, 'attachment')
 
 

@@ -1,9 +1,33 @@
-{% extends "records/base.html" %}
+{% extends "invoice/base.html" %}
 
 {% block content %}
 
 <section class="main-section">
   <h2>Invoices</h2>
+
+  <div class="paragraph mb-3">
+    <p class="mb-2">
+      Take an event through it's lifecycle and view it's invoices here. You'll have a chance to review your invoices 
+      before issuing them to you attendies.
+    </p>
+    <span class="paragraph__heading">Event Lifecycle</span>
+    <hr>
+    <ul>
+      <li>
+        Create an Event 
+      </li>
+      <li>
+        Add Divisions
+      </li>
+      <li>
+        Accept Registrations
+      </li>
+      <li>
+        Mark the Event as completed
+      </li>
+    </ul>
+  </div>
+
 
   <table class="item-table">
     <thead>
