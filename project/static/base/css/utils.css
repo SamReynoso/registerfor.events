@@ -133,8 +133,11 @@
   color: var(--muted-text-color);
 }
 
-.m-auto {
+.m-a {
   margin: auto;
+}
+.ml-a {
+  margin-left: auto;
 }
 
 .grid-2 {
@@ -142,4 +145,6 @@
     grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
+
+.flex { display: flex;}
 

@@ -1,0 +1,28 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+
+<section class="main-section">
+
+<h1>Open Registration</h1>
+
+{% include "components/event_preview_card.html" %}
+
+  <form method="post" class="form mt-2">
+    <h2>Ready To Accept Registrations?</h2>
+
+  <div class="paragraph mb-2">
+    <span class="paragraph__heading">You're one click away</span>
+    <hr>
+    <p>
+      Open this event to public search and registration.
+    </p>
+  </div>
+
+      {% csrf_token %}
+
+      <button type="submit" class="mt-2">Open</button>
+
+  </form>
+</section>
+{% endblock %}

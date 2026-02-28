@@ -1,19 +1,16 @@
 {% extends "base/base.html" %}
 
 {% block content %}
-<section class="main-section">
+<section class="main-section pb-2">
 
   <h2>Create an Event</h2>
 
    <div class="paragraph">
-      <span class="paragraph__heading">Get Started As An Event Host</span>
+      <span class="paragraph__heading">Become An Event Host</span>
       <hr>
       <p>
-        this is a paragraph
-        this is a paragraph
-        this is a paragraph
-        this is a paragraph
-        this is a paragraph
+        It's as easy as creating your first event. Send out invitations, accept registrations, run ,and conclude your
+        event.
       </p>
    </div>
 
@@ -23,7 +20,7 @@
 
   <form method="post" class="form">
 
-    <h3>Event Form</h3>
+    <h2>Event Form</h2>
 
     {% if user.profile.is_complete %}
     {% csrf_token %}

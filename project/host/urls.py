@@ -62,9 +62,21 @@ urlpatterns = [
          post.registration_cancel,
          name='registration_cancel'),
 
-    path('event/<int:event_id>/status/',
-         post.event_status,
-         name='event_status'),
+
+    path('event/<int:event_id>/status/open/',
+         post.status_open,
+         name='status_open'),
+
+    path('event/<int:event_id>/status/close',
+         post.status_close,
+         name='status_close'),
+
+    path('event/<int:event_id>/status/scheduled/',
+         post.status_scheduled,
+         name='status_scheduled'),
+
+
+
     path('event/<int:event_id>/announcement/',
          post.event_announcement_create,
          name='event_announcement_create'),

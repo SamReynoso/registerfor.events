@@ -9,8 +9,13 @@
 
   <ul class="action-link__container mt-2">
     <li>
-      <a href="#" class="action-link">Modify Registration</a>
+      <a href="{% url 'play:registration_modify' registration_id=registration.id %}" class="action-link">Modify Registration</a>
     </li>
+    {% if registration.invoice %}
+    <li>
+      <a href="{% url 'invoice:invoice' invoice_id=registration.invoice.id %}" class="action-link">Invoice</a>
+    </li>
+    {% endif %}
   </ul>
 
 </section>

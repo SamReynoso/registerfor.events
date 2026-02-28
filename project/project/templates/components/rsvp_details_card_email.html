@@ -15,7 +15,7 @@
   <tbody style="border: 1px solid #a0a0a0; padding: 5px">
     {% for division in rsvp.divisions.all %}
     <tr style="border-bottom: 1px solid #a0a0a0;">
-      <td style="padding: 3px;">{{ division.gender }}</td><td style="padding: 3px;">{{ division.name }}</td>
+      <td style="padding: 3px;">{{ division.get_gender_display }}</td><td style="padding: 3px;">{{ division.name }}</td>
     </tr>
     {% endfor %}
   </tbody>

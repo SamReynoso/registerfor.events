@@ -48,9 +48,9 @@
         <tr>
 
           <td>{{ event.name }}</td>
-          <td>{{ event.sport }}</td>
-          <td>{{ event.city }}</td>
-          <td>{{ event.state }}</td>
+          <td>{{ event.get_sport_display }}</td>
+          <td>{{ event.get_city_display }}</td>
+          <td>{{ event.get_state_display }}</td>
           <td>{{ event.start_date}}</td>
 
           <td>
@@ -86,9 +86,9 @@
         <tr>
 
           <td>{{ team.name }}</td>
-          <td>{{ team.sport }}</td>
-          <td>{{ team.division }}</td>
-          <td>{{ team.gender }}</td>
+          <td>{{ team.get_sport_display }}</td>
+          <td>{{ team.get_division_display }}</td>
+          <td>{{ team.get_gender_display }}</td>
 
           <td>
             <a href="{% url 'explore:team' team_id=team.id %}" class="inline-icon__link">

@@ -35,9 +35,9 @@
       {% for team in teams %}
         <tr>
           <td>{{ team.name }}</td>
-          <td>{{ team.gender }}</td>
-          <td>{{ team.division }}</td>
-          <td>{{ team.sport }}</td>
+          <td>{{ team.get_gender_display }}</td>
+          <td>{{ team.get_division_display }}</td>
+          <td>{{ team.get_sport_display }}</td>
           <td><a href="{% url 'play:team' team_id=team.id %}" class="inline-icon__link">
                 <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
                 <a>

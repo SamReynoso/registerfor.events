@@ -3,7 +3,7 @@
 {% block content %}
 <section class="main-section">
 
-  <h2>Withdraw From This Event</h2>
+  <h1>Withdraw From This Event</h1>
 
   <div class="mb-2">
     {% include "components/registration_details_card.html" with team=registration.team %}
@@ -12,20 +12,16 @@
   <form method="post" class="form">
     <h2>Are you sure you want to withdraw from this event?</h2>
 <div class="paragraph">
-    <span class="paragraph__heading">Events You're Hosting</span>
+    <span class="paragraph__heading">
+      This will withdraw all of your teams from this event
+    </span>
     <hr>
-    <p>
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
+
+    <p class="mb-1">
+      All teams will be removed from there divisions if you withdraw this registration. If you would like modify this
+      registration instead follow this link.
     </p>
+    <a href="{% url 'play:registration_modify' registration_id=registration.id  %}">Modify Registration</a>
   </div>
       {% csrf_token %}
       <button type="submit" class="btn-danger">Withdraw</button>

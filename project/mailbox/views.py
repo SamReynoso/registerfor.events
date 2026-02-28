@@ -92,6 +92,5 @@ def conversation_delete_view(request, user_id: int):
     convo = get_convo_helper(sender, recipient)
     if request.method == 'POST':
         convo.delete()
-        print('convo deleted')
         return redirect('mailbox:direct_messages')
     return render(request, 'mailbox/conversation_delete.html')

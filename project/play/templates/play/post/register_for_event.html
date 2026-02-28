@@ -31,16 +31,20 @@
   <table class="item-table">
     <thead>
       <tr>
-        <th>Gender</th>
+        <th></th>
         <th>Division</th>
+        <th>Gender</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
 
     {% for division in event.divisions.all %}
       <tr>
-        <td>{{ division.gender }}</td>
-        <td>{{ division.name }}</td>
+        <td></td>
+        <td>{{ division.get_name_display }}</td>
+        <td>{{ division.get_gender_display }}</td>
+        <td></td>
       </tr>
     {% endfor %}
     </tbody>
@@ -75,13 +79,12 @@
         </thead>
         <tbody>
         {% for team in teams %}
-        {% with key=team.gender|add:"-"|add:team.division %}
           <tr>
             <td>{{ team.name }}</td>
 
-            <td>{{ team.gender }}</td>
-            <td>{{ team.division }}</td>
-            <td>{{ team.sport }}</td>
+            <td>{{ team.get_gender_display }}</td>
+            <td>{{ team.get_division_display }}</td>
+            <td>{{ team.get_sport_display }}</td>
             <td>
               {% if team in registered_teams %}
               <img src="/assets/icons/check-mark.svg" class="inline-icon">
@@ -89,7 +92,7 @@
                 <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
               </a>
               {% else %}
-                {% if key in event_division_keys %}
+                {% if team.get_key in event_division_keys %}
                   <input type="checkbox" name="team{{ team.id }}"></input>
                 {% else %}
                   Unavailable
@@ -97,7 +100,6 @@
               {% endif %}
             </td>
           </tr>
-          {% endwith %}
         {% endfor %}
 
         </tbody>

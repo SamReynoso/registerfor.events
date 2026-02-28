@@ -9,7 +9,7 @@
 
   <tr>
     <th>Event Sport</th>
-    <td>{{ registration.event.sport }}</td>
+    <td>{{ registration.event.get_sport_display }}</td>
   </tr>
 
   <tr>
@@ -24,7 +24,7 @@
 
   </tr>
     <th>Event Status</th>
-    <td>{{ registration.event.status }}</td>
+    <td>{{ registration.event.get_status_display }}</td>
   </tr>
 
   <tr>
@@ -34,12 +34,12 @@
 
   <tr>
     <th>Event City</th>
-    <td>{{ registration.event.city }}</td>
+    <td>{{ registration.event.get_city_display }}</td>
   </tr>
 
   <tr>
     <th>Event State</th>
-    <td>{{ registration.event.state }}</td>
+    <td>{{ registration.event.get_state_display }}</td>
   </tr>
 
   <tr><th colspan="2"><h2 class="pt-2">Host Info</h2></th></tr>
@@ -66,13 +66,9 @@
 
   {% for item in registration.items.all %}
   <tr>
-    <th>Team Name</th>
-    <th>Team Division</th>
-  </tr>
+    <th>Team Name / Division</th>
 
-  <tr>
-    <td>{{ item.team_name}}</td>
-    <td>{{ item.division.name}} - {{ item.division.gender }}</td>
+    <td>{{ item.team_name}} - {{ item.division.get_name_display }} {{ item.division.get_gender_display }}</td>
   </tr>
   {% endfor %}
 

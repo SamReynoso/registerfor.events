@@ -16,12 +16,12 @@
       <div>
         <h2>Info</h2>
         <dl>
-          <dt>Name</dt><dd>'{{ event.name }}'</dd>
-          <dt>Sport</dt><dd>{{ event.sport }}</dd>
+          <dt>Name</dt><dd>{{ event.name }}</dd>
+          <dt>Sport</dt><dd>{{ event.get_sport_display }}</dd>
           <dt>Starts</dt><dd>{{ event.start_date }}</dd>
           <dt>Ends</dt><dd>{{ event.end_date }}</dd>
           <dt>Host</dt><dd><a href="{% url 'explore:profile' event.owner.profile.id %}">{{ event.owner.profile }}</a></dd>
-          <dt>Status</dt><dd>{{ event.status }}</dd>
+          <dt>Status</dt><dd>{{ event.get_status_display }}</dd>
         </dl>
       </div>
 

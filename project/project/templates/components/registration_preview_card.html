@@ -3,14 +3,14 @@
   <div class="row mb-2">
 
     <div class="img-poster__container-small">
-      <img src="{{ registrioantion.event.get_poster_url }}" class="img-fill">
+      <img src="{{ registration.event.get_poster_url }}" class="img-fill">
     </div>
 
     <dl>
       <dt>Event Name</dt>
       <dd>
         {{ registration.event.name }}
-        <a href="{% url 'explore:team' team_id=registration.team.id %}" class="inline-icon__link">
+        <a href="{% url 'explore:event' event_id=registration.event.id %}" class="inline-icon__link">
           <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
         </a>
       </dd>
@@ -19,31 +19,8 @@
         {{ registration.event.start_date }}
       </dd>
       <dt>Status</dt><dd>
-        {{ registration.event.status }}
+        {{ registration.event.get_status_display }}
       </dd>
-    </dl>
-
-  </div>
-
-  <div class="row">
-
-    <div class="img-poster__container-small">
-      <img src="{{ registration.team.get_photo_url }}" class="img-fill">
-    </div>
-
-
-      <dl>
-
-      <dt>Team Name</dt>
-      <dd>
-        {{ registration.team.name }}
-        <a href="{% url 'explore:team' team_id=registration.team.id %}" class="inline-icon__link">
-          <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
-        </a>
-      </dd>
-
-      <dt>Division</dt><dd>{{ registration.assigned_division.name }}</dd>
-      <dt>Gender</dt><dd>{{  registration.assigned_division.gender }}</dd>
     </dl>
 
   </div>

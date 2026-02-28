@@ -5,21 +5,21 @@
     <tr style="border-bottom: 1px solid #a0a0a0"><th>Host Phone</th><td>{{ registration.event.owner.profile.phone }}</td></tr>
 
     <tr style="border-bottom: 1px solid #a0a0a0"><th>Event Name</th><td>{{ registration.event.name }}</td></tr>
-    <tr style="border-bottom: 1px solid #a0a0a0"><th>Event Sport</th><td>{{ registration.event.sport }}</td></tr>
+    <tr style="border-bottom: 1px solid #a0a0a0"><th>Event Sport</th><td>{{ registration.get_event.sport_display }}</td></tr>
     <tr style="border-bottom: 1px solid #a0a0a0"><th>Event Starts</th><td>{{ registration.event.start_date }}</td></tr>
     <tr style="border-bottom: 1px solid #a0a0a0"><th>Event Ends</th><td>{{ registration.event.end_date }}</td></tr>
-    <tr style="border-bottom: 1px solid #a0a0a0"><th>Event Status</th><td>{{ registration.event.status }}</td></tr>
+    <tr style="border-bottom: 1px solid #a0a0a0"><th>Event Status</th><td>{{ registration.event.get_status_display }}</td></tr>
     <tr style="border-bottom: 1px solid #a0a0a0"><th>Event Address</th><td>{{ registration.event.address }}</td></tr>
-    <tr style="border-bottom: 1px solid #a0a0a0"><th>Event City</th><td>{{ registration.event.city }}</td></tr>
-    <tr style="border-bottom: 1px solid #a0a0a0"><th>Event State</th><td>{{ registration.event.state }}</td></tr>
+    <tr style="border-bottom: 1px solid #a0a0a0"><th>Event City</th><td>{{ registration.event.get_city_display }}</td></tr>
+    <tr style="border-bottom: 1px solid #a0a0a0"><th>Event State</th><td>{{ registration.event.get_state_display }}</td></tr>
 
     {% if registration.team %}
     <tr style="border-bottom: 1px solid #a0a0a0"><th>Team Name</th><td>{{ registration.team.name}}</td></tr>
     {% else %}
     <tr style="border-bottom: 1px solid #a0a0a0"><th>Team Name</th><td>TBA</td></tr>
     {% endif %}
-    <tr style="border-bottom: 1px solid #a0a0a0"><th>Team Gender</th><td>{{ registration.assigned_division.gender }}</td></tr>
-    <tr style="border-bottom: 1px solid #a0a0a0"><th>Team Division</th><td>{{ registration.assigned_division.name }}</td></tr>
+    <tr style="border-bottom: 1px solid #a0a0a0"><th>Team Gender</th><td>{{ registration.division.gender }}</td></tr>
+    <tr style="border-bottom: 1px solid #a0a0a0"><th>Team Division</th><td>{{ registration.division.get_name_display }}</td></tr>
     <tr style="border-bottom: 1px solid #a0a0a0"><th>Contact Name</th><td>{{ registration.contact_name }}</td></tr>
     <tr style="border-bottom: 1px solid #a0a0a0"><th>Contact Email</th><td>{{ registration.email }}</td></tr>
     <tr style="border-bottom: 1px solid #a0a0a0"><th>Contact Phone</th><td>{{ registration.phone }}</td></tr>

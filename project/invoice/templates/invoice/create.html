@@ -1,0 +1,97 @@
+{% extends "invoice/base.html" %}
+
+{% block content %}
+
+<section class="main-section">
+  <h1>Issue Invoices</h1>
+
+  {% include 'components/event_preview_card.html' with event=registration.event %}
+
+    <h2 class="mt-1">Preview</h2>
+
+    <table class="item-table">
+
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th>Division</th>
+          <th>Invoiced Item</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      {% for item in registration.items.all %}
+        <tr>
+
+          <td>
+            {{ item.team.name}} 
+            <a href="{% url 'play:registration_item' registration_item_id=item.id %}" class="inline-icon__link ml-2">
+              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+            </a>
+          </td>
+
+          <td>{{ item.division.get_name_display }} {{ item.division.get_gender_display }}</td>
+
+          <td>
+            {% if item.invoice %}
+            <img src="/assets/icons/check-mark.svg" class="inline-icon">
+            {% else %}
+            <img src="/assets/icons/add.svg" class="inline-icon">
+            {% endif %}
+          </td>
+
+        </tr>
+      {% endfor %}
+      </tbody>
+
+    </table>
+
+</section>
+
+<section class="main-section">
+
+
+  {% if registration.invoice.modified %}
+  <h2>Confirm</h2>
+
+  <form method="post" class="form mt-2">
+    <h3>Issue Invoice With These Items</h3>
+    <div class="paragraph mb-2">
+      <hr>
+      <p>
+        An invoice will be created with the teams above. You will have a chance to view it before it is sent to your
+        attendee.
+      </p>
+    </div>
+
+      {% csrf_token %}
+
+    <button type="submit" class="mt-2">Issue Invoice</button>
+
+  </form>
+
+  {% else %}
+
+  <h2>
+    Nothing to Confirm
+  </h2>
+
+  <div class="paragraph mb-2">
+    <span class="paragraph__heading">No changes to the current Invoice</span>
+    <hr>
+    <p>
+      There is already an invoice issued with this information.
+    </p>
+
+    <ul>
+      <li>
+        <a href="{% url 'invoice:invoice' invoice_id=registration.invoice.id %}">View invoice</a>
+      <li>
+    <ul>
+
+  </div>
+
+  {% endif %}
+
+</section>
+{% endblock %}

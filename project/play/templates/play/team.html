@@ -24,9 +24,9 @@
 
   <dl>
     <dt>Name</dt><dd>{{ team.name }}</dd>
-    <dt>Sport</dt><dd>{{ team.sport }}</dd>
-    <dt>gender</dt><dd>{{ team.gender }}</dd>
-    <dt>Division</dt><dd>{{ team.division }}</dd>
+    <dt>Sport</dt><dd>{{ team.get_sport_display }}</dd>
+    <dt>gender</dt><dd>{{ team.get_gender_display }}</dd>
+    <dt>Division</dt><dd>{{ team.get_division_display }}</dd>
   </dl>
 
 <ul class="action-link__container">
@@ -60,8 +60,8 @@
         <td>{{ item.registration.event.start_date }}</td>
         <td>
           {{ item.registration.event.address }},
-          {{ item.registration.event.city }},
-          {{ item.registration.event.state }},
+          {{ item.registration.event.get_city_display }},
+          {{ item.registration.event.get_state_display }},
         </td>
         <td>{{ item.registration.event.sport }}</td>
         <td>

@@ -1,0 +1,82 @@
+{% extends "app/base.html" %}
+
+
+{% block content %}
+
+<section class="main-section">
+  <h1>Modify Registration</h1>
+  <div class="paragraph">
+    <span class="paragraph__heading">
+      You are modifying registration for this event.
+    </span>
+    <hr>
+  </div>
+
+  <h2>This Registrations Event</h2>
+  <div class="mb-2">
+    {% include "components/registration_preview_card.html" %}
+  </div>
+
+  <a href="{% url 'play:registration' registration_id=registration.id%}">
+    View Registration
+  </a>
+
+</section>
+
+<section class="main-section">
+
+  <h2>Select Teams To Be REMOVED from this registration</h2>
+
+
+
+    <form method="post" class="form">
+
+      <h2 class="mb-1">Withdraw Teams</h2>
+  <div class="paragraph">
+    <hr>
+    <p class="mb-1">
+      Select teams to be removed from this registration.</p>
+    <p>
+      This will notify the Event Host of the withdrawal to keep the event running smoothly.
+    </p>
+  </div>
+
+      {% csrf_token %}
+
+      <table class="item-table mb-2">
+        <thead>
+          <tr>
+            <th>Team Name</th>
+            <th>Gender</th>
+            <th>Division</th>
+            <th>Sport</th>
+            <th>Select</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+        {% with key=item.team.gender|add:"-"|add:item.team.division %}
+          <tr>
+            <td>{{ item.team.name }}</td>
+
+            <td>{{ item.team.get_gender_display }}</td>
+            <td>{{ item.team.get_division_display }}</td>
+            <td>{{ item.team.get_sport_display }}</td>
+            <td>
+              <input type="checkbox" name="team{{ team.id }}"></input>
+            </td>
+          </tr>
+          {% endwith %}
+        {% endfor %}
+
+        </tbody>
+      </table>
+
+      <button type=submit>Withdraw Teams</button>
+
+  </form>
+
+</section>
+
+
+{% endblock %}

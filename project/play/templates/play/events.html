@@ -20,7 +20,10 @@
     </p>
   </div>
 
-<section class="main-section">
+  <div class="action-link__container mb-1">
+    <a href="{% url 'invoice:received' %}" class="action-link">Invoices</a>
+  </div>
+
   <table class="item-table">
     <thead>
       <tr>
@@ -48,7 +51,7 @@
           {{ registration.team.gender}}
         </td>
         <td>
-          <a href="{% url "play:registration_details" registration_id=registration.id %}" class="inline-icon__link">
+          <a href="{% url "play:registration" registration_id=registration.id %}" class="inline-icon__link">
               <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
               <a>
         </td>

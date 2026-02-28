@@ -18,8 +18,7 @@
     <dl>
       <dt>Starts</dt><dd>{{ event.start_date }}</dd>
       <dt>Ends</dt><dd>{{ event.end_date }}</dd>
-      <dt>Status</dt><dd>{{ event.status }}</dd>
-    </dl>
+      <dt>Status</dt><dd>{{ event.get_status_display }}
   </div>
 
 </div>

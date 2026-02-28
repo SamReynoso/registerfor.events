@@ -42,8 +42,8 @@
         </a>
       </dd>
 
-      <dt>Division</dt><dd>{{ registration.assigned_division.name }}</dd>
-      <dt>Gender</dt><dd>{{  registration.assigned_division.gender }}</dd>
+      <dt>Division</dt><dd>{{ registration.division.get_name_display }}</dd>
+      <dt>Gender</dt><dd>{{  registration.division.get_gender_display }}</dd>
     </dl>
 
   </div>

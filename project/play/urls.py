@@ -47,7 +47,11 @@ urlpatterns = [
     path('register-for-event/<int:event_id>/',
          post.register_for_event,
          name='register_for_event'),
-    path('registration/withdraw/<int:registration_id>/',
+    path('registration/<int:registration_id>/withdraw/',
          post.withdraw,
          name='withdraw'),
+
+    path('registration/<int:registration_id>/modify/',
+         post.registration_modify,
+         name='registration_modify'),
     ]

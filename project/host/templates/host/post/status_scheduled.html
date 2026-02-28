@@ -1,0 +1,28 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+
+<section class="main-section">
+
+<h1>Finish Schedule</h1>
+
+{% include "components/event_preview_card.html" %}
+
+  <form method="post" class="form mt-2">
+    <h2>Finalize Schedule</h2>
+
+  <div class="paragraph mb-2">
+    <span class="paragraph__heading">Close Registration.</span>
+    <hr>
+    <p>
+      This action will prevent further registration as the schedule has been finalized.
+    </p>
+  </div>
+
+      {% csrf_token %}
+
+      <button type="submit" class="mt-2">Finalize</button>
+
+  </form>
+</section>
+{% endblock %}

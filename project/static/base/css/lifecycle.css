@@ -1,0 +1,80 @@
+.lifecycle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  font-family: var(--app-font-family);
+}
+
+
+.step {
+  position: relative;
+  text-align: center;
+  flex: 1;
+  z-index: 1;
+}
+
+.circle {
+  width: 15px;
+  height: 15px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #e5e7eb;
+  border: 2px solid #d1d5db;
+  display: flex;
+  transition: all 0.3s ease;
+}
+
+.label {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Completed */
+.step.completed .circle {
+  background: #00b159; /* Linode green */
+  border-color: #00b159;
+}
+
+/* Current */
+.step.current .circle {
+  background: #ffa5a5;
+  border-color: var(--text-color-red);
+  box-shadow: 0 0 0 6px rgba(177, 0, 89, 0.33);
+}
+
+.step.completed .label {
+  color: var(--text-color-green);
+}
+
+
+.step.current .label {
+  color: var(--text-color-red);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .lifecycle {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lifecycle::before {
+    display: none;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .circle {
+    margin: 0 12px 0 0;
+  }
+
+  .step::after {
+    display: none;
+  }
+}

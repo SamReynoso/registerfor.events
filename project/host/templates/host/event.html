@@ -23,11 +23,11 @@
   <h3>Event Info</h3>
 
   <dl>
-    <dt>Sport</dt><dd>{{ event.sport }}</dd>
-    <dt>City</dt><dd>{{ event.city }}</dd>
-    <dt>State</dt><dd>{{ event.state}}</dd>
+    <dt>Sport</dt><dd>{{ event.get_sport_display }}</dd>
+    <dt>City</dt><dd>{{ event.get_city_display }}</dd>
+    <dt>State</dt><dd>{{ event.get_state_display }}</dd>
     <dt>Visibility</dt><dd>{{ event.public }}</dd>
-    <dt>Status:</dt><dd>{{ event.status }}</dd>
+    <dt>Status:</dt><dd>{{ event.get_status_display }}</dd>
   </dl>
 
   <ul class="action-link__container">
@@ -36,13 +36,75 @@
 
 </section>
 
-<section class="main-section">
+<section id="lifecycle" class="main-section">
+
+  <h2>LifeCycle</h2>
+  {{ event.status.value }}
+
+  <div class="lifecycle mb-2">
+    {% for value, label in event.Status.choices %}
+    {% if value < event.status %}
+      <div class="step completed">
+    {% elif value == event.status %}
+      <div class="step current">
+    {% else %}
+      <div class="step">
+    {% endif %}
+        <div class="circle"></div>
+        <div class="label">{{ label }}</div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="paragraph mt-2">
+    <span class="paragraph__heading">Actions at this stage</span>
+    <hr>
+    <ul class="ml-a">
+      {% if event.status == 1 %}
+      <li>
+        <a href="{% url 'host:status_open' event_id=event.id %}">Open For Registration</a>
+      </li>
+      {% endif %}
+      {% if event.status == 2 %}
+      <li>
+        <a href="{% url 'host:status_close' event_id=event.id %}">Close Registration</a>
+      <li>
+      </li>
+        <a href="{% url 'host:status_scheduled' event_id=event.id %}">Finalize Scheduled</a>
+      </li>
+      {% endif %}
+      {% if event.status == 3 %}
+      <li>
+        <a href="{% url 'host:status_open' event_id=event.id %}">Open For Registration</a>
+      </li>
+      {% endif %}
+      {% if event.status == 4 %}
+      <li>
+        No Actions at this stage
+      </li>
+      {% endif %}
+      {% if event.status == 5 %}
+      <li>
+        No Actions at this stage
+      </li>
+      {% endif %}
+      {% if event.status == 6 %}
+      <li>
+        This Event has be canceled.
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+
+
+</section>
 
   <h2>Interact</h2>
 
   <div class="action-link__container">
-    <a href="{% url 'host:event_announcement_create' event_id=event.id %}" class="action-link">Create Announcement</a>
-    <a href="{% url 'host:invitations' event_id=event.id %}" class="action-link">Invitations</a>
+    <a href="{% url 'host:invitations' event_id=event.id %}" class="action-link">Invite</a>
+    <a href="{% url 'host:event_announcement_create' event_id=event.id %}" class="action-link">Announce</a>
+    <a href="{% url 'invoice:event_invoices' event_id=event.id %}" class="action-link">Invoice</a>
   </div>
 
   <div class="paragraph">
@@ -81,8 +143,8 @@
     <tbody>
     {% for division in event.divisions.all %}
       <tr>
-        <td>{{ division.gender }}</td>
-        <td>{{ division.name }}</td>
+        <td>{{ division.get_gender_display }}</td>
+        <td>{{ division.get_name_display }}</td>
         <td>{{ division.registrations.count}}</td>
         <td><a href="{% url 'host:division' division_id=division.id %}">Manage</a></td>
       </tr>

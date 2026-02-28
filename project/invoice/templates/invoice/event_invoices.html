@@ -3,39 +3,28 @@
 {% block content %}
 
 <section class="main-section">
-  <h2>Invoices</h2>
+  <h1>Event Invoices</h1>
 
   <div class="paragraph mb-3">
-    <p class="mb-2">
-      Take an event through it's lifecycle and view it's invoices here. You'll have a chance to review your invoices 
-      before issuing them to you attendies.
-    </p>
-    <span class="paragraph__heading">Event Lifecycle</span>
+    <p class="mb-2"></p>
+    <span class="paragraph__heading"></span>
     <hr>
-    <ul>
-      <li>
-        Create an Event 
-      </li>
-      <li>
-        Add Divisions
-      </li>
-      <li>
-        Accept Registrations
-      </li>
-      <li>
-        Mark the Event as completed
-      </li>
-    </ul>
   </div>
 
+  {% include 'components/event_preview_card.html' with event=event%}
 
-  <table class="item-table">
+      {% for reg in event.registrations.all %}
+        {{ reg }} - invoice : {{ reg.invoice }}
+        <a href="{% url 'invoice:create' registration_id=reg.id %}">Issue Invoice</a>
+      {% endfor %}
+
+  <table class="item-table mt-2">
     <thead>
       <tr>
         <th>#</th>
         <th>To</th>
         <th>Created</th>
-        <th>Due By</th>
+        <th>Divisions</th>
         <th>Status</th>
         <th></th>
       </tr>
@@ -46,8 +35,8 @@
           <td>{{ invoice.id }}</td>
           <td>{{ invoice.first_name }} {{ invoice.last_name }}</td>
           <td>{{ invoice.created_at|date:"m-d-y" }}</td>
-          <td>{{ invoice.due_date|date:"m-d-y" }}</td>
-          <td>{{ invoice.status}}</td>
+          <td>{{ invoice.items.count }}</td>
+          <td>{{ invoice.get_status_display }}</td>
           <td><a href="{% url 'invoice:invoice' invoice_id=invoice.id %}">View</td>
         </tr>
       {% endfor %}

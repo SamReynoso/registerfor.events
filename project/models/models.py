@@ -1,3 +1,4 @@
+from invoice.models import Invoice, InvoiceItem
 from project.services.email import send_event_canceled_email
 from phonenumber_field.modelfields import PhoneNumberField
 from project.utils.alerts import (
@@ -14,48 +15,7 @@ from project.utils.project_models import (
 from django.utils import timezone
 from django.conf import settings
 from django.db import models
-
-
-class Sports(models.TextChoices):
-    BASKETBALL = 'basketball', 'Basketball'
-
-
-class Genders(models.TextChoices):
-    MALE = 'male', 'Male'
-    FEMALE = 'female', 'Female'
-    MIXED = 'mixed', 'Mixed'
-
-
-class DivisionChoices(models.TextChoices):
-    U6 = "U6"
-    U8 = "U8"
-    U10 = "u10", "U10"
-    U12 = "u12", "U12"
-    U14 = "u14", "U14"
-    U16 = "u16", "U16"
-    U18 = "u18", "U18"
-    U20 = "u20", "U20"
-    ADULT = "adult", "Adult"
-    MASTERS30 = "masters30", "Masters30"
-    MASTERS40 = "masters40", "Masters40"
-    MASTERS50 = "masters50", "Masters50"
-    MASTERS60 = "masters60", "Masters60"
-    MASTERS70 = "masters70", "Masters70"
-
-
-class States(models.TextChoices):
-    CALIFONIA = "calilfornia", "California"
-
-
-class Cities(models.TextChoices):
-    BAKERSFIELD = "bakersfield", "Bakersfield"
-
-
-class RegistrationStatus(models.TextChoices):
-    PENDING = 'pending', 'Pending'
-    CANCELLED = 'cancelled', 'Canelled'
-    WITHDRAWN = 'withdrawn', 'Withdrawn'
-    ATTENDED = 'attended', 'Attended',
+from project import choices
 
 
 class Profile(models.Model):
@@ -85,7 +45,7 @@ class Profile(models.Model):
     def get_avatar_url(self):
         if self.avatar:
             return self.avatar.url
-        return ''
+        return '/assets/defaults/anonymous-user.svg'
 
     def is_complete(self):
         if all([self.first_name, self.last_name, self.email, self.phone]):
@@ -100,20 +60,23 @@ class Profile(models.Model):
 
 
 class Event(models.Model):
+
+    Status = choices.EventStatus
+
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='events',
                               on_delete=models.CASCADE)
     name = models.CharField(max_length=150)
     address = models.CharField(max_length=150, blank=True)
     city = models.CharField(max_length=20,
-                            choices=Cities,
-                            default=Cities.BAKERSFIELD)
+                            choices=choices.Cities,
+                            default=choices.Cities.BAKERSFIELD)
     state = models.CharField(max_length=20,
-                             choices=States.choices,
-                             default=States.CALIFONIA)
+                             choices=choices.States.choices,
+                             default=choices.States.CALIFONIA)
     sport = models.CharField(max_length=20,
-                             choices=Sports.choices,
-                             default=Sports.BASKETBALL)
+                             choices=choices.Sports.choices,
+                             default=choices.Sports.BASKETBALL)
     start_date = models.DateField()
     end_date = models.DateField()
     public = models.BooleanField(default=False)
@@ -123,45 +86,99 @@ class Event(models.Model):
             blank=True,
             null=True)
 
+    registration_opened = models.BooleanField(default=False)
+    registration_closed = models.BooleanField(default=False)
+
     unit_price = models.DecimalField(max_digits=10,
                                      decimal_places=2,
                                      null=True,
                                      blank=True)
 
-    def status(self):
+    status = models.IntegerField(
+        choices=Status.choices,
+        default=Status.CREATED
+    )
+
+    def get_status(self):
+        if self.status == self.Status.CANCELED:
+            return self.Status.CANCELED
+
+        status = self.Status.CREATED
         today = timezone.localdate()
+        if today > self.end_date:
+            status = self.Status.COMPLETED
+        if today >= self.start_date and today <= self.end_date:
+            status = self.Status.RUNNING
+
         if today < self.start_date:
-            return 'Upcoming'
-        if today <= self.end_date:
-            return 'Running'
-        return 'Completed'
+            status = self.Status.CREATED
+            if self.registration_opened:
+                status = self.Status.REGISTERING
+                if self.registration_closed:
+                    status = self.Status.SCHEDULED
+
+        self.status = status
+        self.save()
+        return status
+
+    def open_registration(self):
+        self.registration_opened = True
+        self.status = self.Status.REGISTERING
+        self.save()
+
+    def close_registration(self):
+        self.registration_opened = False
+        self.status = self.Status.CREATED
+        self.save()
+
+    def mark_as_scheduled(self):
+        self.registration_opened = False
+        self.status = self.Status.SCHEDULED
+        self.save()
+
+    def missing_invoices_count(self):
+        return self.registrations.filter(invoice=None).count()
+
+    def issued_invoice_count(self):
+        return self.registrations.filter(
+                invoice__status__gt=choices.InvoiceStatus.MODIFIED
+                ).count()
+
+    def delete(self, *args, **kwargs):
+        for reg in self.registrations.filter(
+                status=choices.RegistrationStatus.PENDING
+                ).all():
+            # host_canceled_event_alert_team_owner(reg)
+            # send_event_canceled_email(reg.owner)
+            ...
+        return super().delete(*args, **kwargs)
 
     def get_poster_url(self):
         if self.poster:
             return self.poster.url
-        return ''
-
-    def delete(self, *args, **kwargs):
-        for reg in self.registrations.filter(
-                status=RegistrationStatus.PENDING
-                ).all():
-            host_canceled_event_alert_team_owner(reg)
-            send_event_canceled_email(reg.owner)
-        return super().delete(*args, **kwargs)
+        return '/assets/defaults/event.webp'
 
 
 class Division(models.Model):
     event = models.ForeignKey(Event,
                               related_name='divisions',
                               on_delete=models.CASCADE)
-    gender = models.CharField(max_length=20, choices=Genders.choices)
-    name = models.CharField(max_length=20, choices=DivisionChoices.choices)
+    gender = models.CharField(max_length=20, choices=choices.Genders.choices)
+    name = models.CharField(max_length=20,
+                            choices=choices.DivisionChoices.choices)
 
     # In the create form it would be best to add "use event default"
     unit_price = models.DecimalField(max_digits=10,
                                      decimal_places=2,
                                      null=True,
                                      blank=True)
+
+    def get_key(self):
+        return f'{self.name}-{self.gender}'
+
+    @staticmethod
+    def split_key(key):
+        return key.split('-')
 
     class Meta:
         constraints = [
@@ -177,11 +194,11 @@ class Team(models.Model):
                               related_name='teams',
                               on_delete=models.CASCADE)
     name = models.CharField(max_length=150)
-    gender = models.CharField(max_length=20, choices=Genders.choices)
+    gender = models.CharField(max_length=20, choices=choices.Genders.choices)
     division = models.CharField(max_length=20,
-                                choices=DivisionChoices.choices,)
+                                choices=choices.DivisionChoices.choices,)
     sport = models.CharField(max_length=20,
-                             choices=Sports.choices,)
+                             choices=choices.Sports.choices,)
     photo = models.ImageField(
             upload_to=uuid_upload_team_photo,
             blank=True,
@@ -197,7 +214,10 @@ class Team(models.Model):
     def get_photo_url(self):
         if self.photo:
             return self.photo.url
-        return ''
+        return self.owner.profile.get_avatar_url()
+
+    def get_key(self):
+        return f'{self.division}-{self.gender}'
 
     def delete(self, *args, **kwargs):
         for reg in self.registrations.filter(upcoming=True).all():
@@ -222,22 +242,24 @@ class Registration(models.Model):
     objects = RegistrationManager()
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
-                              on_delete=models.CASCADE,
-                              related_name="registration_records")
+                              related_name="registration_records",
+                              on_delete=models.CASCADE)
 
     event = models.ForeignKey(Event,
-                              on_delete=models.CASCADE,
-                              related_name='registrations')
+                              related_name='registrations',
+                              on_delete=models.CASCADE)
 
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.EmailField()
-    phone = PhoneNumberField()
+    invoice = models.ForeignKey('invoice.invoice',
+                                related_name='invoice',
+                                on_delete=models.CASCADE)
+#                                null=True,
+#                                blank=True,
+#                                on_delete=models.SET_NULL)
 
     status = models.CharField(
         max_length=20,
-        choices=RegistrationStatus.choices,
-        default=RegistrationStatus.PENDING,
+        choices=choices.RegistrationStatus.choices,
+        default=choices.RegistrationStatus.PENDING,
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -257,41 +279,35 @@ class Registration(models.Model):
             new_registrations_alert_event_owner(self)
         super().save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        if self.invoice:
+            self.invoice.status = choices.InvoiceStatus.WI
+        return super().delete(*args, **kwargs)
+
 
 class RegistrationItem(models.Model):
 
     registration = models.ForeignKey(Registration,
                                      related_name='items',
-                                     on_delete=models.CASCADE
-                                     )
+                                     on_delete=models.CASCADE)
     team = models.ForeignKey(Team,
                              related_name='items',
-                             blank=True,
-                             null=True,
-                             on_delete=models.CASCADE,
-                             )
+                             on_delete=models.CASCADE)
+#                             blank=True,
+#                             null=True,
+#                             on_delete=models.SET_NULL)
+    invoice_item = models.ForeignKey(InvoiceItem,
+                               related_name='registration_items',
+                               on_delete=models.CASCADE)
     division = models.ForeignKey(Division,
                                  related_name='items',
                                  on_delete=models.CASCADE)
-
     unit_price = models.DecimalField(max_digits=10,
                                      decimal_places=2,
                                      null=True,
                                      blank=True)
 
     @property
-    def team_name(self):
-        if self.team:
-            return self.team.name
-        # return self.registration.owner.name
-        return "TBA"
+    def invoice(self):
+        return self.registration.invoice
 
-    @property
-    def has_team(self):
-        if self.team:
-            return True
-        return False
-
-    # make this a text choice when implemented
-    # withdrawn = models.BooleanField(default=False)
-    # canceled = models.BooleanField(default=False)

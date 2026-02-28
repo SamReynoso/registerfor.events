@@ -17,11 +17,11 @@
       <h2>Event Info</h2>
       <dl>
         <dt>Name</dt><dd><a href="{% url 'explore:event' rsvp.event.id %}">{{ rsvp.event.name }}</a></dd>
-        <dt>Sport</dt><dd>{{ rsvp.event.sport }}</dd>
+        <dt>Sport</dt><dd>{{ rsvp.event.get_sport_display }}</dd>
         <dt>Starts</dt><dd>{{ rsvp.event.start_date }}</dd>
         <dt>Ends</dt><dd>{{ rsvp.event.end_date }}</dd>
         <dt>Host</dt><dd><a href="{% url 'explore:profile' rsvp.event.owner.profile.id %}">{{ rsvp.event.owner.profile }}</a></dd>
-        <dt>Status</dt><dd>{{ rsvp.event.status }}</dd>
+        <dt>Status</dt><dd>{{ rsvp.event.get_status_display }}</dd>
       </dl>
     </div>
   </div>

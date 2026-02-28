@@ -8,9 +8,9 @@
     <h2>Info</h2>
     <dl>
       <dt>Name</dt><dd>'{{ team.name }}'</dd>
-      <dt>Sport</dt><dd>{{ team.sport }}</dd>
-      <dt>Gender</dt><dd>{{ team.gender }}</dd>
-      <dt>Division</dt><dd>{{ team.division }}</dd>
+      <dt>Sport</dt><dd>{{ team.get_sport_display }}</dd>
+      <dt>Gender</dt><dd>{{ team.get_gender_display }}</dd>
+      <dt>Division</dt><dd>{{ team.get_division_display }}</dd>
     </dl>
 
   <dl>

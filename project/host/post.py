@@ -1,3 +1,4 @@
+from django.urls import reverse
 from project.utils.alerts import host_canceled_registration_alert_team_owner
 from project.services.email import send_registration_canceled_email
 from project.services.email import send_host_new_registration_email
@@ -9,10 +10,12 @@ from mailbox.forms import AnnouncementForm
 from mailbox.models import Announcement, Rsvp
 from models.models import (
         Division,
-        DivisionChoices,
         Event,
-        Genders,
         Registration
+        )
+from project.choices import (
+        DivisionChoices,
+        Genders,
         )
 
 
@@ -105,61 +108,89 @@ def event_divisions(request, event_id: int):
     if event.owner != request.user:
         return HttpResponseForbidden("You don't own this event.")
 
-    existing_keys = [
-            f"{division.gender}-{division.name}"
+    protected_keys = set(
+            division.get_key() for division in event.divisions.all()
+            )
+
+    pre_existing_keys = [
+            division.get_key()
             for division in event.divisions.all()
             ]
+    existing_keys = []
 
     if request.method == "POST":
         posted_keys = request.POST.getlist('division[]')
 
         for k in posted_keys:
-            gender, division_name = k.split('-')
             if k not in existing_keys:
-                new_division = Division.objects.create(event=event,
-                                                       gender=gender,
-                                                       name=division_name)
-                existing_keys.append(
-                        f'{new_division.gender}-{new_division.name}')
-        for k in existing_keys:
-            gender, division_name = k.split('-')
-            if k not in posted_keys:
-                Division.objects.get(event=event,
-                                     gender=gender,
-                                     name=division_name).delete()
-                existing_keys.remove(k)
+                name, gender = Division.split_key(k)
+                new_division = Division.objects.create(
+                        event=event,
+                        gender=gender,
+                        name=name
+                        )
+                existing_keys.append(new_division.get_key())
+
+        for k in pre_existing_keys:
+            if k not in posted_keys and k not in protected_keys:
+                name, gender = Division.split_key(k)
+                Division.objects.get(
+                        event=event,
+                        gender=gender,
+                        name=name
+                        ).delete()
+            else:
+                existing_keys.append(k)
+
         return redirect('host:event', event_id=event.id)
 
-    division_options = {
-            'genders': Genders,
-            'divisions': DivisionChoices,
-            }
-
-    protected_keys = set()
-    for registration in event.registrations.all():
-        k = f'{registration.team.gender}-{registration.team.division}'
-        protected_keys.add(k)
     context = {
             'event': event,
-            'division_options': division_options,
             'existing_keys': existing_keys,
             'protected_keys': protected_keys,
+            'division_options': {
+                'genders': Genders,
+                'divisions': DivisionChoices,
+                }
             }
 
     return render(request, 'host/post/event_divisions.html', context)
 
 
-@login_required(login_url='/login/')
-def event_status(request, event_id: int):
+def status_page(request, event_id: int, func, temp):
     event = get_object_or_404(Event, id=event_id)
     if event.owner != request.user:
         return HttpResponseForbidden("You don't own this event.")
     if request.method == 'POST':
-        event.public = not event.public
-        event.save()
-        return redirect('host:event', event_id=event.id)
+        func(event)
+        url = reverse('host:event', args=[event.id])
+        return redirect(f'{url}#lifecycle')
     context = {'event': event}
-    return render(request, 'host/post/event_status.html', context)
+    return render(request, temp, context)
+
+
+@login_required(login_url='/login/')
+def status_open(request, event_id: int):
+    return status_page(request,
+                       event_id,
+                       Event.open_registration,
+                       'host/post/status_open.html')
+
+
+@login_required(login_url='/login/')
+def status_close(request, event_id: int):
+    return status_page(request,
+                       event_id,
+                       Event.close_registration,
+                       'host/post/status_close.html')
+
+
+@login_required(login_url='/login/')
+def status_scheduled(request, event_id: int):
+    return status_page(request,
+                       event_id,
+                       Event.mark_as_scheduled,
+                       'host/post/status_scheduled.html')
 
 
 @login_required(login_url='/login/')

@@ -29,7 +29,7 @@
     <fieldset class="divisions-checkbox-form__fieldset">
       <legend>{{ gender }}</legend>
       {% for division in division_options.divisions %}
-        {% with key=gender|add:"-"|add:division %}
+        {% with key=division|add:"-"|add:gender %}
         <label
           {% if key in protected_keys %}
           style="background-color: rgb(100, 100, 255); border-radius: 3px;"

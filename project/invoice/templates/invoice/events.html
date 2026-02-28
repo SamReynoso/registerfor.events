@@ -1,0 +1,50 @@
+{% extends "invoice/base.html" %}
+
+{% block content %}
+
+<section class="main-section">
+  <h1>Event Invoices</h1>
+
+  <div class="paragraph mb-3">
+    <p class="mb-2"></p>
+    <span class="paragraph__heading"></span>
+    <hr>
+  </div>
+
+
+  <table class="item-table mt-2">
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>End Date</th>
+        <th>Registrations</th>
+
+        <th>Invoices</th>
+        <th>Issued</th>
+
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for event in events %}
+        <tr>
+        <tr>
+          <td>{{ event.name }}</td>
+          <td>{{ event.end_date|date:"m-d-y" }}</td>
+          <td>{{ event.registrations.count }}</td>
+          <td>{{ event.invoices.count }}</td>
+
+          <td>{{ event.issued_invoice_count }}</td>
+
+          <td>
+            <a href="{% url "invoice:event_invoices" event_id=event.id %}" class="inline-icon__link">
+              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</section>
+{% endblock %}

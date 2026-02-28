@@ -1,17 +1,19 @@
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from django.shortcuts import render
-from models.models import (
+from project.choices import (
         Cities,
+        Genders,
+        DivisionChoices,
+        Sports,
+        States,
+        )
+from models.models import (
         Profile,
         Event,
         Team,
         Division,
         Registration,
-        Genders,
-        DivisionChoices,
-        Sports,
-        States,
         )
 
 

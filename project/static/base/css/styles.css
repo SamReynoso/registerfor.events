@@ -2,11 +2,12 @@
 :root
 {
 
-  --debug: 1px solid red;
-
+  --app-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --text-color: #fafafa;
   --text-color-muted: #9d9d9d;
-  --text-color-red: #ff4b4b;
+  --text-color-red: #ff5555;
+  --text-color-green: #23b67c; /* Linode green */
+
   --link-color: #1e90ff;
   --link-color-hover: red;
   --link-color-active: green;
@@ -21,6 +22,7 @@
   --nav-background-color: #26262b;
   --border-color: #545454;
   --menu-link-hover-background-color: #00000026;
+
 
   --invert: 1;
 

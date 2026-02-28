@@ -8,7 +8,7 @@
       <span class="text-small text-muted">sport</span>
     <select name="sport">
       <option value="all">Any</option>
-      {% for sport in search_options.sports %}
+      {% for sport in search_options.get_sports_display %}
         <option>{{ sport }}</option>
       {% endfor %}
     </select>
@@ -42,7 +42,7 @@
       <label>
         <select name="gender">
           <option value="all" select>Any</option>
-          {% for gender in search_options.genders %}
+          {% for gender in search_options.get_genders_display %}
           <option value="{{ gender }}">{{ gender }}</option>
           {% endfor %}
         </select>
@@ -52,7 +52,7 @@
     </fieldset>
 
    <fieldset class="divisions-checkbox-form__fieldset">
-      {% for division in search_options.divisions %}
+      {% for division in search_options.get_divisions_display %}
         <label>
           <input type="checkbox" name="division[]" value="{{ division }}">
           {{ division }}
@@ -94,13 +94,13 @@
         {{ event.owner }}
       </td>
       <td>
-        {{ event.sport }}
+        {{ event.get_sport_display }}
       </td>
       <td>
-        {{ event.city }}
+        {{ event.get_city_display }}
       </td>
       <td>
-        {{ event.state }}
+        {{ event.get_state_display }}
       </td>
       <td>
         <a href="{% url "explore:event" event_id=event.id %}" class="inline-icon__link">

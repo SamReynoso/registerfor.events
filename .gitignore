@@ -8,4 +8,6 @@ project/assets
 project/models/migrations/0*
 project/mailbox/migrations/0*
 project/.env
+*.env*
 project/records/migrations/0*
+project/invoice/migrations/0001_initial.py project/invoice/migrations/0002_invoice_registration_alter_invoice_event.py project/invoice/migrations/0003_alter_invoice_registration.py project/invoice/migrations/0004_remove_invoice_registration.py project/invoice/migrations/0005_invoice_modified.py project/invoice/migrations/0006_alter_invoice_status.py

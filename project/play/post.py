@@ -11,6 +11,7 @@ from project.services.email import (
         send_participant_new_registration_email,
         send_registration_withdrawn_email,
         )
+from project.choices import InvoiceStatus
 
 
 @login_required(login_url='/login/')
@@ -101,23 +102,25 @@ def team_delete(request, team_id: int):
 def register_for_event(request, event_id: int):
     event = get_object_or_404(Event, id=event_id)
     event_division_keys = [
-            f'{division.gender}-{division.name}'
+            division.get_key()
             for division in event.divisions.all()
             ]
+
+    print(event_division_keys)
 
     registration = Registration.objects.filter(
             owner=request.user, event=event
             ).first()
+
     if registration is not None:
-        registered_teams = registration.teams
+        registered_teams = registration.teams  # add .all() for consistence
     else:
         registered_teams = []
 
     teams = Team.objects.filter(owner=request.user).all()
 
     if request.method == 'POST':
-        profile = request.user.profile
-        if profile.is_complete is False:
+        if request.user.profile.is_complete is False:
             return HttpResponseForbidden('Your profile is incomplete.')
 
         if registration is None:
@@ -126,19 +129,28 @@ def register_for_event(request, event_id: int):
                     event=event
                     )
 
+        modified = False
         for team in teams:
-            if request.POST.get(f'team{team.pk}') == 'on':
-                assigned_division = event.divisions.get(gender=team.gender,
-                                                        name=team.division)
+            if request.POST.get(f'team{team.id}') == 'on':
+                division = event.divisions.get(
+                        gender=team.gender,
+                        name=team.division)
+
                 RegistrationItem.objects.create(
                         registration=registration,
                         team=team,
-                        division=assigned_division,
-                        unit_price=assigned_division.unit_price
+                        division=division,
+                        unit_price=division.unit_price,
+                        invoice=registration.invoice
                         )
+                modified = True
+        if modified and registration.invoice:
+            registration.invoice.status = InvoiceStatus.MODIFIED
+            registration.invoice.save()
+
         send_host_new_registration_email(registration)
         send_participant_new_registration_email(registration)
-        return redirect('play:events')
+        return redirect('play:registration', registration_id=registration.id)
 
     context = {
             'event': event,
@@ -152,12 +164,37 @@ def register_for_event(request, event_id: int):
 
 
 @login_required(login_url='/login/')
+def registration_modify(request, registration_id: int):
+    registration = get_object_or_404(Registration, id=registration_id)
+
+    items = registration.items.all()
+
+    if request.method == 'POST':
+        profile = request.user.profile
+        if profile.is_complete is False:
+            return HttpResponseForbidden('Your profile is incomplete.')
+
+        for item in items:
+            if request.POST.get(f'team{item.team.id}') == 'on':
+                item.delete()
+
+        return redirect('play:registration', registration_id=registration.id)
+
+    context = {
+            'registration': registration,
+            'items': items
+               }
+
+    return render(request, 'play/post/registration_update.html', context)
+
+
+@login_required(login_url='/login/')
 def withdraw(request, registration_id: int):
     registration = get_object_or_404(Registration, id=registration_id)
     if request.method == 'POST':
-        registration_withdrawn_alert_event_owner(registration)
-        send_registration_withdrawn_email(registration)
+        # registration_withdrawn_alert_event_owner(registration)
+        # send_registration_withdrawn_email(registration)
         registration.delete()
-        return redirect('user:events')
+        return redirect('play:events')
     context = {'registration': registration}
     return render(request, 'play/post/withdraw.html', context)
