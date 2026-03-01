@@ -53,14 +53,20 @@ class EventStatus(models.IntegerChoices):
 
 class InvoiceStatus(models.IntegerChoices):
     DRAFT = 1, 'Draft'
+    ISSUED = 2, 'Issued'
+    SENT = 3, 'Sent'
+    PAID = 4, 'Paid'
+
+class InvoiceError(models.IntegerChoices):
+    NONE = 1, 'None'
     MODIFIED = 2, 'Modified'
-    ISSUED = 3, 'Issued'
-    SENT = 4, 'Sent'
-    PARTIALLY_PAID = 5, 'Partially Paid'
-    PAID = 6, 'Paid'
-    OVERDUE = 7, 'Overdue'
-    CANCELLED = 8, 'Cancelled'
-    VOID = 9, 'Void'
-    REFUNDED = 10, 'Refunded'
+    PAST_DUE = 3, 'Past Due'
+    PARTIALLY_PAID = 4, 'Partially Paid'
+    VOID = 6, 'Void'
+    REFUNDED = 7, 'Refunded'
 
 
+class ErrorLevel(models.IntegerChoices):
+    WARN = 1, 'Warn'
+    ERROR = 2, 'Error'
+    CRITICAL = 3, 'Critical'

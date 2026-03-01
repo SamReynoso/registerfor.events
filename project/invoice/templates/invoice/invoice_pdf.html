@@ -261,9 +261,9 @@ th:last-child {
     <div class="flex-1">
         <div class="section-title">Billed To</div>
         <div class="block">
-            {{ invoice.first_name }} {{ invoice.last_name }}<br>
-            {{ invoice.email }}<br>
-            {{ invoice.phone }}
+            {{ invoice.contact.first_name }} {{ invoice.contact.last_name }}<br>
+            {{ invoice.contact.email }}<br>
+            {{ invoice.contact.phone }}
         </div>
     </div>
 </div>
@@ -272,8 +272,8 @@ th:last-child {
 <div class="section-title">Event Details</div>
 <div class="block" style="margin-bottom:40px;">
     <strong>{{ invoice.event_name }}</strong><br>
-    {{ invoice.event_start_date }} – {{ invoice.event_end_date }}<br>
-    {{ invoice.event_address }}, {{ invoice.event_city }}, {{ invoice.event_state }}
+    {{ invoice.event.start_date }} – {{ invoice.event.end_date }}<br>
+    {{ invoice.event.address }}, {{ invoice.event.city }}, {{ invoice.event.state }}
 </div>
 
 <!-- ===== Items Table ===== -->
@@ -288,12 +288,12 @@ th:last-child {
         </tr>
     </thead>
     <tbody>
-        {% for record in invoice.registration_records.all %}
+        {% for item in invoice.items.all %}
         <tr>
-            <td>{{ record.team_name }}</td>
-            <td>{{ record.gender }}</td>
-            <td>{{ record.division_name }}</td>
-            <td>${{ record.unit_price|floatformat:2 }}</td>
+            <td>{{ item.team_name }}</td>
+            <td>{{ item.gender }}</td>
+            <td>{{ item.division_name }}</td>
+            <td>${{ item.unit_price|floatformat:2 }}</td>
         </tr>
         {% endfor %}
     </tbody>

@@ -1,0 +1,268 @@
+{% extends "base/base.html" %}
+{% block content %}
+
+<section id="lifecycle" class="main-section">
+
+  {% if invoice.event.event %}
+  <div class="mb-3 pb-3">
+    <a href="{% url 'invoice:event_invoices' event_id=invoice.event.event.id %}" >More Invoices From This Event</a>
+  </div>
+  {% endif %}
+
+  <h1>Invoice #{{ invoice.id }}</h1>
+
+  <div>
+
+    <ul class="action-link__container">
+      <li>
+      <a href="{% url 'invoice:view_pdf' invoice_id=invoice.id %}" class="action-link">View PDF</a>
+      </li>
+      <li>
+      <a href="{% url 'invoice:view_pdf' invoice_id=invoice.id %}" class="action-link">Download</a>
+      </li>
+      <li>
+      <a href="{% url 'invoice:view_pdf' invoice_id=invoice.id %}" class="action-link">More</a>
+      </li>
+    </ul>
+
+  </div>
+
+  <div class="invoice-container">
+    <div class="card-title">Invoice Summary</div>
+
+    <div class="bordered p-2" style="max-width: 450px">
+      <div class="stat-row" style="max-width: 400px">
+          <span>Status</span>
+          <span>
+            {% if invoice.status == 6 %}
+              <span class="badge badge-paid">Paid</span>
+            {% elif invoice.status == "overdue" %}
+              <span class="badge badge-overdue">Overdue</span>
+            {% elif invoice.status == 1 %}
+              <span class="badge badge-overdue">draft</span>
+            {% else %}
+              <span class="badge badge-due">Due</span>
+            {% endif %}
+          </span>
+      </div>
+
+      <div class="stat-row">
+          <span>Event</span>
+          <span>{{ invoice.event.name }}</span>
+      </div>
+
+      <div class="stat-row">
+          <span>Issued</span>
+          <span>{{ invoice.created_at }}</span>
+      </div>
+
+      <div class="stat-row">
+          <span>Due Date</span>
+          <span>{{ invoice.due_date }}</span>
+      </div>
+
+      <div class="stat-row" style="font-weight:600; font-size:16px; margin-top:10px;">
+          <span>Total</span>
+          <span>${{ total_cost|floatformat:2 }}</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<section id="lifecycle" class="main-section">
+  <h2>Actions</h2>
+
+  <div class="paragraph mt-2">
+    <hr>
+  </div>
+
+  <div style="display: flex; gap: 2rem">
+    <select class="pb-2 mb-2" style="max-width:250px" onchange="if (this.value) window.location.href=this.value;">
+      <option value="">Select Action</option>
+
+      {% if invoice.status == invoice.Status.DRAFT %}
+        <option value="{% url 'invoice:status_issue' invoice_id=invoice.id %}">
+          Issue
+        </option>
+        <option value="{% url 'invoice:error_void' invoice_id=invoice.id %}">
+          Void
+        </option>
+      {% endif %}
+
+      {% if invoice.status == invoice.Status.ISSUED %}
+        <option value="{% url 'invoice:status_sent' invoice_id=invoice.id %}">
+          Send Email
+        </option>
+        <option value="{% url 'invoice:status_paid' invoice_id=invoice.id %}">
+          Paid
+        </option>
+        <option value="{% url 'invoice:error_past_due' invoice_id=invoice.id %}">
+          Past Due
+        </option>
+        <option value="{% url 'invoice:error_void' invoice_id=invoice.id %}">
+          Void
+        </option>
+      {% endif %}
+
+      {% if invoice.status == invoice.Status.SENT %}
+        <option value="{% url 'invoice:status_paid' invoice_id=invoice.id %}">
+          Paid
+        </option>
+        <option value="{% url 'invoice:error_past_due' invoice_id=invoice.id %}">
+          Past Due
+        </option>
+        <option value="{% url 'invoice:error_void' invoice_id=invoice.id %}">
+          Void
+        </option>
+      {% endif %}
+      {% if invoice.status == invoice.Status.SENT %}
+        <option value="{% url 'invoice:error_refund' invoice_id=invoice.id %}">
+          refund
+        </option>
+      {% endif %}
+    </select>
+
+    <select class="pb-2 mb-2" style="max-width:250px;"
+            onchange="if (this.value) window.location.href=this.value;">
+      <option value="">Clear Errors</option>
+
+      <option value="{% url 'invoice:clear_modified' invoice_id=invoice.id %}">
+        Modified Error
+      </option>
+      <option value="{% url 'invoice:clear_past_due' invoice_id=invoice.id %}">
+        Pastdue Error
+      </option>
+      <option value="{% url 'invoice:clear_void' invoice_id=invoice.id %}">
+        Voided Error
+      </option>
+      <option value="{% url 'invoice:clear_modified' invoice_id=invoice.id %}">
+        Modified Error
+      </option>
+    </select>
+  </div>
+
+  <div class="lifecycle__container">
+
+    <div>
+      <h3>LifeCycle</h3>
+      <div class="lifecycle mb-2 ml-2">
+        {% for value, label in invoice.Status.choices %}
+        {% if value < invoice.status %}
+          <div class="step completed">
+        {% elif value == invoice.status %}
+          <div class="step current">
+        {% else %}
+          <div class="step">
+        {% endif %}
+            <div class="circle"></div>
+            <div class="label">{{ label }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if invoice.errors.all %}
+    <div>
+      <h3>Errors</h3>
+      <div class="lifecycle mb-2 ml-2">
+        {% for error in invoice.errors.all %}
+          <div class="step error-{{ error.level }}">
+            <div class="circle"></div>
+            <div class="label">{{ error.get_error_display }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+
+<section class="main-section">
+  <h2>Snapshot</h2>
+
+  <div class="content-container">
+    <div class="card-title">Related Information</div>
+
+    <div class="grid-2">
+        <div>
+            <strong>Event</strong><br>
+            {{ invoice.event.name }}<br>
+            {{ invoice.event.start_date }} – {{ invoice.event.end_date }}
+        </div>
+
+        <div>
+            <strong>Event Owner</strong><br>
+            {{ invoice.owner.profile.first_name }} {{ invoice.owner.profile.last_name }}<br>
+            {{ invoice.owner.profile.email }}
+        </div>
+
+        <div>
+            <strong>Contact</strong><br>
+            {{ invoice.contact.first_name }} {{ invoice.contact.last_name }}<br>
+            {{ invoice.contact.email }}
+        </div>
+    </div>
+
+    {% if invoice.items.all %}
+    <hr style="margin:20px 0; border:none; border-top:1px solid #eee;">
+    <strong>Teams</strong>
+    <ul style="margin-top:10px;">
+        {% for item in invoice.items.all %}
+            <li>
+                {{ item.team_name }} — {{ item.division }} ({{ item.gender }})
+            </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+
+  <div class="content-container">
+    <div class="card-title">Registration Snapshot</div>
+
+    <div class="grid-2">
+        <div>
+            <strong>Name</strong><br>
+            {{ invoice.contact.first_name }} {{ invoice.contact.last_name }}
+        </div>
+        <div>
+            <strong>Email</strong><br>
+            {{ invoice.contact.email }}
+        </div>
+        <div>
+            <strong>Phone</strong><br>
+            {{ invoice.contact.phone }}
+        </div>
+    </div>
+  </div>
+
+  <div class="content-container">
+    <div class="card-title">Division & Pricing</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Team Name</th>
+                <th>Division</th>
+                <th>Gender</th>
+                <th>Unit Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in invoice.items.all %}
+            <tr>
+                <td>{{ item.team_name }}</td>
+                <td>{{ item.division }}</td>
+                <td>{{ item.gender }}</td>
+                <td>${{ item.unit_price|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </div>
+
+</section>
+
+{% endblock %}

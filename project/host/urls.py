@@ -35,9 +35,9 @@ urlpatterns = [
          views.registration,
          name='registration'),
 
-    path('event/registration/item/<int:registration_id>/',
+    path('event/registration/item/<int:registration_item_id>/',
          views.registration_item,
-         name='registration'),
+         name='registration_item'),
 
 ] + [
     path('event/create/',

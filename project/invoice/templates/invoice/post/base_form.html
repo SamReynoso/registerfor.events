@@ -1,0 +1,19 @@
+{% extends "invoice/base.html" %}
+{% block content %}
+<section class="main-section">
+
+  {% block card%}
+  <h1>{{ title }}</h1>
+  {% include 'components/invoice_preview_card.html' with invoice=invoice %}
+  {% endblock card %}
+
+</section>
+<section class="main-section">
+  <ul class="action-link__container">
+    <li><a href="{% url 'invoice:preview' invoice_id=invoice.id%}" class="action-link">Back Preview</a></li>
+  </ul>
+
+  {% block form %}{% endblock %}
+
+</section>
+{% endblock content %}

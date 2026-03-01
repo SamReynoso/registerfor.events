@@ -15,12 +15,13 @@
   <table class="item-table mt-2">
     <thead>
       <tr>
+        <th></th>
         <th>Event</th>
         <th>End Date</th>
         <th>Registrations</th>
 
-        <th>Invoices</th>
-        <th>Issued</th>
+        <th>Issued Invoices</th>
+        <th></th>
 
         <th></th>
       </tr>
@@ -28,12 +29,10 @@
     <tbody>
       {% for event in events %}
         <tr>
-        <tr>
+          <td></td>
           <td>{{ event.name }}</td>
           <td>{{ event.end_date|date:"m-d-y" }}</td>
           <td>{{ event.registrations.count }}</td>
-          <td>{{ event.invoices.count }}</td>
-
           <td>{{ event.issued_invoice_count }}</td>
 
           <td>
@@ -41,6 +40,8 @@
               <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
             </a>
           </td>
+
+          <td></td>
         </tr>
       {% endfor %}
     </tbody>

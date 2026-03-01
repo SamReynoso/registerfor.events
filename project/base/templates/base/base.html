@@ -80,6 +80,15 @@
 
   {% block scripts %}{% endblock scripts %}
 
+  <script>
+    document.querySelectorAll('.dead-link').forEach(function(el) {
+      el.addEventListener('click', function(event) {
+        event.preventDefault();
+        alert("Don't click on the dead links. They don't do anything right now.");
+      });
+    });
+  </script>
+
 </body>
 
 </html>

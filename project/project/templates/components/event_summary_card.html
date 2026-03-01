@@ -1,5 +1,5 @@
 <div>
-  <h3>
+  <h3 class="mb-3">
     {{ event.name }}
       <a href="{% url 'explore:event' event_id=event.id %}" class="inline-icon__link">
         <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
@@ -20,7 +20,7 @@
           <dt>Sport</dt><dd>{{ event.get_sport_display }}</dd>
           <dt>Starts</dt><dd>{{ event.start_date }}</dd>
           <dt>Ends</dt><dd>{{ event.end_date }}</dd>
-          <dt>Host</dt><dd><a href="{% url 'explore:profile' event.owner.profile.id %}">{{ event.owner.profile }}</a></dd>
+          <dt>Host</dt><dd><a href="{% url 'explore:profile' event.owner.profile.id %}">{{ event.owner.profile.full_name }}</a></dd>
           <dt>Status</dt><dd>{{ event.get_status_display }}</dd>
         </dl>
       </div>

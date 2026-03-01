@@ -1,0 +1,25 @@
+{% extends "invoice/post/base_form.html" %}
+
+{% block form %}
+<section class="main-section">
+
+  <h2>Send Email Attachment</h2>
+
+  <form method="post" class="form mt-2">
+    <h3>Send to the email on record</h3>
+    <div class="paragraph mb-2">
+      <hr>
+      <p>
+        If you would also like a copy sent by email by us confirm below.
+      </p>
+    </div>
+
+      {% csrf_token %}
+
+    <button type="submit" class="mt-2">Send Email</button>
+
+  </form>
+
+</section>
+{% endblock form %}
+

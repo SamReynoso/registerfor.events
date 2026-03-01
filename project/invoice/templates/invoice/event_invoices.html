@@ -13,31 +13,30 @@
 
   {% include 'components/event_preview_card.html' with event=event%}
 
-      {% for reg in event.registrations.all %}
-        {{ reg }} - invoice : {{ reg.invoice }}
-        <a href="{% url 'invoice:create' registration_id=reg.id %}">Issue Invoice</a>
-      {% endfor %}
-
   <table class="item-table mt-2">
     <thead>
       <tr>
         <th>#</th>
         <th>To</th>
-        <th>Created</th>
-        <th>Divisions</th>
+        <th>Start Date</th>
         <th>Status</th>
-        <th></th>
+        <th>Teams</th>
+        <th>Invoice</th>
       </tr>
     </thead>
     <tbody>
       {% for invoice in invoices %}
         <tr>
           <td>{{ invoice.id }}</td>
-          <td>{{ invoice.first_name }} {{ invoice.last_name }}</td>
+          <td>{{ invoice.contact.first_name }} {{ invoice.contact.last_name }}</td>
           <td>{{ invoice.created_at|date:"m-d-y" }}</td>
-          <td>{{ invoice.items.count }}</td>
           <td>{{ invoice.get_status_display }}</td>
-          <td><a href="{% url 'invoice:invoice' invoice_id=invoice.id %}">View</td>
+          <td>{{ invoice.items.count }}</td>
+          <td>
+            <a href="{% url 'invoice:preview' invoice_id=invoice.id %}" class="inline-icon__link">
+              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+              <a>
+          </td>
         </tr>
       {% endfor %}
     </tbody>

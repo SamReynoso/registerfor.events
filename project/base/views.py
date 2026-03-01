@@ -10,12 +10,17 @@ from models.forms import RegisterForm
 from django.conf import settings
 from mailbox.models import Rsvp
 from django.urls import reverse
+import logging
 
 
 User = get_user_model()
 
+logger = logging.getLogger(__name__)
+
+
 
 def home_view(request):
+    logger.debug("Test log message")
     return render(request, 'base/home.html')
 
 

@@ -1,0 +1,26 @@
+{% extends "invoice/post/base_form.html" %}
+
+{% block form %}
+<section class="main-section">
+
+  <h2>Confirm</h2>
+
+  <form method="post" class="form mt-2">
+    <h3>Issue Invoice With These Items</h3>
+    <div class="paragraph mb-2">
+      <hr>
+      <p>
+        An invoice will be created with the teams above. You will have a chance to view it before it is sent to your
+        attendee.
+      </p>
+    </div>
+
+      {% csrf_token %}
+
+    <button type="submit" class="mt-2">Issue Invoice</button>
+
+  </form>
+
+</section>
+{% endblock form %}
+

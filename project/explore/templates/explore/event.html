@@ -21,7 +21,7 @@
       <tr>
         <th>Gender</th>
         <th>Division</th>
-        <th>Entries</th>
+        <th>Teams</th>
         <th></th>
       </tr>
     </thead>
@@ -30,7 +30,7 @@
       <tr>
         <td>{{ division.gender }}</td>
         <td>{{ division.name }}</td>
-        <td>{{ division.registrations.count }}</td>
+        <td>{{ division.items.count }}</td>
         <td>
           <a href="{% url 'explore:division' division_id=division.id %}" class="inline-icon__link">
             <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
@@ -40,7 +40,10 @@
     {% endfor %}
     </tbody>
   </table>
-</div>
+
+  <div class="action-link__container mt-2">
+    <a href="{% url 'play:team_create' %}?next={{ request.path }}" class="action-link">Create A Team</a></br>
+  </div>
 
 </section>
 {% endblock %}

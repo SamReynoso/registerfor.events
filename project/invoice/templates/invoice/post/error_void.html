@@ -1,0 +1,25 @@
+{% extends "invoice/post/base_form.html" %}
+
+{% block form %}
+<section class="main-section">
+
+  <h2>Flag This Invoice</h2>
+
+  <form method="post" class="form mt-2">
+    <h3>Flag as voided</h3>
+    <div class="paragraph mb-2">
+      <hr>
+      <p>
+        After making this change both parties will see the invoice as voided.
+      </p>
+    </div>
+
+      {% csrf_token %}
+
+    <button type="submit" class="mt-2">Void</button>
+
+  </form>
+
+</section>
+{% endblock form %}
+

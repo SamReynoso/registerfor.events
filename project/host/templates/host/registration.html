@@ -4,23 +4,82 @@
 
 <section class="main-section">
 
-  <h1>Manage Registration</h2>
+  <h1>Manage Registration</h1>
 
-    <h3>Registrion Details</h3>
+  <h2 class="ml-2 mb-1">Event</h2>
   {% include "components/registration_preview_card.html" with registration=registration %}
+
+  <h2 class="mt-1">Contact</h2>
+  <dl>
+    <dt>Name</dt>
+    <dd>{{ registration.contact_name }}</dd>
+    <dt>Email</dt>
+    <dd>{{ registration.contact_email}}</dd>
+    <dt>Phone</dt>
+    <dd>{{ registration.contact_phone}}</dd>
+  </dl>
+
+  <ul class="action-link__container">
+    <li>
+      <a href="{% url 'explore:profile' profile_id=registration.contact_profile.id%}" class="action-link">Profile</a>
+    </li>
+  </ul>
+
+
 
 </section>
 
 <section class="main-section">
   <h2>Invoice</h2>
   <div class="paragraph mb-2">
-      <span class="paragraph__heading">This Registration's Invoice</span>
+      <span class="paragraph__heading">View This Registrations Invoice</span>
       <hr>
-      <p>
-        View the invoice related to this registration.
-      </p>
-      <a href="">Invoice</a>
+      <ul class="action-link__container">
+        <li>
+          <a href="{% url 'invoice:preview' invoice_id=registration.invoice.id %}" class="action-link">Invoice</a>
+        </li>
+      </ul>
   </div>
+</section>
+
+<section class="main-section">
+  <h2>Teams</h2>
+
+  <table class="item-table">
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Division</th>
+        <th>Gender</th>
+        <th>Price</th>
+        <th>reg.</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in registration.items.all %}
+      <tr>
+        <td>{{ item.team.name }}</td>
+        <td>{{ item.division.get_name_display }}</td>
+        <td>{{ item.division.get_gender_display }}</td>
+        <td>{{ item.unit_pirce }}</td>
+        <td>
+          <a href="{% url 'host:registration_item' registration_item_id=item.id %}" class="inline-icon__link">
+              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  
+    <div class="action-link__container mt-2">
+      <a href="#" class="action-link dead-link">
+        Update Price For All
+      </a>
+    </div>
+
 </section>
 
 
@@ -30,17 +89,16 @@
     <h2>Cancel Registration</h2>
 
     <div class="paragraph mb-3">
-      <span class="paragraph__heading">This is a heading</span>
+      <span class="paragraph__heading">Cancel All Team For This Registration</span>
       <hr>
       <p>
-        Cancel this registration for the event.
+       This will cancel for all teams that are a part of this registration.
       </p>
     </div>
 
-
     <div class="action-link__container">
       <a href="{% url 'host:registration_cancel' registration_id=registration.id%}" class="action-link danger-link">
-        Continue cancelation Confermation Page
+        Continue To Cancelation Page
       </a>
     </div>
   </div>

@@ -83,34 +83,33 @@ class Announcement(models.Model):
 
 
 class Rsvp(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='rsvps', on_delete=models.CASCADE)
     sender = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   null=True,
                                   on_delete=models.SET_NULL,
-                                  related_name='rsvps')
-    recipient = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                  null=True,
-                                  on_delete=models.SET_NULL,
                                   related_name='invitations')
+    event = models.ForeignKey('models.Event', on_delete=models.CASCADE, related_name='rsvps')
+    teams = models.ManyToManyField('models.Team', related_name='rsvps')
+    divisions = models.ManyToManyField('models.Division', related_name='rsvps')
 
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.EmailField()
     phone = PhoneNumberField()
-    event = models.ForeignKey('models.Event',
-                              on_delete=models.CASCADE,
-                              related_name='rsvps')
-    divisions = models.ManyToManyField('models.Division',
-                                       blank=True,
-                                       related_name='rsvps')
 
     @property
     def name(self):
-        if self.recipient:
-            return self.recipient.profile.name
+        if self.sender:
+            return self.sender.profile.name
         return self.first_name + ' ' + self.last_name
 
     def __str__(self):
-        return f"RSVP to {self.event.name}: for {self.name}"
+        return f"RSVP to {self.event.name}: from {self.name}"
+
+    def save(self, *args, **kwargs) -> None:
+        if self.sender:
+            self.first_name = self.sender.profile.first_name
+        return super().save(*args, **kwargs)
 
 
 # class Notification(models.Model):

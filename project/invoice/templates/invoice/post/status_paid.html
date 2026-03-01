@@ -1,0 +1,25 @@
+{% extends "invoice/post/base_form.html" %}
+
+{% block form %}
+<section class="main-section">
+
+  <h2>Was This Invoice Paid?</h2>
+
+  <form method="post" class="form mt-2">
+    <h3>Great, you're almost there</h3>
+    <div class="paragraph mb-2">
+      <hr>
+      <p>
+        You did it! Now mark the invoice as paid so it can be archived.
+      </p>
+    </div>
+
+      {% csrf_token %}
+
+    <button type="submit" class="mt-2">Paid</button>
+
+  </form>
+
+</section>
+{% endblock form %}
+

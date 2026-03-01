@@ -7,26 +7,22 @@
   <h1>Register Your Teams</h1>
 
   <div class="paragraph">
-    <span class="paragraph__heading">This Is A Heading</span>
+    <span class="paragraph__heading">Games Start Here</span>
     <hr>
     <p>
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
+      Select your team that match the divisions available for this event. If you don't see the division/s that you're
+      looking for you can try sending and RSVP with your teams and there divisions might get added if there is space
+      available.
     </p>
   </div>
 </section>
 
 <section class="main-section">
-{% include "components/event_summary_card.html" %}
-  <h3>Event Divisions Available </h3>
+  <div class="mb-3">
+    {% include "components/event_summary_card.html" %}
+  </div>
+
+  <h3>Divisions Available </h3>
 
   <table class="item-table">
     <thead>
@@ -61,53 +57,57 @@
     <a href="{% url 'play:team_create' %}?next={{ request.path }}" class="action-link">Create Team</a></br>
   </div>
 
-    <form method="post" class="form">
+  <form method="post" class="form mb-2">
 
-      <h3>Register</h3>
+    <h3>Register</h3>
 
-      {% csrf_token %}
+    {% csrf_token %}
 
-      <table class="item-table mb-2">
-        <thead>
-          <tr>
-            <th>Team Name</th>
-            <th>Gender</th>
-            <th>Division</th>
-            <th>Sport</th>
-            <th>Select</th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for team in teams %}
-          <tr>
-            <td>{{ team.name }}</td>
+    <table class="item-table mb-2">
+      <thead>
+        <tr>
+          <th>Team Name</th>
+          <th>Gender</th>
+          <th>Division</th>
+          <th>Sport</th>
+          <th>Select</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for team in teams %}
+        <tr>
+          <td>{{ team.name }}</td>
 
-            <td>{{ team.get_gender_display }}</td>
-            <td>{{ team.get_division_display }}</td>
-            <td>{{ team.get_sport_display }}</td>
-            <td>
-              {% if team in registered_teams %}
-              <img src="/assets/icons/check-mark.svg" class="inline-icon">
-              <a hre="#" class="inline-icon__link ml-1">
-                <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
-              </a>
+          <td>{{ team.get_gender_display }}</td>
+          <td>{{ team.get_division_display }}</td>
+          <td>{{ team.get_sport_display }}</td>
+          <td>
+            {% if team in registered_teams %}
+            <img src="/assets/icons/check-mark.svg" class="inline-icon">
+            <a hre="#" class="inline-icon__link ml-1">
+              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+            </a>
+            {% else %}
+              {% if team.get_key in event_division_keys %}
+                <input type="checkbox" name="team{{ team.id }}"></input>
               {% else %}
-                {% if team.get_key in event_division_keys %}
-                  <input type="checkbox" name="team{{ team.id }}"></input>
-                {% else %}
-                  Unavailable
-                {% endif %}
+                Unavailable
               {% endif %}
-            </td>
-          </tr>
-        {% endfor %}
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
 
-        </tbody>
-      </table>
+      </tbody>
+    </table>
 
-      <button type=submit>Register Teams</button>
+    <button type=submit>Register Teams</button>
 
   </form>
+
+  <div class="action-link__container">
+    <a href="{% url 'share:event_invite' event_id=event.id %}" class="action-link">RSVP Instead</a></br>
+  </div>
   {% else %}
 
   <p>You are missing profile contact information and can not register for events.</p>

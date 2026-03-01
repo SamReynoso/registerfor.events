@@ -51,6 +51,14 @@ select {
     padding: .3rem .6rem;
     background-color: white;
     border-radius: 3px;
+    background-color: red;
+}
+select.filter {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: .5rem 3.5rem 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
 fieldset {
@@ -85,6 +93,7 @@ input[type="text"]:focus {
 input[type="file"] {
   display: none;
 }
+
 
 .upload-btn {
   justify-content: center;

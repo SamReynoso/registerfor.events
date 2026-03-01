@@ -4,6 +4,10 @@
   object-fit: contain;
 }
 
+.img-fit {
+  object-fit: contain;
+}
+
 .img-fill {
   width: 100%;
   height: 100%;
@@ -18,7 +22,7 @@
 
 
 .img-poster__container-full{
-  width: 350px;
+  width: 275px;
   aspect-ratio: 2/3;
   border: 1px solid var(--border-color);
 }
@@ -45,4 +49,8 @@
   width: 150px;
   aspect-ratio: 1;
   border: 1px solid var(--border-color);
+}
+
+.img-art__container-small {
+  width: 120px;
 }

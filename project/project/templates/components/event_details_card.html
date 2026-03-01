@@ -33,18 +33,25 @@
     <div style="margin: 1rem;">
       <h3>Contact info<h3>
       <dl>
-        <dt>Host</dt><dd><a href="{% url 'explore:profile' event.owner.profile.id %}">{{ event.owner.profile }}</a></dd>
+        <dt>Host</dt>
+        <dd><a href="{% url 'explore:profile' event.owner.profile.id %}">{{ event.owner.profile.full_name }}</a></dd>
         <dt>Email</dt><dd>{{ event.owner.profile.email }}</dd>
         <dt>Phone</dt><dd>{{ event.owner.profile.phone }}</dd>
       </dl>
     </div>
 
-    {% with event.id|stringformat:"s" as id_str %}
-      {% if request.path != "/details/event/"|add:id_str|add:"/" %}
-        <div style="margin: 1rem;">
-          <a href="{% url 'explore:event' event_id=event.id %}">View Event</a>
-        </div>
-      {% endif %}
-    {% endwith %}
-  </div>
+  {% with event.id|stringformat:"s" as id_str %}
+    {% if request.path != "/explore/event/"|add:id_str|add:"/" %}
+      <div style="margin: 1rem;">
+        <a href="{% url 'explore:event' event_id=event.id %}">View Event</a>
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% if event.owner == request.user %}
+  <ul class="action-link__container mt-2">
+    <li><a href="{% url 'host:event' event_id=event.id%}" class="action-link">Edit Event</a></li>
+  </ul>
+  {% endif %}
+
 </div>

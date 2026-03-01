@@ -7,7 +7,7 @@ class InvoiceAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'owner',
-        'event_record',
+        'event',
         'status',
         'created_at',
     )

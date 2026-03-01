@@ -1,0 +1,25 @@
+{% extends "invoice/post/base_form.html" %}
+
+{% block form %}
+<section class="main-section">
+
+  <h2>Flag This Invoice</h2>
+
+  <form method="post" class="form mt-2">
+    <h3>Mark this invoice as past due</h3>
+    <div class="paragraph mb-2">
+      <hr>
+      <p>
+        After marking this invoice as past due send and email reminder.
+      </p>
+    </div>
+
+      {% csrf_token %}
+
+    <button type="submit" class="mt-2">Flag Invoice</button>
+
+  </form>
+
+</section>
+{% endblock form %}
+

@@ -1,0 +1,25 @@
+{% extends "invoice/post/base_form.html" %}
+
+{% block form %}
+<section class="main-section">
+
+  <h2>Mark As Refunded</h2>
+
+  <form method="post" class="form mt-2">
+    <h3>Was This Invoice Refunded?</h3>
+    <div class="paragraph mb-2">
+      <hr>
+      <p>
+        Mark as refunded and re-download the invoice PDF.
+      </p>
+    </div>
+
+      {% csrf_token %}
+
+    <button type="submit" class="mt-2">Refund</button>
+
+  </form>
+
+</section>
+{% endblock form %}
+

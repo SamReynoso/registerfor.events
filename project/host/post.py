@@ -95,7 +95,7 @@ def event_poster_delete(request, event_id: int):
         return HttpResponseForbidden("You don't own this event.")
 
     if request.method == 'POST':
-        event.poster = None
+        event.poster.delete(save=False)
         event.save()
         return redirect('host:event', event_id=event_id)
     context = {'current': event.get_poster_url()}

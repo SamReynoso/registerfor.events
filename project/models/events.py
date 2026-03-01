@@ -1,6 +1,11 @@
 from models.models import Event
 from invoice.models import EventRecord
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 class EventCRUD:
     __attr_names = (
                 'name',
@@ -9,54 +14,44 @@ class EventCRUD:
                 'state',
                 'sport',
                 'start_date',
+                'end_date',
                 )
 
     @staticmethod
     def __create_record(event: Event):
         record = EventRecord.objects.create(
-                obj=event,
                 name=event.name,
                 address=event.address,
                 city=event.city,
                 state=event.state,
                 sport=event.sport,
                 start_date=event.start_date,
+                end_date=event.end_date,
                 )
         return record
 
 
     @staticmethod
-    def __get_or_create_record(event: Event):
-        try:
-            record = EventCRUD.get_record(event)
-            created = False
-        except:
-            record = EventCRUD.__create_record(event)
-            created = True
-        return record, created
-
-
-
-    @staticmethod
     def __update_record(event: Event, commit=True):
         assert event.pk, f'event.pk is {event.pk}'
-        record = EventCRUD.get_record(event)
+
         for k in EventCRUD.__attr_names:
-            setattr(record, k, getattr(event, k))
+            setattr(event.record, k, getattr(event, k))
         if commit:
-            record.save()
-        return record
+            event.record.save()
+        return event.record
 
-
-    @staticmethod
-    def get_record(event: Event):
-        return EventRecord.objects.get(obj=event)
 
 
     @staticmethod
     def create(*args, **kwargs):
-        event = Event.objects.create(*args, **kwargs)
-        EventCRUD.__create_record(event)
+        event = Event(*args, **kwargs)
+        record = EventCRUD.__create_record(event)
+        event.record = record
+        event.save()
+
+        logger.info("Created Event", extra={"event_id": event.id})
+
         return event
 
     @staticmethod
@@ -76,10 +71,22 @@ class EventCRUD:
     def save(event):
         if event.pk:
             EventCRUD.__update_record(event)
+            logger.info(
+                    "Record updated",
+                    extra={
+                        "event_id": event.id
+                        }
+                    )
         else:
-            ret = event.save()
-            EventCRUD.__create_record(event)
-            return ret
+            logger.info(
+                    "New Event saved",
+                    extra={
+                        "event_id": event.id
+                        }
+                    )
+            record = EventCRUD.__create_record(event)
+            event.record = record
+            return event.save()
         return event.save()
 
     @staticmethod

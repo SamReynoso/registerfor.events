@@ -3,24 +3,22 @@
   <div class="row mb-2">
 
     <div class="img-poster__container-small">
-      <img src="{{ registrioantion.event.get_poster_url }}" class="img-fill">
+      <img src="{{ item.registration.event.get_poster_url }}" class="img-fill">
     </div>
 
     <dl>
       <dt>Event Name</dt>
       <dd>
-        {{ registration.event.name }}
-        <a href="{% url 'explore:team' team_id=registration.team.id %}" class="inline-icon__link">
+        {{ item.registration.event.name }}
+        <a href="{% url 'explore:team' team_id=item.team.id %}" class="inline-icon__link">
           <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
         </a>
       </dd>
 
-      <dt>Start</dt><dd>
-        {{ registration.event.start_date }}
-      </dd>
-      <dt>Status</dt><dd>
-        {{ registration.event.status }}
-      </dd>
+      <dt>Start</dt>
+      <dd>{{ item.registration.event.start_date }}</dd>
+      <dt>Status</dt>
+      <dd>{{ item.registration.event.status }}</dd>
     </dl>
 
   </div>
@@ -28,22 +26,20 @@
   <div class="row">
 
     <div class="img-poster__container-small">
-      <img src="{{ registration.team.get_photo_url }}" class="img-fill">
+      <img src="{{ item.team.get_photo_url }}" class="img-fill">
     </div>
 
-
       <dl>
-
       <dt>Team Name</dt>
       <dd>
-        {{ registration.team.name }}
-        <a href="{% url 'explore:team' team_id=registration.team.id %}" class="inline-icon__link">
+        {{ item.team.name }}
+        <a href="{% url 'explore:team' team_id=item.team.id %}" class="inline-icon__link">
           <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
         </a>
       </dd>
 
-      <dt>Division</dt><dd>{{ registration.division.get_name_display }}</dd>
-      <dt>Gender</dt><dd>{{  registration.division.get_gender_display }}</dd>
+      <dt>Division</dt><dd>{{ item.division.get_name_display }}</dd>
+      <dt>Gender</dt><dd>{{  item.division.get_gender_display }}</dd>
     </dl>
 
   </div>

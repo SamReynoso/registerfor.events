@@ -1,3 +1,4 @@
+from invoice.models import EventRecord, Invoice, ItemRecord
 from project.services.email import send_event_canceled_email
 from phonenumber_field.modelfields import PhoneNumberField
 from project.utils.alerts import (
@@ -36,8 +37,7 @@ class Profile(models.Model):
             blank=True,
             null=True)
 
-    @property
-    def name(self) -> str:
+    def get_full_name(self) -> str:
         full_name = self.first_name + ' ' + self.last_name
         if full_name != '':
             return full_name
@@ -61,13 +61,14 @@ class Profile(models.Model):
 
 
 class Event(models.Model):
-    id = settings.DEFAULT_AUTO_FIELD
-
     Status = choices.EventStatus
 
+    id = settings.DEFAULT_AUTO_FIELD
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='events',
                               on_delete=models.CASCADE)
+    record = models.OneToOneField(EventRecord, on_delete=models.CASCADE)
+
     name = models.CharField(max_length=150)
     address = models.CharField(max_length=150, blank=True)
     city = models.CharField(max_length=20,
@@ -105,9 +106,7 @@ class Event(models.Model):
         return self.registrations.filter(invoice=None).count()
 
     def issued_invoice_count(self):
-        return self.registrations.filter(
-                invoice__status__gt=choices.InvoiceStatus.MODIFIED
-                ).count()
+        return 0
 
     def delete(self, *args, **kwargs):
         for reg in self.registrations.filter(
@@ -126,6 +125,10 @@ class Event(models.Model):
     @property
     def registrations(self) -> models.QuerySet:
         return super().registrations
+
+    @property
+    def divisions(self) -> models.QuerySet:
+        return super().divisions
 
 
 class Division(models.Model):
@@ -198,31 +201,18 @@ class Team(models.Model):
         return super().delete(*args, **kwargs)
 
 
-class RegistrationManager(models.Manager):
-    def create_from_objects(self, owner, event: Event,):
-        return self.create(
-                owner=owner,
-                event=event,
-
-                first_name=owner.profile.first_name,
-                last_name=owner.profile.last_name,
-                email=owner.profile.email,
-                phone=owner.profile.phone,
-                )
-
 
 class Registration(models.Model):
-    id = settings.DEFAULT_AUTO_FIELD
-
-    objects = RegistrationManager()
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name="registration_records",
                               on_delete=models.CASCADE)
-
     event = models.ForeignKey(Event,
                               related_name='registrations',
                               on_delete=models.CASCADE)
+    invoice = models.OneToOneField(Invoice, on_delete=models.CASCADE)
+
+    id = settings.DEFAULT_AUTO_FIELD
 
     status = models.CharField(
         max_length=20,
@@ -233,8 +223,20 @@ class Registration(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     @property
-    def invoice(self):
-        return super().invoice
+    def contact_name(self):
+        return self.owner.profile.get_full_name()
+
+    @property
+    def contact_email(self):
+        return self.owner.profile.email
+
+    @property
+    def contact_phone(self):
+        return self.owner.profile.phone
+
+    @property
+    def contact_profile(self):
+        return self.owner.profile
 
 
 class RegistrationItem(models.Model):
@@ -246,12 +248,12 @@ class RegistrationItem(models.Model):
     team = models.ForeignKey(Team,
                              related_name='items',
                              on_delete=models.CASCADE)
-#                             blank=True,
-#                             null=True,
-#                             on_delete=models.SET_NULL)
     division = models.ForeignKey(Division,
                                  related_name='items',
                                  on_delete=models.CASCADE)
+    record = models.OneToOneField(ItemRecord, on_delete=models.CASCADE)
+
+
     unit_price = models.DecimalField(max_digits=10,
                                      decimal_places=2,
                                      null=True,
@@ -260,3 +262,14 @@ class RegistrationItem(models.Model):
     def invoice(self):
         return self.registration.invoice
 
+    @property
+    def contact_name(self):
+        return self.registration.owner.profile.get_full_name()
+
+    @property
+    def contact_email(self):
+        return self.registration.owner.profile.email
+
+    @property
+    def contact_phone(self):
+        return self.registration.owner.profile.phone

@@ -1,0 +1,23 @@
+<div style="display: flex; flex-direction: row;" class="bordered p-1">
+
+  <div class="img-art__container-small">
+    <img src="/assets/art/invoice.svg" class="img-fit dark-invert">
+  </div>
+
+  <div class="ml-2 pl-2">
+    <h3>
+      {{ invoice.event.name }}
+      {% if invoice.event.event %}
+      <a href="{% url 'explore:event' event_id=invoice.event.event.id %}" class="inline-icon__link">
+        <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
+      </a>
+      {% endif %}
+    </h3>
+    <dl>
+      <dt>For</dt><dd>{{ invoice.contact.first_name }} {{ invoice.contact.first_name }}</dd>
+      <dt>Create at</dt><dd>{{ invoice.created_at }}</dd>
+      <dt>Items</dt><dd>{{ invoice.items.count }}</dd>
+    </dl>
+  </div>
+
+</div>

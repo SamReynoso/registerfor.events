@@ -1,24 +1,33 @@
-<div style="display: flex; flex-direction: row;" class="bordered p-1">
+<div>
+  <div style="display: flex; flex-direction: row;" class="bordered p-1">
 
-  <div class="img-poster__container-small">
-    <img src="{{ event.get_poster_url }}" class="img-fill">
+    <div class="img-poster__container-small">
+      <img src="{{ event.get_poster_url }}" class="img-fill">
+    </div>
+
+    <div class="ml-2 pl-2">
+      <h3>
+        {{ event.name }}
+        {% with event.id|stringformat:"s" as id_str %}
+          {% if request.path != "/details/event/"|add:id_str %}
+            <a href="{% url 'explore:event' event_id=event.id %}" class="inline-icon__link">
+              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
+            </a>
+          {% endif %}
+        {% endwith %}
+      </h3>
+      <dl>
+        <dt>Starts</dt><dd>{{ event.start_date }}</dd>
+        <dt>Ends</dt><dd>{{ event.end_date }}</dd>
+        <dt>Status</dt><dd>{{ event.get_status_display }}
+    </div>
+
+
   </div>
 
-  <div class="ml-2 pl-2">
-    <h3>
-      {{ event.name }}
-      {% with event.id|stringformat:"s" as id_str %}
-        {% if request.path != "/details/event/"|add:id_str %}
-          <a href="{% url 'explore:event' event_id=event.id %}" class="inline-icon__link">
-            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
-          </a>
-        {% endif %}
-      {% endwith %}
-    </h3>
-    <dl>
-      <dt>Starts</dt><dd>{{ event.start_date }}</dd>
-      <dt>Ends</dt><dd>{{ event.end_date }}</dd>
-      <dt>Status</dt><dd>{{ event.get_status_display }}
-  </div>
-
+  {% if event.owner == request.user %}
+  <ul class="action-link__container mt-2">
+    <li><a href="{% url 'host:event' event_id=event.id%}" class="action-link">Edit Event</a></li>
+  </ul>
+  {% endif %}
 </div>

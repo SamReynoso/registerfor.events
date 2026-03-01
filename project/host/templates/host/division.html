@@ -4,15 +4,15 @@
 
 <section class="main-section">
 
-  <h1>Manage Division ({{ division.name }} {{ division.gender }})</h2>
+  <h1>Manage Division ({{ division.get_name_display }} {{ division.get_gender_display }})</h2>
 
     <h3>Event Details</h3>
   {% include "components/event_preview_card.html" with event=division.event%}
 
 </section>
 <section class="main-section">
-  <h2>Registrations</h2>
-  
+  <h2>Teams</h2>
+
   <table class="item-table">
     <thead>
       <tr>
@@ -20,7 +20,7 @@
         <th>Contact Name</th>
         <th>Email</th>
         <th>Phone</th>
-        <th></th>
+        <th>reg.</th>
 
       </tr>
     </thead>
@@ -30,18 +30,15 @@
         {% if item.team %}
         <td>
             {{ item.team.name }}
-          <a href="{% url 'explore:team' team_id=item.team.id %}" class="inline-icon__link">
-            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
-          </a>
         </td>
         {% else %}
         <td>TBA</td>
         {% endif %}
-        <td>{{ item.registration.contact_name}}</td>
-        <td>{{ item.registration.email}}</td>
-        <td>{{ item.registration.phone}}</td>
+        <td>{{ item.contact_name }}</td>
+        <td>{{ item.contact_email}}</td>
+        <td>{{ item.contact_phone}}</td>
         <td>
-          <a href="{% url 'host:registration' registration_id=item.registration.id %}" class="inline-icon__link">
+          <a href="{% url 'host:registration_item' registration_item_id=item.id %}" class="inline-icon__link">
               <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
           </a>
         </td>
@@ -62,8 +59,8 @@
       <span class="paragraph__heading">This is a heading</span>
       <hr>
       <p>
-        Deleting this division will cancel all regierted teams in it. You can then remove the division from available 
-        division on your hosting page for this event.
+        Deleting this division will cancel all teams that are in it. You can remove the division from the event's
+        available division on your hosting page once this is done.
       </p>
     </div>
 
