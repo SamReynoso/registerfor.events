@@ -54,7 +54,7 @@ def search_results(request):
             'divisions': DivisionChoices,
             'genders': Genders,
             }
-    qs = Event.objects.all()
+    qs = Event.objects.filter(status__gt=Event.Status.CREATED)
     query = request.GET
     if query:
         sport = query.get('sport')

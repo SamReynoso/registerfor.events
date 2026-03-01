@@ -1,7 +1,7 @@
 from django.urls import reverse
-from project.utils.alerts import host_canceled_registration_alert_team_owner
-from project.services.email import send_registration_canceled_email
-from project.services.email import send_host_new_registration_email
+from models.divisions import DivisionCRUD
+from models.events import EventCRUD
+from models.registrations import RegCRUD
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from models.forms import EventForm, EventPosterForm
@@ -26,7 +26,7 @@ def event_create(request):
         if form.is_valid():
             event = form.save(commit=False)
             event.owner = request.user
-            event = form.save()
+            EventCRUD.save(event)
             return redirect('host:event', event_id=event.id)
     else:
         form = EventForm()
@@ -43,7 +43,8 @@ def event_update(request, event_id: int):
     if request.method == 'POST':
         form = EventForm(request.POST, instance=event)
         if form.is_valid():
-            form.save()
+            event = form.save(commit=False)
+            EventCRUD.save(event)
             return redirect('host:event', event_id=event_id)
     else:
         form = EventForm(instance=event)
@@ -58,8 +59,7 @@ def event_delete(request, event_id: int):
         return HttpResponseForbidden("You don't own this event.")
 
     if request.method == 'POST':
-
-        event.delete()
+        EventCRUD.delete(event)
         return redirect('host:hosting')
     context = {'event': event}
     return render(request, 'host/post/event_delete.html', context)
@@ -124,7 +124,7 @@ def event_divisions(request, event_id: int):
         for k in posted_keys:
             if k not in existing_keys:
                 name, gender = Division.split_key(k)
-                new_division = Division.objects.create(
+                new_division = DivisionCRUD.create(
                         event=event,
                         gender=gender,
                         name=name
@@ -134,11 +134,12 @@ def event_divisions(request, event_id: int):
         for k in pre_existing_keys:
             if k not in posted_keys and k not in protected_keys:
                 name, gender = Division.split_key(k)
-                Division.objects.get(
+                division = Division.objects.get(
                         event=event,
                         gender=gender,
                         name=name
-                        ).delete()
+                        )
+                DivisionCRUD.delete(division)
             else:
                 existing_keys.append(k)
 
@@ -173,7 +174,7 @@ def status_page(request, event_id: int, func, temp):
 def status_open(request, event_id: int):
     return status_page(request,
                        event_id,
-                       Event.open_registration,
+                       EventCRUD.open_registration,
                        'host/post/status_open.html')
 
 
@@ -181,7 +182,7 @@ def status_open(request, event_id: int):
 def status_close(request, event_id: int):
     return status_page(request,
                        event_id,
-                       Event.close_registration,
+                       EventCRUD.close_registration,
                        'host/post/status_close.html')
 
 
@@ -189,7 +190,7 @@ def status_close(request, event_id: int):
 def status_scheduled(request, event_id: int):
     return status_page(request,
                        event_id,
-                       Event.mark_as_scheduled,
+                       EventCRUD.mark_as_scheduled,
                        'host/post/status_scheduled.html')
 
 
@@ -223,12 +224,12 @@ def event_announcement_create(request, event_id: int):
 @login_required(login_url='/login/')
 def registration_cancel(request, registration_id: int):
     registration = get_object_or_404(Registration, id=registration_id)
+
     if request.method == 'POST':
-        host_canceled_registration_alert_team_owner(registration)
-        send_registration_canceled_email(registration)
-        registration.delete()
-        return redirect('host:division',
-                        division_id=registration.division.id)
+        event = registration.event
+        RegCRUD.cancel(registration)
+        return redirect('host:event', event_id=event.id)
+
     context = {'registration': registration}
     return render(request, 'host/post/registration_cancel.html', context)
 
@@ -241,19 +242,16 @@ def rsvp_convert(request, rsvp_id: int):
                 "You don't own event this rsvp belongs to."
                 )
     if request.method == "POST":
-        owner = rsvp.recipient
-        for division in rsvp.divisions.all():
-            registration = Registration.objects.create(
-                    owner=owner,
-                    assigned_division=division,
-                    event=rsvp.event,
-                    first_name=rsvp.first_name,
-                    last_name=rsvp.last_name,
-                    email=rsvp.email,
-                    phone=rsvp.phone,
-                    )
-            send_host_new_registration_email(registration)
-        rsvp.delete()
-        return redirect('host:invitations', event_id=rsvp.event.id)
+        event = rsvp.event
+        RegCRUD.rsvp_convert(rsvp)
+        return redirect('host:invitations', event_id=event.id)
+
     context = {'rsvp': rsvp}
     return render(request, 'host/post/rsvp_convert.html', context)
+
+
+@login_required(login_url='/login/')
+def rsvp_cancel(request, rsvp_id: int):
+    context = {}
+    return render(request, 'host/post/rsvp_cancel.html', context)
+

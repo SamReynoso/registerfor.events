@@ -4,22 +4,29 @@
 
 <section class="main-section">
 
-  <h1>Event Announcement</h1>
-
-
-  <div class="paragraph mt-2">
-    <span class="paragraph__heading">Make An Announcement To All Event Participants</span>
-    <hr>
-    <p>
-      this is a paragraph this is a paragraph this is a paragraph this is a paragraph this is a paragraph
-    </p>
-  </div>
+  <h1>Make Announcement</h1>
 
   {% include "components/event_preview_card.html" %}
 
   <form method="post" class="form mt-2">
 
-    <h3>Make an announcement to all participants</h3>
+    <h2>Announcement Form</h2>
+
+  <div class="paragraph mb-2">
+    <span class="paragraph__heading">This announcement goes to all event participants</span>
+    <hr>
+    <p>
+      Use this form to make important updates about the event, venue, and other details. These announcements are 
+      viewable in the mailbox, and a copy is sent by email to keep everyone informed.
+    </p>
+  </div>
+
+
+    <dl class="mb-2">
+      <dt>Recipients</dt>
+      <dd>{{ event.registrations.count }}</dd>
+    </dl>
+
 
     {% csrf_token %}
 

@@ -70,7 +70,7 @@
         <a href="{% url 'host:status_close' event_id=event.id %}">Close Registration</a>
       <li>
       </li>
-        <a href="{% url 'host:status_scheduled' event_id=event.id %}">Finalize Scheduled</a>
+        <a href="{% url 'host:status_scheduled' event_id=event.id %}">Finalize Schedule</a>
       </li>
       {% endif %}
       {% if event.status == 3 %}
@@ -101,28 +101,21 @@
 
   <h2>Interact</h2>
 
+  <div class="paragraph">
+    <span class="paragraph__heading">Reach out to participants</span>
+    <hr>
+    <p>
+      Share invitations to you event on other sites, make announcements to your participants about updates to your 
+      event, and download invoices for your completed events.
+    </p>
+  </div>
+
   <div class="action-link__container">
     <a href="{% url 'host:invitations' event_id=event.id %}" class="action-link">Invite</a>
     <a href="{% url 'host:event_announcement_create' event_id=event.id %}" class="action-link">Announce</a>
     <a href="{% url 'invoice:event_invoices' event_id=event.id %}" class="action-link">Invoice</a>
   </div>
 
-  <div class="paragraph">
-    <span class="paragraph__heading">This is a heading</span>
-    <hr>
-    <p>
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-      this is a paragraph
-    </p>
-  </div>
 
 </section>
 

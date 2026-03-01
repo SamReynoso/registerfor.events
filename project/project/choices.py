@@ -49,7 +49,6 @@ class EventStatus(models.IntegerChoices):
     SCHEDULED = 3, "Scheduled"
     RUNNING = 4, "Running"
     COMPLETED = 5, "Completed"
-    CANCELED = 6, "Canceled"
 
 
 class InvoiceStatus(models.IntegerChoices):

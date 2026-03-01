@@ -97,7 +97,7 @@ def invite(request, event_id: int):
             'site_url': site_url,
             'sharable_url': (
                 site_url
-                + reverse('invite:invite', kwargs={'event_id': event_id})
+                + reverse('share:event_invite', kwargs={'event_id': event_id})
                 )
                }
     return render(request, 'host/invite.html', context)

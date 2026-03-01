@@ -42,7 +42,7 @@ def events(request):
 def event_invoices(request, event_id: int):
     event = get_object_or_404(Event, id=event_id)
     invoices = Invoice.objects.filter(
-            owner=request.user, event=event
+            owner=request.user, event_record=event.record
             ).all()
     context = {
             'event': event,

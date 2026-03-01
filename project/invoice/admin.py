@@ -7,17 +7,13 @@ class InvoiceAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'owner',
-        'event',
-        'event_name',
-        'event_city',
-        'event_start_date',
+        'event_record',
         'status',
         'created_at',
     )
     list_filter = ('status', 'created_at')
     search_fields = (
-        'first_name',
-        'last_name',
+        'owner',
         'event_start_date',
         'email',
     )

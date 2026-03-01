@@ -1,4 +1,3 @@
-from invoice.models import Invoice, InvoiceItem
 from project.services.email import send_event_canceled_email
 from phonenumber_field.modelfields import PhoneNumberField
 from project.utils.alerts import (
@@ -19,6 +18,8 @@ from project import choices
 
 
 class Profile(models.Model):
+    id = settings.DEFAULT_AUTO_FIELD
+
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 related_name='profile',
                                 on_delete=models.CASCADE)
@@ -60,6 +61,7 @@ class Profile(models.Model):
 
 
 class Event(models.Model):
+    id = settings.DEFAULT_AUTO_FIELD
 
     Status = choices.EventStatus
 
@@ -99,43 +101,6 @@ class Event(models.Model):
         default=Status.CREATED
     )
 
-    def get_status(self):
-        if self.status == self.Status.CANCELED:
-            return self.Status.CANCELED
-
-        status = self.Status.CREATED
-        today = timezone.localdate()
-        if today > self.end_date:
-            status = self.Status.COMPLETED
-        if today >= self.start_date and today <= self.end_date:
-            status = self.Status.RUNNING
-
-        if today < self.start_date:
-            status = self.Status.CREATED
-            if self.registration_opened:
-                status = self.Status.REGISTERING
-                if self.registration_closed:
-                    status = self.Status.SCHEDULED
-
-        self.status = status
-        self.save()
-        return status
-
-    def open_registration(self):
-        self.registration_opened = True
-        self.status = self.Status.REGISTERING
-        self.save()
-
-    def close_registration(self):
-        self.registration_opened = False
-        self.status = self.Status.CREATED
-        self.save()
-
-    def mark_as_scheduled(self):
-        self.registration_opened = False
-        self.status = self.Status.SCHEDULED
-        self.save()
-
     def missing_invoices_count(self):
         return self.registrations.filter(invoice=None).count()
 
@@ -158,8 +123,14 @@ class Event(models.Model):
             return self.poster.url
         return '/assets/defaults/event.webp'
 
+    @property
+    def registrations(self) -> models.QuerySet:
+        return super().registrations
+
 
 class Division(models.Model):
+    id = settings.DEFAULT_AUTO_FIELD
+
     event = models.ForeignKey(Event,
                               related_name='divisions',
                               on_delete=models.CASCADE)
@@ -190,6 +161,8 @@ class Division(models.Model):
 
 
 class Team(models.Model):
+    id = settings.DEFAULT_AUTO_FIELD
+
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='teams',
                               on_delete=models.CASCADE)
@@ -239,6 +212,8 @@ class RegistrationManager(models.Manager):
 
 
 class Registration(models.Model):
+    id = settings.DEFAULT_AUTO_FIELD
+
     objects = RegistrationManager()
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -249,13 +224,6 @@ class Registration(models.Model):
                               related_name='registrations',
                               on_delete=models.CASCADE)
 
-    invoice = models.ForeignKey('invoice.invoice',
-                                related_name='invoice',
-                                on_delete=models.CASCADE)
-#                                null=True,
-#                                blank=True,
-#                                on_delete=models.SET_NULL)
-
     status = models.CharField(
         max_length=20,
         choices=choices.RegistrationStatus.choices,
@@ -265,27 +233,12 @@ class Registration(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     @property
-    def contact_name(self):
-        if self.owner:
-            return self.owner.profile.name
-        return self.first_name + ' ' + self.last_name
-
-    @property
-    def teams(self):
-        return [item.team for item in self.items.all() if item.team]
-
-    def save(self, *args, **kwargs):
-        if self.pk is None:
-            new_registrations_alert_event_owner(self)
-        super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        if self.invoice:
-            self.invoice.status = choices.InvoiceStatus.WI
-        return super().delete(*args, **kwargs)
+    def invoice(self):
+        return super().invoice
 
 
 class RegistrationItem(models.Model):
+    id = settings.DEFAULT_AUTO_FIELD
 
     registration = models.ForeignKey(Registration,
                                      related_name='items',
@@ -296,9 +249,6 @@ class RegistrationItem(models.Model):
 #                             blank=True,
 #                             null=True,
 #                             on_delete=models.SET_NULL)
-    invoice_item = models.ForeignKey(InvoiceItem,
-                               related_name='registration_items',
-                               on_delete=models.CASCADE)
     division = models.ForeignKey(Division,
                                  related_name='items',
                                  on_delete=models.CASCADE)
@@ -306,7 +256,6 @@ class RegistrationItem(models.Model):
                                      decimal_places=2,
                                      null=True,
                                      blank=True)
-
     @property
     def invoice(self):
         return self.registration.invoice

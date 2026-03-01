@@ -83,6 +83,15 @@ class Announcement(models.Model):
 
 
 class Rsvp(models.Model):
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                  null=True,
+                                  on_delete=models.SET_NULL,
+                                  related_name='rsvps')
+    recipient = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                  null=True,
+                                  on_delete=models.SET_NULL,
+                                  related_name='invitations')
+
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.EmailField()
@@ -93,10 +102,6 @@ class Rsvp(models.Model):
     divisions = models.ManyToManyField('models.Division',
                                        blank=True,
                                        related_name='rsvps')
-    recipient = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                  null=True,
-                                  on_delete=models.SET_NULL,
-                                  related_name='rsvps')
 
     @property
     def name(self):

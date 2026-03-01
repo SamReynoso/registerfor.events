@@ -24,6 +24,7 @@ DATABASES = {
         'NAME': BASE_DIR / val_u('DJANGO_DATABASE_NAME'),
     }
 }
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
