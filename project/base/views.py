@@ -5,12 +5,13 @@ from django.contrib.auth import logout, authenticate, login
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth import get_user_model
 from models.models import Event, Profile
-from project.services.email import send_signup_email_verification_email
+from project.services.email import SendEmail
 from models.forms import RegisterForm
 from django.conf import settings
 from mailbox.models import Rsvp
 from django.urls import reverse
 import logging
+from project.services.email import SendEmail
 
 
 User = get_user_model()
@@ -23,6 +24,10 @@ def home_view(request):
     logger.debug("Test log message")
     return render(request, 'base/home.html')
 
+def test(request):
+    SendEmail.user_email_verification(request.user)
+    return redirect('base:home')
+
 
 def register_view(request):
     if request.method == 'POST':
@@ -34,7 +39,7 @@ def register_view(request):
             user.refresh_from_db()
             profile = Profile.objects.create(user=user)
             profile.save()
-            send_signup_email_verification_email(user)
+            SendEmail.user_email_verification(user)
             return redirect('base:login')
     else:
         form = RegisterForm()

@@ -1,12 +1,12 @@
 '''
 Test
 
-Email Verification              [x]
-New registration Host           [x]
-New registration Participatn    [x]
-Registration Canceled           [x]
-Registration withdrawn          [x]
-Event Canceled                  [x]
+Email Verification              [ ]
+New registration Host           [ ]
+New registration Participatn    [ ]
+Registration Canceled           [ ]
+Registration withdrawn          [ ]
+Event Canceled                  [ ]
 '''
 
 from django.contrib.auth.tokens import default_token_generator
@@ -18,171 +18,147 @@ from sendgrid.helpers.mail import Mail
 from django.conf import settings
 from django.urls import reverse
 
+from project.services import email_context
+from models.models import Registration
 
-def send_mail(message):
-    if not settings.ENABLE_EMAIL_NOTIFICATIONS:
-        return
-    try:
-        sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
-        response = sg.send(message)
-        return response.status_code
-    except Exception as e:
-        raise e
+import logging
+import inspect
+
+logger = logging.getLogger(__name__)
 
 
-def send_transactional_email(to_user,
-                             template: str,
-                             context: dict,
-                             cta_viewname: str,
-                             view_kwargs: dict = {},
-                             ):
-    relative = reverse(cta_viewname, kwargs=view_kwargs)
-    context['cta_url'] = f'{settings.SITE_URL}{relative}'
-    html_content = render_to_string(template, context)
-    plain_text_content = (
-            f'{context['heading']}\n'
-            '\n'
-            f'{context['body_text']}\n'
-            '\n'
-            f'Check it here: {context['cta_url']}'
-            )
-    message = Mail(
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        to_emails=to_user.email,
-        subject=context['heading'],
-        html_content=html_content,
-        plain_text_content=plain_text_content,
-    )
-    send_mail(message)
+class SendEmail:
+    @staticmethod
+    def __get_plain_text(context):
+        return (
+                f'{context['heading']}\n'
+                '\n'
+                f'{context['body_text']}\n'
+                '\n'
+                f'Check it here: {context['cta_url']}'
+                )
+
+    @staticmethod
+    def __send(message):
+        if not settings.ENABLE_EMAIL_NOTIFICATIONS:
+            return
+        try:
+            sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+            response = sg.send(message)
+            return response.status_code
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def __send_transactional(to_user,
+                                   template: str,
+                                   context: dict,
+                                   cta_viewname: str,
+                                   view_kwargs: dict = {},
+                                   ):
+        relative = reverse(cta_viewname, kwargs=view_kwargs)
+        context['cta_url'] = f'{settings.SITE_URL}{relative}'
+        html_content = render_to_string(template, context)
+        plain_text_content = SendEmail.__get_plain_text(context)
+        caller = inspect.stack()[2][3]
+        logger.info(f"'{caller}()' emailed {to_user.email}")
+
+        message = Mail(
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to_emails=to_user.email,
+            subject=context['heading'],
+            html_content=html_content,
+            plain_text_content=plain_text_content,
+        )
+        SendEmail.__send(message)
+
+    @staticmethod
+    def user_email_verification(user):
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        token = default_token_generator.make_token(user)
+        SendEmail.__send_transactional(
+            to_user=user,
+            template='email/cta.html',
+            context=email_context.SIGNUP_EMAIL_VERIFICATION,
+            cta_viewname='base:verify_email',
+            view_kwargs={'uidb64': uid, 'token': token}
+        )
 
 
-def send_signup_email_verification_email(user):
-    context = {
-            'heading': 'Welcome to Register For Events',
-            'body_text': 'Thanks for signing up.',
-            'cta_label': 'Verify Email',
-            }
-    uid = urlsafe_base64_encode(force_bytes(user.pk))
-    token = default_token_generator.make_token(user)
-    send_transactional_email(
-        to_user=user,
-        template='email/cta.html',
-        context=context,
-        cta_viewname='base:verify_email',
-        view_kwargs={'uidb64': uid, 'token': token}
-    )
+    @staticmethod
+    def __registration(registration: Registration, user):
+
+        context = email_context.EVENT_REGISTRATION
+        context['registration'] = registration
+
+        SendEmail.__send_transactional(
+            to_user=user,
+            template='email/registration_email.html',
+            context=context,
+            cta_viewname='play:registration',
+            view_kwargs={'registration_id': registration.id}
+        )
 
 
-def send_new_registration_email(registration, user, heading):
-    context = {
-            'registration': registration,
-            'heading': heading,
-            'body_text': 'Registration details are listed in the table below.',
-            'cta_label': 'View registration',
-            }
-
-    send_transactional_email(
-        to_user=user,
-        template='email/registration_email.html',
-        context=context,
-        cta_viewname='play:registration',
-        view_kwargs={'registration_id': registration.id}
-    )
+    @staticmethod
+    def play_registration(registration):
+        SendEmail.__registration(registration, registration.owner,)
 
 
-def send_participant_new_registration_email(registration):
-    send_new_registration_email(registration,
-                                registration.owner,
-                                'Your registration')
+    @staticmethod
+    def host_registration(registration):
+        SendEmail.__registration(registration, registration.event.owner)
 
 
-def send_host_new_registration_email(registration):
-    send_new_registration_email(registration,
-                                registration.event.owner,
-                                'New registration'
-                                )
+    @staticmethod
+    def registration_canceled(registration):
+        context = email_context.EVENT_REGISTRATION_CANCELED
+        context['registration'] = registration
+
+        SendEmail.__send_transactional(
+            to_user=registration.owner,
+            template='email/registration_email.html',
+            context=context,
+            cta_viewname='user:events'
+        )
 
 
-def send_registration_canceled_email(registration):
-    context = {
-            'registration': registration,
-            'heading': 'Registration canceled',
-            'body_text': 'The host of an event canceled your registers.',
-            'cta_label': 'View your events',
-            }
+    @staticmethod
+    def registration_withdrawn(registration):
 
-    send_transactional_email(
-        to_user=registration.owner,
-        template='email/registration_email.html',
-        context=context,
-        cta_viewname='user:events'
-    )
+        context = email_context.REGISTRATION_WITHDRAWN
+        context['registration'] = registration
 
-
-def send_registration_withdrawn_email(registration):
-    context = {
-            'registration': registration,
-            'heading': 'Registration Withdrawn',
-            'body_text': 'A registered team has withdrawn from one of your '
-            'events.',
-            'cta_label': 'View your event',
-            }
-
-    send_transactional_email(
-        to_user=registration.event.owner,
-        template='email/registration_email.html',
-        context=context,
-        cta_viewname='user:hosting_event',
-        view_kwargs={'event_id': registration.event.id}
-    )
+        SendEmail.__send_transactional(
+            to_user=registration.event.owner,
+            template='email/registration_email.html',
+            context=context,
+            cta_viewname='user:hosting_event',
+            view_kwargs={'event_id': registration.event.id}
+        )
 
 
-def send_event_canceled_email(user):
-    context = {
-            'heading': 'Event canceled',
-            'body_text': 'The host of an event you where registers for has '
-            'canceled the event.',
-            'cta_label': 'View your events',
-            }
+    @staticmethod
+    def event_canceled(user):
+        context = email_context.EVENT_CANCELED
 
-    send_transactional_email(
-        to_user=user,
-        template='email/cta.html',
-        context=context,
-        cta_viewname='user:events',
-    )
+        SendEmail.__send_transactional(
+            to_user=user,
+            template='email/cta.html',
+            context=context,
+            cta_viewname='user:events',
+        )
 
 
-def send_rsvp_email(rsvp):
-    context = {
-            'rsvp': rsvp,
-            'heading': 'New RSVP',
-            'body_text': 'Someone new is going to your event.',
-            'cta_label': 'View event',
-            }
+    @staticmethod
+    def rsvp(rsvp):
+        context = email_context.RSVP
+        context['rsvp'] = rsvp
 
-    send_transactional_email(
-        to_user=rsvp.event.owner,
-        template='email/rsvp_email.html',
-        context=context,
-        cta_viewname='explore:event',
-        view_kwargs={'event_id': rsvp.event.id}
-    )
-
-
-# def send_announcement_email(announcement):
-#    context = {
-#            'heading': announcement.title,
-#            'body_text': announcement.body,
-#               }
-#    html_content = render_to_string('email/announcemenet.html', context)
-#    plain_text_content = ''
-#
-#    message = Mail(
-#        from_email=settings.DEFAULT_FROM_EMAIL,
-#        to_emails=announcement.recipient.email,
-#        subject=context.get('heading'),
-#        html_content=html_content,
-#        plain_text_content=plain_text_content,
-#    )
-#    send_mail(message)
+        SendEmail.__send_transactional(
+            to_user=rsvp.event.owner,
+            template='email/rsvp_email.html',
+            context=context,
+            cta_viewname='explore:event',
+            view_kwargs={'event_id': rsvp.event.id}
+        )

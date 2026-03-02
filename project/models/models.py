@@ -1,18 +1,11 @@
 from invoice.models import EventRecord, Invoice, ItemRecord
-from project.services.email import send_event_canceled_email
 from phonenumber_field.modelfields import PhoneNumberField
-from project.utils.alerts import (
-        host_canceled_event_alert_team_owner,
-        new_registrations_alert_event_owner,
-        team_deleted_alert_event_owner,
-        )
 from project.utils.project_models import (
-        # on_team_delete,
         uuid_upload_avatar,
         uuid_upload_event_poster,
         uuid_upload_team_photo
         )
-from django.utils import timezone
+# from django.utils import timezone
 from django.conf import settings
 from django.db import models
 from project import choices
@@ -57,7 +50,7 @@ class Profile(models.Model):
         return False
 
     def __str__(self):
-        return self.name
+        return self.get_full_name()
 
 
 class Event(models.Model):
@@ -107,15 +100,6 @@ class Event(models.Model):
 
     def issued_invoice_count(self):
         return 0
-
-    def delete(self, *args, **kwargs):
-        for reg in self.registrations.filter(
-                status=choices.RegistrationStatus.PENDING
-                ).all():
-            # host_canceled_event_alert_team_owner(reg)
-            # send_event_canceled_email(reg.owner)
-            ...
-        return super().delete(*args, **kwargs)
 
     def get_poster_url(self):
         if self.poster:
@@ -194,12 +178,6 @@ class Team(models.Model):
 
     def get_key(self):
         return f'{self.division}-{self.gender}'
-
-    def delete(self, *args, **kwargs):
-        for reg in self.registrations.filter(upcoming=True).all():
-            team_deleted_alert_event_owner(reg)
-        return super().delete(*args, **kwargs)
-
 
 
 class Registration(models.Model):

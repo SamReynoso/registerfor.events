@@ -3,11 +3,7 @@ from invoice.models import ContactRecord, Invoice, ItemRecord
 from mailbox.models import Rsvp
 from models.models import Division, Registration, RegistrationItem, Team
 
-from project.services.email import (
-        send_host_new_registration_email,
-        send_participant_new_registration_email,
-        send_registration_withdrawn_email,
-        )
+from project.services.email import SendEmail
 # from project.utils.alerts import host_canceled_registration_alert_team_owner
 # from project.services.email import send_registration_canceled_email
 # from project.services.email import send_host_new_registration_email
@@ -138,8 +134,8 @@ class RegCRUD:
             for team in teams
                 ]
         ret = RegistrationItem.objects.bulk_create(new_items)
-        send_host_new_registration_email(registration)
-        send_participant_new_registration_email(registration)
+        # send_host_new_registration_email(registration)
+        # send_participant_new_registration_email(registration)
         RegCRUD.invalidate_invoice(registration.invoice)
         return ret
 

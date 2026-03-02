@@ -1,6 +1,6 @@
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.shortcuts import get_object_or_404, render, redirect
-from project.services.email import send_rsvp_email
+from project.services.email import SendEmail
 from project.utils.phonenumber import parse_phone
 from django.http import HttpResponseNotAllowed
 from mailbox.forms import RsvpForm
@@ -72,7 +72,7 @@ def anonymous_invite(request, event):
             rsvp.event = event
             rsvp.save()
             add_rsvp_divisions(request, rsvp, event)
-            send_rsvp_email(rsvp)
+            # send_rsvp_email(rsvp)
             return redirect('explore:event', event_id=event.id)
     else:
         form = RsvpForm()

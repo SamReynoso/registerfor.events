@@ -12,4 +12,6 @@ urlpatterns = [
     path('verify/<str:uidb64>/<str:token>/',
          views.verify_email,
          name="verify_email"),
+
+    path('test/', views.test, name='test'),
 ]
