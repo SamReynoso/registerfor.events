@@ -1,6 +1,8 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%; border-collapse:collapse; margin-top:16px;">
   <tbody>
-    <tr style="border-bottom: 1px solid #a0a0a0"><th>Host</th><td><a href="https://registerfor.events/{% url 'explore:profile' registration.event.owner.profile.id %}">{{ registration.event.owner.profile.name }}</a></td></tr>
+    <tr style="border-bottom: 1px solid #a0a0a0"><th>Host</th><td>
+        <a href="https://registerfor.events/{% url 'explore:profile' registration.event.owner.profile.id %}">
+          {{ registration.event.owner.profile.get_full_name }}</a></td></tr>
     <tr style="border-bottom: 1px solid #a0a0a0"><th>Host Email</th><td>{{ registration.event.owner.profile.email }}</td></tr>
     <tr style="border-bottom: 1px solid #a0a0a0"><th>Host Phone</th><td>{{ registration.event.owner.profile.phone }}</td></tr>
 

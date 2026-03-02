@@ -19,15 +19,19 @@ def embedded(request, event_id: int):
 def add_rsvp_divisions(post, rsvp, event):
     posted_keys = post.getlist('divisions[]')
     selected_divisions = []
+    print('posted_keys', posted_keys)
     for division in event.divisions.all():
-        if f'{division.gender}-{division.name}' in posted_keys:
+        print('division_key', division.get_key())
+        if division.get_key() in posted_keys:
+            print('found key')
             selected_divisions.append(division)
-
-    rsvp.save()
     rsvp.divisions.add(*selected_divisions)
+    rsvp.save()
 
 
-def authenticated_invite(request, event):
+
+def event_invite(request, event_id: int):
+    event = get_object_or_404(Event, id=event_id)
     if request.user.profile.is_complete is False:
         return HttpResponseNotAllowed(
                 'Your profile is missing contact information.'
@@ -35,16 +39,20 @@ def authenticated_invite(request, event):
     if request.method == 'POST':
         profile = request.user.profile
         rsvp = Rsvp.objects.create(
+                owner=event.owner,
+                sender=request.user,
+                event=event,
+
                 first_name=profile.first_name,
                 last_name=profile.last_name,
                 email=profile.email,
                 phone=profile.phone,
-                recipient=request.user,
-                event=event
                 )
         add_rsvp_divisions(request.POST, rsvp, event)
-        send_rsvp_email(rsvp)
+        print(rsvp.divisions.all())
+        # send_rsvp_email(rsvp)
         return redirect('explore:event', event_id=event.id)
+
     context = {
             'site_url': settings.SITE_URL,
             'event': event,
@@ -76,10 +84,3 @@ def anonymous_invite(request, event):
             'disctiption': f'Join us on {event.start_date} in {event.city}.'
                }
     return render(request, 'share/event_invite.html', context)
-
-
-def event_invite(request, event_id: int):
-    event = get_object_or_404(Event, id=event_id)
-    if request.user.is_authenticated:
-        return authenticated_invite(request, event)
-    return anonymous_invite(request, event)

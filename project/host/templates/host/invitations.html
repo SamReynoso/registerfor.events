@@ -39,7 +39,7 @@
         <td>{{ rsvp.phone}}</td>
         <td>{{ rsvp.divisions.count }}</td>
         <td>
-          <a href="{% url 'share:rsvp_convert' rsvp_id=rsvp.id %}" class="inline-icon__link">
+          <a href="{% url 'host:rsvp_convert' rsvp_id=rsvp.id %}" class="inline-icon__link">
             <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
           </a>
         </td>

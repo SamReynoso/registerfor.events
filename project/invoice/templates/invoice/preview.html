@@ -20,9 +20,6 @@
       <li>
       <a href="{% url 'invoice:view_pdf' invoice_id=invoice.id %}" class="action-link">Download</a>
       </li>
-      <li>
-      <a href="{% url 'invoice:view_pdf' invoice_id=invoice.id %}" class="action-link">More</a>
-      </li>
     </ul>
 
   </div>
@@ -33,17 +30,20 @@
     <div class="bordered p-2" style="max-width: 450px">
       <div class="stat-row" style="max-width: 400px">
           <span>Status</span>
+          {{ invoice.status }}
+
           <span>
-            {% if invoice.status == 6 %}
-              <span class="badge badge-paid">Paid</span>
-            {% elif invoice.status == "overdue" %}
-              <span class="badge badge-overdue">Overdue</span>
-            {% elif invoice.status == 1 %}
+            {% if invoice.status == 1 %}
               <span class="badge badge-overdue">draft</span>
-            {% else %}
-              <span class="badge badge-due">Due</span>
+            {% elif invoice.status == 2 %}
+              <span class="badge badge-due">Issued</span>
+            {% elif invoice.status == 3 %}
+              <span class="badge badge-due">Sent</span>
+            {% elif invoice.status == 4 %}
+              <span class="badge badge-paid">Paid</span>
             {% endif %}
           </span>
+
       </div>
 
       <div class="stat-row">
@@ -118,7 +118,7 @@
       {% endif %}
       {% if invoice.status == invoice.Status.SENT %}
         <option value="{% url 'invoice:error_refund' invoice_id=invoice.id %}">
-          refund
+          Refund
         </option>
       {% endif %}
     </select>

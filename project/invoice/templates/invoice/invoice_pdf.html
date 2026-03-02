@@ -231,12 +231,14 @@ th:last-child {
     <div>
         <div class="invoice-title">INVOICE</div>
 
-        {% if invoice.status == "paid" %}
-            <div class="status-badge status-paid">Paid</div>
-        {% elif invoice.status == "overdue" %}
-            <div class="status-badge status-overdue">Overdue</div>
-        {% else %}
+        {% if invoice.status == 1 %}
+            <div class="status-badge status-draft">Draft</div>
+        {% elif invoice.status == 2 %}
+            <div class="status-badge status-due">Overdue</div>
+        {% elif invoice.status == 3 %}
             <div class="status-badge status-due">Due</div>
+        {% elif invoice.status == 4 %}
+            <div class="status-badge status-paid">Paid</div>
         {% endif %}
     </div>
 
@@ -271,9 +273,10 @@ th:last-child {
 <!-- ===== Event Info ===== -->
 <div class="section-title">Event Details</div>
 <div class="block" style="margin-bottom:40px;">
-    <strong>{{ invoice.event_name }}</strong><br>
+    <strong>{{ invoice.event.name }}</strong><br>
     {{ invoice.event.start_date }} – {{ invoice.event.end_date }}<br>
-    {{ invoice.event.address }}, {{ invoice.event.city }}, {{ invoice.event.state }}
+    
+    {%if invoice.event.address%}{{ invoice.event.address }}, {%endif%}{{ invoice.event.city }}, {{ invoice.event.state }}
 </div>
 
 <!-- ===== Items Table ===== -->
@@ -291,8 +294,8 @@ th:last-child {
         {% for item in invoice.items.all %}
         <tr>
             <td>{{ item.team_name }}</td>
-            <td>{{ item.gender }}</td>
-            <td>{{ item.division_name }}</td>
+            <td>{{ item.get_gender_display }}</td>
+            <td>{{ item.get_division_display }}</td>
             <td>${{ item.unit_price|floatformat:2 }}</td>
         </tr>
         {% endfor %}

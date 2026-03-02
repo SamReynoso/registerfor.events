@@ -83,14 +83,20 @@ class Announcement(models.Model):
 
 
 class Rsvp(models.Model):
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='rsvps', on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
+                              related_name='rsvps',
+                              on_delete=models.CASCADE)
     sender = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                  null=True,
-                                  on_delete=models.SET_NULL,
-                                  related_name='invitations')
-    event = models.ForeignKey('models.Event', on_delete=models.CASCADE, related_name='rsvps')
-    teams = models.ManyToManyField('models.Team', related_name='rsvps')
-    divisions = models.ManyToManyField('models.Division', related_name='rsvps')
+                               null=True,
+                               on_delete=models.SET_NULL,
+                               related_name='invitations')
+    event = models.ForeignKey('models.Event',
+                              on_delete=models.CASCADE,
+                              related_name='rsvps')
+    teams = models.ManyToManyField('models.Team',
+                                   related_name='rsvps')
+    divisions = models.ManyToManyField('models.Division',
+                                       related_name='rsvps')
 
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)

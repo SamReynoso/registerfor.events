@@ -27,7 +27,7 @@
   border: 1px solid var(--border-color);
 }
 
-.img-poster__container-medium{
+.img-poster__container-medium {
   width: 150px;
   aspect-ratio: 2/3;
   border: 1px solid var(--border-color);

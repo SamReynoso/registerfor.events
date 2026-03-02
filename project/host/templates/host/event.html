@@ -130,7 +130,12 @@
 
   <table class="item-table">
     <thead>
-      <tr><th>Gender</th><th>Division</th><th>Entries</th><th></ht></tr>
+      <tr>
+        <th>Gender</th>
+        <th>Division</th>
+        <th>Teams</th>
+        <th></ht>
+      </tr>
     </thead>
 
     <tbody>
@@ -138,7 +143,7 @@
       <tr>
         <td>{{ division.get_gender_display }}</td>
         <td>{{ division.get_name_display }}</td>
-        <td>{{ division.registrations.count}}</td>
+        <td>{{ division.items.count}}</td>
         <td><a href="{% url 'host:division' division_id=division.id %}">Manage</a></td>
       </tr>
     {% endfor %}

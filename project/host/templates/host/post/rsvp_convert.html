@@ -9,8 +9,8 @@
 
   <div style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 1rem;">
 
-    <div class="event-poster-thumbnail__container"
-      <img src="{{ rsvp.event.get_poster_url }}" class="event-poster-thumbnail">
+    <div class="img-poster__container-medium">
+      <img src="{{ rsvp.event.get_poster_url }}" class="img-fill">
     </div>
 
     <div>
@@ -20,7 +20,12 @@
         <dt>Sport</dt><dd>{{ rsvp.event.get_sport_display }}</dd>
         <dt>Starts</dt><dd>{{ rsvp.event.start_date }}</dd>
         <dt>Ends</dt><dd>{{ rsvp.event.end_date }}</dd>
-        <dt>Host</dt><dd><a href="{% url 'explore:profile' rsvp.event.owner.profile.id %}">{{ rsvp.event.owner.profile }}</a></dd>
+        <dt>Host</dt>
+        <dd>
+          <a href="{% url 'explore:profile' rsvp.event.owner.profile.id %}">
+            {{ rsvp.event.owner.profile.get_full_name }}
+          </a>
+        </dd>
         <dt>Status</dt><dd>{{ rsvp.event.get_status_display }}</dd>
       </dl>
     </div>
@@ -32,16 +37,16 @@
 
 </div>
 
-<div class="content-container">
+<section class="main-section">
   <h1>Convert to Registration</h1>
 
-  <form method='post' class="divisions-checkbox-form">
+  <form method='post' class="form">
 
     <h2>Convert this RSVP to a registration for this event.</h2>
     {% csrf_token %}
     <button type="submit">Convert</button>
 
   </form>
-</div>
+</section>
 
 {% endblock %}

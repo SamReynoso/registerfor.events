@@ -163,8 +163,8 @@
 
                     {% for division in event.divisions.all %}
                     <label style="display: flex; align-items: center; gap: 0.5rem;">
-                      <input id="{{ division.gender }}-{{ division.name }}" type="checkbox" name="divisions[]" value="{{ division.gender }}-{{ division.name }}">
-                      {{ division.gender }} {{ division.name }}
+                      <input id="{{ division.get_key }}" type="checkbox" name="divisions[]" value="{{ division.get_key }}">
+                      {{ division.get_name_display }} {{ division.get_gender_display }}
                     </label>
                     {% endfor %}
 

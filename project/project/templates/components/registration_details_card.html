@@ -13,7 +13,7 @@
     <tr>
       <th>Host</th>
       <td>
-        {{registration.event.owner.profile.name }}
+        {{registration.event.owner.profile.get_full_name }}
         <a href="{% url "explore:profile" profile_id=registration.event.owner.profile.id %}" class="inline-icon__link">
           <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
         </a>

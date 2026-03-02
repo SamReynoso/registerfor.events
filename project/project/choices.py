@@ -62,8 +62,8 @@ class InvoiceError(models.IntegerChoices):
     MODIFIED = 2, 'Modified'
     PAST_DUE = 3, 'Past Due'
     PARTIALLY_PAID = 4, 'Partially Paid'
-    VOID = 6, 'Void'
-    REFUNDED = 7, 'Refunded'
+    VOID = 5, 'Void'
+    REFUNDED = 6, 'Refunded'
 
 
 class ErrorLevel(models.IntegerChoices):
