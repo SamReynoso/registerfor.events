@@ -36,6 +36,15 @@ class Profile(models.Model):
             return full_name
         return self.user.username
 
+    def get_email(self):
+        email = self.user.email
+        host, _ = email.split('@')
+        return '*' * len(host) + '@' + '******.com'
+
+    def get_phone(self):
+        return '+1(***)***-****'
+
+
     def get_avatar_url(self):
         if self.avatar:
             return self.avatar.url
