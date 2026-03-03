@@ -48,18 +48,18 @@
   <tr>
     <th>Host Name</th>
     <td>
-      {{ registration.event.owner.profile.name }}
+      {{ registration.get_host_name }}
     </td>
   </tr>
 
   <tr>
     <th>Host Email</th>
-    <td>{{ registration.event.owner.profile.email }}</td>
+    <td>{{ registration.get_host_email }}</td>
   </tr>
 
   <tr>
     <th>Host Phone</th>
-    <td>{{ registration.event.owner.profile.phone }}</td>
+    <td>{{ registration.get_host_phone }}</td>
   </tr>
 
   <tr><th colspan="2"><h2 class="pt-2">Team Details</h2></th></tr>

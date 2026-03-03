@@ -42,12 +42,14 @@ class Profile(models.Model):
         return '/assets/defaults/anonymous-user.svg'
 
     def is_complete(self):
-        if all([self.first_name, self.last_name, self.email, self.phone]):
-            if settings.DEBUG:
-                return True
-            else:
-                return self.email_confirmed
+        if all([self.first_name, self.last_name, self.phone]):
+            return True
         return False
+#            if settings.DEBUG:
+#                return True
+#            else:
+#                return self.email_confirmed
+#        return False
 
     def __str__(self):
         return self.get_full_name()
@@ -215,6 +217,20 @@ class Registration(models.Model):
     @property
     def contact_profile(self):
         return self.owner.profile
+
+    @property
+    def get_host_name(self):
+        return self.owner.profile.get_full_name()
+
+    @property
+    def get_host_email(self):
+        email = self.owner.profile.email
+        host, _ = email.split('@')
+        return '*' * len(host) + '@' + '******.com'
+
+    @property
+    def get_host_phone(self):
+        return '+1(***)***-****'
 
 
 class RegistrationItem(models.Model):

@@ -23,6 +23,7 @@
     <h2>Event Form</h2>
 
     {% if user.profile.is_complete %}
+    </table>
     {% csrf_token %}
     <table class="form-as-table">
       {{ form.as_table }}

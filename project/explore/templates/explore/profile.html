@@ -10,26 +10,6 @@
 </section> 
 
 <section class="main-section"> 
-    <h2>Contact</h2>
-    <dl>
-        <dt>First Name</dt>
-        <dd>{{ user.profile.first_name }}</dd>
-        <dt>Last Name</dt>
-        <dd>{{ user.profile.last_name}}</dd>
-        <dt>Email</dt>
-        <dd>{{ user.profile.email }}</dd>
-        <dt>Phone number</dt>
-        <dd>{{ user.profile.phone }}</dd>
-    </dl>
-
-    <div class="action-link__container">
-      <a href="{% url 'mailbox:conversation' user_id=profile.user.id %}" class="action-link">Direct Message</a></li>
-    </div>
-
-
-</section> 
-
-<section class="main-section"> 
     <h2>Hosted Events</h2>
 
     <table class="item-table">
