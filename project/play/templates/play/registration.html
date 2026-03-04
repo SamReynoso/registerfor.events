@@ -11,11 +11,6 @@
     <li>
       <a href="{% url 'play:registration_modify' registration_id=registration.id %}" class="action-link">Modify Registration</a>
     </li>
-    {% if registration.invoice %}
-    <li>
-      <a href="{% url 'invoice:preview' invoice_id=registration.invoice.id %}" class="action-link">Invoice</a>
-    </li>
-    {% endif %}
   </ul>
 
 </section>

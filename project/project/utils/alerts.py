@@ -1,4 +1,3 @@
-from mailbox.models import Alert
 
 
 def new_registrations_alert_event_owner(registration):
