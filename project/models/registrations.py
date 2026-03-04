@@ -33,7 +33,7 @@ class RegCRUD:
         contact = ContactRecord.objects.create(
                 first_name=owner.profile.first_name,
                 last_name=owner.profile.last_name,
-                email=owner.profile.email,
+                email=owner.email,
                 phone=owner.profile.phone,
                 )
 

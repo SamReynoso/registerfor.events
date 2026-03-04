@@ -239,7 +239,7 @@ class Registration(models.Model):
 
     @property
     def get_host_email(self):
-        email = self.owner.profile.email
+        email = self.owner.email
         host, _ = email.split('@')
         return '*' * len(host) + '@' + '******.com'
 
