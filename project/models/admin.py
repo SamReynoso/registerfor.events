@@ -1,7 +1,15 @@
 from django.contrib import admin
 
-from models.models import Event, Profile, Registration, RegistrationItem
+from models.models import Event, Profile, Registration, RegistrationItem, User
  
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'username',
+    )
+
+
 
 @admin.register(Registration)
 class RegistrationAdmin(admin.ModelAdmin):
