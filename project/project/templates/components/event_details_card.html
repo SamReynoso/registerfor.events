@@ -34,7 +34,7 @@
       <h3>Contact info<h3>
       <dl>
         <dt>Host</dt>
-        <dd><a href="{% url 'explore:profile' event.owner.profile.id %}">{{ event.owner.profile.full_name }}</a></dd>
+        <dd><a href="{% url 'explore:profile' event.owner.profile.id %}">{{ event.owner.profile.get_full_name }}</a></dd>
       </dl>
     </div>
 
