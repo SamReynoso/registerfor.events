@@ -1,6 +1,19 @@
 {% extends "user/base.html" %}
 
 {% block content %}
+<section class="main-section pb-2">
+  <ul class="action-link__container mt-2">
+    <li>
+      <a href="{% url 'invoice:issued' invoice_id=registration.invoice.id %}" class="action-link">
+        Invoice Issued
+      </a>
+    </li>
+  </ul>
+</section>
+<section class="main-section pb-2">
+  {% include "components/event_preview_card.html" with event=registration.event %}
+</section>
+
 <section class="main-section">
 
   <h1 class="mb-2">Registration Details</h1>

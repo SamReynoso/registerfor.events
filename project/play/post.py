@@ -1,5 +1,7 @@
 from django.utils.http import url_has_allowed_host_and_scheme
 from models.registrations import RegCRUD
+from project.services.alerts import Alerts
+from project.services.email import SendEmail
 from project.utils.alerts import registration_withdrawn_alert_event_owner
 from django.contrib.auth.decorators import login_required
 from models.models import Event, Registration, RegistrationItem, Team
@@ -133,6 +135,8 @@ def register_for_event(request, event_id: int):
             if request.POST.get(f'team{team.id}') == 'on':
                 added_teams.append(team)
         RegCRUD.bulk_create_items(registration, added_teams)
+        SendEmail.host_registration(registration)
+        Alerts.new_registrationel(registration)
 
         return redirect('play:registration', registration_id=registration.id)
 

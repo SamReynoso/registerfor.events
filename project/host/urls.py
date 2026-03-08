@@ -6,22 +6,14 @@ from host import post
 app_name = 'host'
 
 urlpatterns = [
-    path('event/division/<int:division_id>/',
-         views.division,
-         name='division'),
-
-    path('event/<int:event_id>/embed/',
-         views.embed,
-         name='embed'),
-
+    path('',
+         views.hosting,
+         name='hosting'),
 
     path('event/<int:event_id>',
          views.event,
          name='event'),
 
-    path('',
-         views.hosting,
-         name='hosting'),
 
     path('event/<int:event_id>/invitations/',
          views.invitations,
@@ -38,6 +30,16 @@ urlpatterns = [
     path('event/registration/item/<int:registration_item_id>/',
          views.registration_item,
          name='registration_item'),
+
+    path('event/division/<int:division_id>/',
+         views.division,
+         name='division'),
+
+    path('event/<int:event_id>/embed/',
+         views.embed,
+         name='embed'),
+
+
 
 ] + [
     path('event/create/',

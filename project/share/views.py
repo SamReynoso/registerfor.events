@@ -1,8 +1,9 @@
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.shortcuts import get_object_or_404, render, redirect
-from project.services.email import SendEmail
 from project.utils.phonenumber import parse_phone
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotAllowed
+from project.services.email import SendEmail
 from mailbox.forms import RsvpForm
 from django.conf import settings
 from mailbox.models import Rsvp
@@ -30,6 +31,7 @@ def add_rsvp_divisions(post, rsvp, event):
 
 
 
+@login_required(login_url='/login/')
 def event_invite(request, event_id: int):
     event = get_object_or_404(Event, id=event_id)
     if request.user.profile.is_complete is False:
@@ -45,7 +47,7 @@ def event_invite(request, event_id: int):
 
                 first_name=profile.first_name,
                 last_name=profile.last_name,
-                email=profile.email,
+                email=request.user.email,
                 phone=profile.phone,
                 )
         add_rsvp_divisions(request.POST, rsvp, event)

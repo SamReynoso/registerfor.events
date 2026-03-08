@@ -59,6 +59,14 @@ def preview(request, invoice_id: int):
     return render(request, 'invoice/preview.html', context)
 
 
+def issued(request, invoice_id: int):
+    invoice = __get_invoice(request, invoice_id)
+    if invoice is None:
+        return HttpResponse(status=403)
+    context = {'invoice': invoice}
+    return render(request, 'invoice/issued.html', context)
+
+
 def received(request):
     invoices = Invoice.objects.filter(owner=request.user).all()
     context = {'invoices': invoices}

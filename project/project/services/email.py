@@ -18,14 +18,14 @@ from sendgrid.helpers.mail import Mail
 from django.conf import settings
 from django.urls import reverse
 
-from project.services import email_context
-from models.models import Registration
+from project.services import email_config
+from models.models import Registration, User
+from mailbox.models import Rsvp
 
 import logging
 import inspect
 
 logger = logging.getLogger(__name__)
-
 
 class SendEmail:
     @staticmethod
@@ -50,12 +50,12 @@ class SendEmail:
             raise e
 
     @staticmethod
-    def __send_transactional(to_user,
-                                   template: str,
-                                   context: dict,
-                                   cta_viewname: str,
-                                   view_kwargs: dict = {},
-                                   ):
+    def __send_transactional(to_user: User,
+                             template: str,
+                             context: dict,
+                             cta_viewname: str,
+                             view_kwargs: dict = {},
+                             ):
         relative = reverse(cta_viewname, kwargs=view_kwargs)
         context['cta_url'] = f'{settings.SITE_URL}{relative}'
         html_content = render_to_string(template, context)
@@ -73,27 +73,27 @@ class SendEmail:
         SendEmail.__send(message)
 
     @staticmethod
-    def user_email_verification(user):
+    def user_email_verification(user: User):
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         token = default_token_generator.make_token(user)
         SendEmail.__send_transactional(
             to_user=user,
-            template='email/cta.html',
-            context=email_context.SIGNUP_EMAIL_VERIFICATION,
+            template=email_config.SIGNUP_EMAIL_VERIFICATION_TEMPLATE,
+            context=email_config.SIGNUP_EMAIL_VERIFICATION,
             cta_viewname='base:verify_email',
             view_kwargs={'uidb64': uid, 'token': token}
         )
 
 
     @staticmethod
-    def __registration(registration: Registration, user):
+    def __registration(registration: Registration, user: User):
 
-        context = email_context.EVENT_REGISTRATION
+        context = email_config.EVENT_REGISTRATION
         context['registration'] = registration
 
         SendEmail.__send_transactional(
             to_user=user,
-            template='email/registration_email.html',
+            template=email_config.EVENT_REGISTRATION_TEMPLATE,
             context=context,
             cta_viewname='play:registration',
             view_kwargs={'registration_id': registration.id}
@@ -101,63 +101,75 @@ class SendEmail:
 
 
     @staticmethod
-    def play_registration(registration):
+    def play_registration(registration: Registration):
         SendEmail.__registration(registration, registration.owner,)
 
 
     @staticmethod
-    def host_registration(registration):
+    def host_registration(registration: Registration):
         SendEmail.__registration(registration, registration.event.owner)
 
 
     @staticmethod
-    def registration_canceled(registration):
-        context = email_context.EVENT_REGISTRATION_CANCELED
+    def registration_canceled(registration: Registration):
+        context = email_config.EVENT_REGISTRATION_CANCELED
         context['registration'] = registration
 
         SendEmail.__send_transactional(
             to_user=registration.owner,
-            template='email/registration_email.html',
+            template=email_config.EVENT_REGISTRATION_CANCELED_TEMPLATE,
             context=context,
-            cta_viewname='user:events'
-        )
-
-
-    @staticmethod
-    def registration_withdrawn(registration):
-
-        context = email_context.REGISTRATION_WITHDRAWN
-        context['registration'] = registration
-
-        SendEmail.__send_transactional(
-            to_user=registration.event.owner,
-            template='email/registration_email.html',
-            context=context,
-            cta_viewname='user:hosting_event',
+            cta_viewname='host:event',
             view_kwargs={'event_id': registration.event.id}
         )
 
 
     @staticmethod
-    def event_canceled(user):
-        context = email_context.EVENT_CANCELED
+    def registration_withdrawn(registration: Registration):
+
+        context = email_config.EVENT_REGISTRATION_WITHDRAWN
+        context['registration'] = registration
 
         SendEmail.__send_transactional(
-            to_user=user,
-            template='email/cta.html',
+            to_user=registration.event.owner,
+            template=email_config.EVENT_REGISTRATION_WITHDRAWN_TEMPLATE,
             context=context,
-            cta_viewname='user:events',
+            cta_viewname='host:event',
+            view_kwargs={'event_id': registration.event.id}
         )
 
 
     @staticmethod
-    def rsvp(rsvp):
-        context = email_context.RSVP
+    def event_created(user: User):
+        context = email_config.EVENT_CREATED
+        SendEmail.__send_transactional(
+            to_user=user,
+            template=email_config.EVENT_CREATED_TEMPLATE,
+            context=context,
+            cta_viewname='host:hosting',
+        )
+        logger.info("Emailed user about Event Creation")
+
+
+    @staticmethod
+    def event_canceled(user: User):
+        context = email_config.EVENT_CANCELED
+
+        SendEmail.__send_transactional(
+            to_user=user,
+            template=email_config.EVENT_CANCELED_TEMPLATE,
+            context=context,
+            cta_viewname='play:events',
+        )
+
+    @staticmethod
+    def rsvp(rsvp: Rsvp): 
+        context = email_config.RSVP
         context['rsvp'] = rsvp
 
         SendEmail.__send_transactional(
             to_user=rsvp.event.owner,
-            template='email/rsvp_email.html',
+            template=email_config.RSVP_TEMPLATE,
             context=context,
             cta_viewname='explore:event',
             view_kwargs={'event_id': rsvp.event.id}

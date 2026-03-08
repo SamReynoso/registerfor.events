@@ -3,6 +3,7 @@ from invoice.models import EventRecord
 
 import logging
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -49,7 +50,6 @@ class EventCRUD:
         record = EventCRUD.__create_record(event)
         event.record = record
         event.save()
-
         logger.info("Created Event", extra={"event_id": event.id})
 
         return event
@@ -71,19 +71,9 @@ class EventCRUD:
     def save(event):
         if event.pk:
             EventCRUD.__update_record(event)
-            logger.info(
-                    "Record updated",
-                    extra={
-                        "event_id": event.id
-                        }
-                    )
+            logger.info("Record updated")
         else:
-            logger.info(
-                    "New Event saved",
-                    extra={
-                        "event_id": event.id
-                        }
-                    )
+            logger.info("New Event saved")
             record = EventCRUD.__create_record(event)
             event.record = record
             return event.save()

@@ -15,6 +15,11 @@ from project import choices
 class User(AbstractUser):
     ...
 
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            ...
+        return super().save(*args, **kwargs)
+
 
 
 class Profile(models.Model):
@@ -267,6 +272,10 @@ class RegistrationItem(models.Model):
                                      decimal_places=2,
                                      null=True,
                                      blank=True)
+    @property
+    def team_name(self):
+        return self.team.name
+
     @property
     def invoice(self):
         return self.registration.invoice

@@ -1,13 +1,15 @@
-from django.urls import reverse
-from models.divisions import DivisionCRUD
-from models.events import EventCRUD
-from models.registrations import RegCRUD
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from models.forms import EventForm, EventPosterForm
 from django.http import HttpResponseForbidden
-from mailbox.forms import AnnouncementForm
 from mailbox.models import Announcement, Rsvp
+from project.services.email import SendEmail
+from mailbox.forms import AnnouncementForm
+from project.services.alerts import Alerts
+from models.divisions import DivisionCRUD
+from models.registrations import RegCRUD
+from models.events import EventCRUD
+from django.urls import reverse
 from models.models import (
         Division,
         Event,
@@ -27,6 +29,8 @@ def event_create(request):
             event = form.save(commit=False)
             event.owner = request.user
             EventCRUD.save(event)
+            Alerts.event_created(event)
+            SendEmail.event_created(event.owner)
             return redirect('host:event', event_id=event.id)
     else:
         form = EventForm()
