@@ -32,7 +32,14 @@ class Invoice(models.Model):
 
     id = settings.DEFAULT_AUTO_FIELD
 
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='invoices_issued', on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
+                              related_name='invoices_issued',
+                              on_delete=models.CASCADE)
+    recipient  = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   related_name='invoices',
+                                   null=True,
+                                   blank=True,
+                                   on_delete=models.SET_NULL)
     event = models.ForeignKey(EventRecord, on_delete=models.CASCADE)
     contact = models.ForeignKey(ContactRecord, related_name='invoices', on_delete=models.CASCADE)
 

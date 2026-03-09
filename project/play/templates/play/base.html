@@ -1,0 +1,20 @@
+{% extends "base/base.html" %}
+
+{% block header %}
+  <h1>Player Center</h1>
+
+  <div class="paragraph mb-2 pb-2">
+    <hr>
+    <ul class="tab-link__container">
+      <li>
+        <a href="{% url 'play:events' %}">Played Events</a>
+      </li>
+      <li>
+        <a href="{% url 'play:teams' %}">Teams</a>
+      </li>
+      <li>
+        <a href="{% url 'play:invoices' %}">Invoices</a>
+      </li>
+    </ul> 
+  </div>
+{% endblock %}

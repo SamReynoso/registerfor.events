@@ -1,9 +1,9 @@
 <div>
   <h3 class="mb-3">
-    {{ event.name }}
-      <a href="{% url 'explore:event' event_id=event.id %}" class="inline-icon__link">
+      <a href="{% url 'explore:event' event_id=event.id %}" class="inline-icon__link mr-1">
         <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
       </a>
+    {{ event.name }}
   </h3>
   <div class="event-details-card__content">
 
@@ -14,7 +14,7 @@
       </div>
 
       <div>
-        <h2>Info</h2>
+        <h3>Info</h3>
         <dl>
           <dt>Name</dt><dd>{{ event.name }}</dd>
           <dt>Sport</dt><dd>{{ event.get_sport_display }}</dd>

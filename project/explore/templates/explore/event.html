@@ -2,13 +2,33 @@
 
 {% block content %}
 <section class="main-section"> 
-  <h1>Event Details</h1>
-
-  <div class="action-link__container">
-    <a href="{% url 'play:register_for_event' event_id=event.id %}" class="action-link">Join</a>
-  </div>
-
   {% include "components/event_details_card.html" %}
+
+</section>
+
+<section class="main-section"> 
+  <h2>Join<h2>
+
+<div class="paragraph mb-2">
+    <span class="paragraph__heading">Register Your Teams</span>
+    <hr>
+    <p>
+      Click <strong>Join</strong> to go to the registration page. There you can select your divisions to add teams.
+      If you haven't created any teams yet don't worry. You can do that as we go.
+    </p>
+
+  <ul class="action-link__container">
+    <li>
+      <a
+        href="{% url 'play:register_for_event' event_id=event.id %}"
+        class="action-link"
+        >
+        Join
+      </a>
+    </li>
+  </ul>
+
+  </div>
 
 </section>
 
@@ -22,7 +42,7 @@
         <th>Gender</th>
         <th>Division</th>
         <th>Teams</th>
-        <th>RSVPs</th>
+        <th>Price</th>
         <th></th>
       </tr>
     </thead>
@@ -32,7 +52,7 @@
         <td>{{ division.gender }}</td>
         <td>{{ division.name }}</td>
         <td>{{ division.items.count }}</td>
-        <td>{{ division.rsvps.count }}</td>
+        <td>${{ division.unit_price|default:'0.00' }}</td>
         <td>
           <a href="{% url 'explore:division' division_id=division.id %}" class="inline-icon__link">
             <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
@@ -42,10 +62,6 @@
     {% endfor %}
     </tbody>
   </table>
-
-  <div class="action-link__container mt-2">
-    <a href="{% url 'play:team_create' %}?next={{ request.path }}" class="action-link">Create A Team</a></br>
-  </div>
 
 </section>
 {% endblock %}

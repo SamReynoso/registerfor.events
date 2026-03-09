@@ -1,4 +1,4 @@
-{% extends "user/base.html" %}
+{% extends "host/base.html" %}
 
 {% block content %}
 
@@ -12,37 +12,26 @@
   <ul class="action-link__container mt-2">
     </li>
       <a href="{% url 'host:registration' registration_id=item.registration.id%}" class="action-link">
-        Edit Registration
+        Back Registration
       </a>
+    </li>
+    </li>
+      <a href="{% url 'invoice:preview' invoice_id=item.invoice.id%}" class="action-link">Parent Invoice</a>
     </li>
   </ul>
 
 </section>
 
-<section class="main-section">
-  <h2>Invoice</h2>
-  <div class="paragraph mb-2">
-      <span class="paragraph__heading">View This Team's Invoice</span>
-      <hr>
-      <ul class="action-link__container">
-        </li>
-          <a href="{% url 'invoice:preview' invoice_id=item.invoice.id%}" class="action-link">Invoice</a>
-        </li>
-      </ul>
-  </div>
-</section>
-
-
 <section class="main-section danger-section">
   <div class="pl-2">
 
-    <h2>Cancel Team</h2>
+    <h2>Remove This Item</h2>
 
     <div class="paragraph mb-3">
       <span class="paragraph__heading">Remove This Team</span>
       <hr>
       <p>
-        Remove this team from its registration.
+        Remove this team from its registration. The rest of the teams will be unaffected.
       </p>
     </div>
 

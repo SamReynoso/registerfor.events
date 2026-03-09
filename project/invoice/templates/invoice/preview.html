@@ -1,40 +1,17 @@
-{% extends "base/base.html" %}
+{% extends "invoice/base.html" %}
 {% block content %}
 
 <section id="lifecycle" class="main-section">
 
-  {% if invoice.event.event %}
-  <div class="mb-3 pb-3">
-    <a href="{% url 'invoice:event_invoices' event_id=invoice.event.event.id %}" >More Invoices From This Event</a>
-  </div>
-  {% endif %}
+  <h2>Invoice #{{ invoice.id }}</h2>
 
-  <h1>Invoice #{{ invoice.id }}</h1>
 
-  <div>
-
-    <ul class="action-link__container">
-      <li>
-      <a href="{% url 'invoice:view_pdf' invoice_id=invoice.id %}" class="action-link">View PDF</a>
-      </li>
-      <li>
-      <a href="{% url 'invoice:view_pdf' invoice_id=invoice.id %}" class="action-link">Download</a>
-      </li>
-      <li>
-      <a href="#" class="action-link dead-link">Email</a>
-      </li>
-    </ul>
-
-  </div>
-
-  <div class="invoice-container">
+  <div class="invoice-container mb-2">
     <div class="card-title">Invoice Summary</div>
 
     <div class="bordered p-2" style="max-width: 450px">
       <div class="stat-row" style="max-width: 400px">
           <span>Status</span>
-          {{ invoice.status }}
-
           <span>
             {% if invoice.status == 1 %}
               <span class="badge badge-overdue">draft</span>
@@ -70,6 +47,28 @@
       </div>
     </div>
   </div>
+
+  <ul class="action-link__container">
+    <li>
+    <a href="{% url 'invoice:view_pdf' invoice_id=invoice.id %}" class="action-link">View PDF</a>
+    </li>
+    <li>
+    <a href="{% url 'invoice:view_pdf' invoice_id=invoice.id %}" class="action-link">Download</a>
+    </li>
+    <li>
+    <a href="#" class="action-link dead-link">Email</a>
+    </li>
+    {% if invoice.event.event %}
+    <li>
+      <a 
+        href="{% url 'invoice:event_invoices' event_id=invoice.event.event.id %}"
+        class="action-link"
+        >
+        More Invoices From This Event
+      </a>
+    </li>
+    {% endif %}
+  </ul>
 
 </section>
 

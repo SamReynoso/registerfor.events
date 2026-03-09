@@ -1,19 +1,16 @@
-{% extends "app/base.html" %}
+{% extends "host/base.html" %}
 
 {% block content %}
 
-<section class="main-section">
-<h1>Manage Divisions</h1>
-
 
 <section class="main-section">
-
-  <form method='post' class="form">
 
     <h2>Event Divisions<h2>
 
+  <form method='post' class="form">
+
     <div class="paragraph mb-3">
-      <span class="paragraph__heading">Select the divisions to be included in this event</span>
+      <span class="paragraph__heading">Select division/s to be included in this event</span>
       <hr>
       <ul>
         <li>
@@ -23,6 +20,8 @@
 
 
     {% csrf_token %}
+
+    {% include "components/event_preview_card.html" %}
 
     {% for gender in division_options.genders %}
 
@@ -58,12 +57,5 @@
   </form>
 </section>
 
-<section class="main-section">
-
-  <h2> Event Details</h2>
-
-  {% include "components/event_summary_card.html" %}
-
-</section>
 
 {% endblock %}

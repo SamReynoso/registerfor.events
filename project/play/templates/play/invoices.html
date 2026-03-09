@@ -1,0 +1,55 @@
+{% extends "play/base.html" %}
+{% block content %}
+
+<section id="lifecycle" class="main-section">
+
+  <h1>Invoices</h1>
+
+  <div class="paragraph mb-2">
+    <span class="paragraph__heading">You're received invoices from event hosts.</span>
+    <hr>
+    <p>
+      Here you can find all the invoices issued to you from past events.
+    </p>
+  </div>
+
+
+  <ul class="action-link__container">
+  </ul>
+
+  <table class="item-table"
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>Start</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for invoice in invoices %}
+      <tr>
+        <td>
+        {{ invoice.event.name }}
+        </td>
+        <td>
+        {{ invoice.event.start_date }}
+        </td>
+        <td>
+        {{ invoice.get_status_display }}
+        </td>
+        <td>
+          <a href="{% url "play:invoice" invoice_id=invoice.id %}" class="inline-icon__link">
+            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+            <a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+
+</section>
+
+
+{% endblock %}

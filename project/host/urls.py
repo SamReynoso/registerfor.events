@@ -7,8 +7,12 @@ app_name = 'host'
 
 urlpatterns = [
     path('',
-         views.hosting,
-         name='hosting'),
+         views.host,
+         name='host'),
+
+    path('events/',
+         views.events,
+         name='events'),
 
     path('event/<int:event_id>',
          views.event,

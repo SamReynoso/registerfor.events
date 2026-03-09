@@ -200,11 +200,8 @@ header {
 }
 
 .nav__icon { 
-  display: inline-block;
   height: 2.5rem;
   width: 2.5rem;
-  margin-top: .3rem;
-  padding: .2rem;
   cursor: pointer;
 }
 
@@ -218,6 +215,22 @@ header {
   color: var(--text-color);
   text-decoration: none;
   font-weight: 600;
+}
+
+.tab-link__container {
+  display: flex;
+  gap: .85rem;
+  flex-direction: row;
+  padding: .5rem 0 .5rem;
+}
+
+.tab-link__container a {
+  color: white;
+  background-color:rgba(125, 125, 125, 0.25); 
+  font-size: 1.2rem;
+  padding: .8rem;
+  border-right: 1px solidrgba(15, 15, 15, 0.9); 
+  border-radius: 6px;
 }
 
 .nav__link:hover {

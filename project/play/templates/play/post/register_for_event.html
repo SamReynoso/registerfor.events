@@ -1,10 +1,10 @@
-{% extends "app/base.html" %}
+{% extends "play/base.html" %}
 
 
 {% block content %}
 
 <section class="main-section">
-  <h1>Register Your Teams</h1>
+  <h2>Register For Event</h2>
 
   <div class="paragraph">
     <span class="paragraph__heading">Games Start Here</span>
@@ -15,14 +15,11 @@
       available.
     </p>
   </div>
-</section>
-
-<section class="main-section">
   <div class="mb-3">
-    {% include "components/event_summary_card.html" %}
+    {% include "components/event_preview_card.html" %}
   </div>
 
-  <h3>Divisions Available </h3>
+  <h3>Available </h3>
 
   <table class="item-table">
     <thead>
@@ -48,18 +45,28 @@
 
 </section>
 
-<section class="main-section">
-
-  <h2>Select Your Teams</h2>
+<section id="register-form" class="main-section">
 
   {% if user.profile.is_complete %}
-  <div class="action-link__container">
-    <a href="{% url 'play:team_create' %}?next={{ request.path }}" class="action-link">Create Team</a></br>
-  </div>
-
   <form method="post" class="form mb-2">
 
-    <h3>Register</h3>
+  <h2>Select Teams</h2>
+
+  <div class="paragraph mb-2 pb-2">
+    <span class="paragraph__heading">Select teams to be include</span>
+    <hr>
+    <p>
+      Select from you teams that match the available divisions offered by this event.
+      If you haven't created the team yet you can do that now.
+    </p>
+    <ul class="action-link__container">
+      <li>
+        <a href="{% url 'play:team_create' %}?next={{ request.path }}#register-form" class="action-link">Create Team</a></br>
+      </li>
+    </ul>
+  </div>
+
+
 
     {% csrf_token %}
 
@@ -73,6 +80,7 @@
           <th>Select</th>
         </tr>
       </thead>
+
       <tbody>
       {% for team in teams %}
         <tr>
@@ -84,15 +92,10 @@
           <td>
             {% if team in registered_teams %}
             <img src="/assets/icons/check-mark.svg" class="inline-icon">
-            <a hre="#" class="inline-icon__link ml-1">
-              <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
-            </a>
+            {% elif team.get_key in event_division_keys %}
+              <input type="checkbox" name="team{{ team.id }}"></input>
             {% else %}
-              {% if team.get_key in event_division_keys %}
-                <input type="checkbox" name="team{{ team.id }}"></input>
-              {% else %}
                 <img src="/assets/icons/cross.svg" class="inline-icon">
-              {% endif %}
             {% endif %}
           </td>
         </tr>
@@ -105,22 +108,6 @@
 
   </form>
 
-  <section class="main-section">
-    <h2>RSVP</h2>
-
-    <div class="paragraph mb-2">
-      <span class="paragraph__heading">Don't see the division that you're looking for?</span>
-      <hr>
-      <p class="mb-2">
-        RSVP with the division for you team's and if there is enough space and interest the event host might add it to
-        the event.
-      </p>
-      <div class="action-link__container mb">
-        <a href="{% url 'share:event_rsvp' event_id=event.id %}" class="action-link">RSVP Instead</a></br>
-      </div>
-    </div>
-
-  </div>
   {% else %}
 
   <p>You are missing profile contact information and can not register for events.</p>

@@ -1,0 +1,17 @@
+{% extends "base/base.html" %}
+
+{% block header %}
+  <h1>Hosting</h1>
+
+  <div class="paragraph mb-2 pb-2">
+    <hr>
+    <ul class="tab-link__container">
+      <li>
+        <a href="{% url 'host:events' %}">Events</a>
+      </li>
+      <li>
+        <a href="{% url 'invoice:events' %}">Invoices</a>
+      </li>
+    </ul> 
+  </div>
+{% endblock %}

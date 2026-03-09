@@ -228,11 +228,11 @@ class Registration(models.Model):
 
     @property
     def contact_email(self):
-        return self.owner.profile.email
+        return self.owner.profile.get_email()
 
     @property
     def contact_phone(self):
-        return self.owner.profile.phone
+        return self.owner.profile.get_phone()
 
     @property
     def contact_profile(self):

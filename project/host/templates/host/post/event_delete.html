@@ -1,23 +1,17 @@
-{% extends "app/base.html" %}
+{% extends "host/base.html" %}
 
 {% block content %}
 
 <section class="main-section"> 
-<h1 class="mb-2">Cancel Event</h1>
+<h2 class="mb-2">Cancel Event</h2>
 
   <form method="post" class="form">
     <h3>Are you sure you want to cancel this event?</h3>
+  {% include "components/event_summary_card.html" %}
     {% csrf_token %}
     <button type="submit" class="btn-danger">Cancel Event</button>
 
   </form>
-</section>
-
-<section class="main-section"> 
-
-  <h2>Event Details</h2>
-  {% include "components/event_summary_card.html" %}
-
 </section>
 
 

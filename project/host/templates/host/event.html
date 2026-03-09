@@ -1,9 +1,9 @@
-{% extends "user/base.html" %}
+{% extends "host/base.html" %}
 
 {% block content %}
 
 <section class="main-section">
-  <h1>Event</h1>
+  <h2>Event</h2>
   <h2>
     <a href="{% url 'explore:event' event_id=event.id %}" class="inline-icon__link mr-1">
       <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
@@ -11,26 +11,28 @@
     {{ event.name }}
   </h2>
 
+
+  <div class="row g-2">
+    <div class="img-poster__container-full mb-1">
+      <img src="{{ event.get_poster_url }}" class="img-fill">
+    </div>
+
+    <div>
+      <h3>Event Info</h3>
+
+      <dl>
+        <dt>Sport</dt><dd>{{ event.get_sport_display }}</dd>
+        <dt>City</dt><dd>{{ event.get_city_display }}</dd>
+        <dt>State</dt><dd>{{ event.get_state_display }}</dd>
+        <dt>Visibility</dt><dd>{{ event.public }}</dd>
+        <dt>Status:</dt><dd>{{ event.get_status_display }}</dd>
+      </dl>
+    </div>
+  </div>
+
   <ul class="action-link__container">
     <li><a href="{% url 'host:event_poster_update' event_id=event.id %}" class="action-link">Change Poster</a></li>
     <li><a href="{% url 'host:event_poster_delete' event_id=event.id %}" class="action-link">Delete Poster</a></li>
-  </ul>
-
-  <div class="img-poster__container-full mb-1">
-    <img src="{{ event.get_poster_url }}" class="img-fill">
-  </div>
-
-  <h3>Event Info</h3>
-
-  <dl>
-    <dt>Sport</dt><dd>{{ event.get_sport_display }}</dd>
-    <dt>City</dt><dd>{{ event.get_city_display }}</dd>
-    <dt>State</dt><dd>{{ event.get_state_display }}</dd>
-    <dt>Visibility</dt><dd>{{ event.public }}</dd>
-    <dt>Status:</dt><dd>{{ event.get_status_display }}</dd>
-  </dl>
-
-  <ul class="action-link__container">
     <li><a href="{% url 'host:event_update' event_id=event.id %}" class="action-link">Update Event</a></li>
   </ul>
 
@@ -97,27 +99,6 @@
   </div>
 
 
-</section>
-
-  <h2>Interact</h2>
-
-  <div class="paragraph">
-    <span class="paragraph__heading">Reach out to participants</span>
-    <hr>
-    <p>
-      Share invitations to you event on other sites, make announcements to your participants about updates to your 
-      event, and download invoices for your completed events.
-    </p>
-  </div>
-
-  <div class="action-link__container">
-    <a href="{% url 'host:event_announcement_create' event_id=event.id %}" class="action-link">Announce</a>
-    <a href="{% url 'invoice:event_invoices' event_id=event.id %}" class="action-link">Invoice</a>
-  </div>
-
-
-</section>
-
 
 <section class="main-section">
 
@@ -151,21 +132,26 @@
   </table>
 </section>
 
+</section>
+
 <section class="main-section">
-  <h2>RSVP</h2>
+  <h2>Interact</h2>
 
   <div class="paragraph">
-    <span class="paragraph__heading">You may have more interest in this event.</span>
+    <span class="paragraph__heading">Reach out to participants</span>
     <hr>
     <p>
-      Other teams my be trying to join this event but you haven't added the divisions yet. Checkout your RSVPs to see 
-      if there is enough interest to expand the event.
+      Share invitations to you event on other sites, make announcements to your participants about updates to your 
+      event, and download invoices for your completed events.
     </p>
   </div>
 
   <div class="action-link__container">
-    <a href="{% url 'host:invitations' event_id=event.id %}" class="action-link"> Checkout RSVP</a>
+    <a href="{% url 'host:event_announcement_create' event_id=event.id %}" class="action-link">Announce</a>
+    <a href="{% url 'invoice:event_invoices' event_id=event.id %}" class="action-link">Invoice</a>
   </div>
+
+
 </section>
 
 <section class="main-section danger-section">

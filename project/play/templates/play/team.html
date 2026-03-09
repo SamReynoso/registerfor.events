@@ -1,20 +1,15 @@
-{% extends "user/base.html" %}
+{% extends "play/base.html" %}
 
 {% block content %}
 <section class="main-section">
 <h1>Team Details</h1>
 
-  <h2 class="ml-2 mt-2 mb-1">
-    {{ team.name }}
-    <a href="{% url 'explore:team' team_id=team.id %}" class="inline-icon__link">
+  <h2 class="mt-2 mb-1">
+    <a href="{% url 'explore:team' team_id=team.id %}" class="inline-icon__link mr-1">
       <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
     </a>
+    {{ team.name }}
   </h2>
-
-  <ul class="action-link__container">
-    <li><a href="{% url 'play:team_photo_update' team_id=team.id%}" class="action-link">Change Photo</a><br></li>
-    <li><a href="{% url 'play:team_photo_delete' team_id=team.id%}" class="action-link">Delete Photo</a></li>
-  </ul>
 
   <div class="img-team-photo__container-full">
     <img src="{{ team.get_photo_url }}" class="img-fill">
@@ -30,7 +25,9 @@
   </dl>
 
 <ul class="action-link__container">
-  <li><a href="{% url 'play:team_update' team_id=team.id %}" class="action-link">Update Team</a><br></li>
+  <li><a href="{% url 'play:team_update' team_id=team.id %}" class="action-link">Update Details</a><br></li>
+  <li><a href="{% url 'play:team_photo_update' team_id=team.id%}" class="action-link">Change Photo</a><br></li>
+  <li><a href="{% url 'play:team_photo_delete' team_id=team.id%}" class="action-link">Delete Photo</a></li>
 </ul>
 
 </section>

@@ -7,6 +7,10 @@ app_name = 'play'
 
 urlpatterns = [
     path('',
+         views.player,
+         name='player'),
+
+    path('events/',
          views.events,
          name='events'),
 
@@ -25,6 +29,15 @@ urlpatterns = [
     path('registration/item/<int:registration_item_id>/',
          views.registration_item,
          name='registration_item'),
+
+    path('invoices/',
+         views.invoices,
+         name='invoices'),
+
+    path('registration/invoice/<int:invoice_id>/',
+         views.invoice,
+         name='invoice'),
+
 
 ] + [
     path('team/create/',

@@ -2,22 +2,14 @@
 
 {% block content %}
 
-<section class="main-section">
-  <h1>Event</h1>
-
-  <div class="paragraph mb-3">
-    <p class="mb-2"></p>
-    <span class="paragraph__heading"></span>
-    <hr>
-  </div>
-
-  {% include 'components/event_preview_card.html' with event=event%}
-</section>
 
 <section class="main-section">
 
   <h2>Invoices</h2>
-  <ul class="action-link__container">
+
+  {% include "components/event_preview_card.html" %}
+
+  <ul class="action-link__container mt-2">
     <li>
       <a href="#" class="action-link dead-link">Issue All</a>
       <a href="#" class="action-link dead-link">Void All</a>

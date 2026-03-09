@@ -1,14 +1,21 @@
+from invoice.models import Invoice
 from models.models import RegistrationItem, Team, Registration
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseForbidden
+from django.http import HttpResponse
 
+
+@login_required(login_url='/login/')
+def player(request):
+    return render(request, 'play/player.html')
 
 @login_required(login_url='/login/')
 def events(request):
     registrations = Registration.objects.filter(owner=request.user)
     context = {'registrations': registrations}
     return render(request, 'play/events.html', context)
+
 
 
 @login_required(login_url='/login/')
@@ -50,3 +57,22 @@ def registration_item(request, registration_item_id: int):
 
     context = {'item': item}
     return render(request, 'play/registration_item.html', context)
+
+
+@login_required(login_url='/login/')
+def invoices(request):
+    invoices = Invoice.objects.filter(owner=request.user)
+    context = {'invoices': invoices}
+    return render(request, 'play/invoices.html', context)
+
+
+
+@login_required(login_url='/login/')
+def invoice(request, invoice_id: int):
+    invoice = get_object_or_404(Invoice, id=invoice_id)
+    if request.user != invoice.owner and request.user != invoice.contact:
+        return HttpResponse(status=403)
+    context = {'invoice': invoice}
+    return render(request, 'play/invoice.html', context)
+
+

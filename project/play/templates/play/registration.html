@@ -1,14 +1,11 @@
-{% extends "user/base.html" %}
+{% extends "play/base.html" %}
 
 {% block content %}
-<section class="main-section pb-2">
-  {% include "components/event_preview_card.html" with event=registration.event %}
-</section>
-
-<section class="main-section">
-
   <h1 class="mb-2">Registration Details</h1>
 
+<section class="main-section pb-2">
+
+  {% include "components/event_preview_card.html" with event=registration.event %}
   {% include "components/registration_details_card.html" with registration=registration %}
 
   <ul class="action-link__container mt-2">
@@ -16,13 +13,14 @@
       <a href="{% url 'play:registration_modify' registration_id=registration.id %}" class="action-link">Modify Registration</a>
     </li>
     <li>
-      <a href="{% url 'invoice:issued' invoice_id=registration.invoice.id %}" class="action-link">
+      <a href="{% url 'play:invoice' invoice_id=registration.invoice.id %}" class="action-link">
         View Invoice
       </a>
     </li>
   </ul>
 
 </section>
+
 
 <section class="main-section">
 
@@ -38,14 +36,14 @@
 
     <div class="paragraph">
       <span class="paragraph__heading">
-        Follow this link to the confirmation page
+        Withdrawing will remove all teams from the event.
       </span>
     </div>
 
       
     <div class="action-link__container">
       <a href="{% url 'play:withdraw' registration_id=registration.id %}" class="action-link danger-link">
-        Continue
+        Continue to withdrawal page
      </a>
     </div>
   </div>

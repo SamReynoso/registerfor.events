@@ -7,12 +7,14 @@
     </div>
 
     <dl>
-      <dt>Event Name</dt>
+      <dt>Event</dt>
       <dd>
-        {{ item.registration.event.name }}
-        <a href="{% url 'explore:team' team_id=item.team.id %}" class="inline-icon__link">
+        <a href="{% url 'explore:team' team_id=item.team.id %}" class="inline-icon__link mr-1">
           <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
         </a>
+        <strong>
+        {{ item.registration.event.name }}
+        </strong>
       </dd>
 
       <dt>Start</dt>
@@ -30,12 +32,14 @@
     </div>
 
       <dl>
-      <dt>Team Name</dt>
+      <dt>Team</dt>
       <dd>
-        {{ item.team.name }}
-        <a href="{% url 'explore:team' team_id=item.team.id %}" class="inline-icon__link">
+        <a href="{% url 'explore:team' team_id=item.team.id %}" class="inline-icon__link mr-1">
           <img src="/assets/icons/magnifying-glass.svg" class="inline-icon dark-invert">
         </a>
+        <strong>
+        {{ item.team.name }}
+        </strong>
       </dd>
 
       <dt>Division</dt><dd>{{ item.division.get_name_display }}</dd>

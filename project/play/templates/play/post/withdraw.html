@@ -6,6 +6,7 @@
   <h1>Withdraw From This Event</h1>
 
   <div class="mb-2">
+    {% include "components/event_preview_card.html" with event=registration.event %}
     {% include "components/registration_details_card.html" with team=registration.team %}
   </div>
 

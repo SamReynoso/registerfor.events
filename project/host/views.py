@@ -9,10 +9,16 @@ from mailbox.models import Rsvp
 
 
 @login_required(login_url='/login/')
-def hosting(request):
+def host(request):
+    return render(request, 'host/host.html')
+
+
+@login_required(login_url='/login/')
+def events(request):
     events = Event.objects.filter(owner=request.user)
     context = {'events': events}
-    return render(request, 'host/hosting.html', context)
+    return render(request, 'host/events.html', context)
+
 
 
 @login_required(login_url='/login/')

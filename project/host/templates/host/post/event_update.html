@@ -1,4 +1,4 @@
-{% extends "app/base.html" %}
+{% extends "host/base.html" %}
 
 {% block content %}
 <section class="main-section">
@@ -7,6 +7,7 @@
   <form method="post" class="form">
 
     {% csrf_token %}
+    {% include "components/event_preview_card.html" %}
 
       {{ form.as_table }}
 
@@ -14,14 +15,5 @@
 
   </form>
 </section>
-
-<section class="main-section">
-
-  <ul class="nav-list">
-    <li><a href="">Change Visibility</a></li>
-  </ul>
-
-</section>
-
 
 {% endblock %}

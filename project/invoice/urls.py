@@ -39,10 +39,6 @@ urlpatterns = [
          views.preview,
          name='preview'),
 
-    path('<int:invoice_id>/issued/',
-         views.issued,
-         name='issued'),
-
     path('<int:invoice_id>/view/',
          views.view_pdf,
          name='view_pdf'),
