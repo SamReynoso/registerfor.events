@@ -16,8 +16,8 @@
     <li><a href="{% url 'play:team_photo_delete' team_id=team.id%}" class="action-link">Delete Photo</a></li>
   </ul>
 
-  <div class="img-team-photo__container-full"
-    <img src="{{ team.get_photo_url }}" class="thumbnail">
+  <div class="img-team-photo__container-full">
+    <img src="{{ team.get_photo_url }}" class="img-fill">
   </div>
 
   <h3>Team Info</h3>
