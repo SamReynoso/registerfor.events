@@ -33,7 +33,9 @@
 
         <!-- Main Container -->
         <table width="100%" cellpadding="0" cellspacing="0" border="0"
-               style="max-width:600px; width:100%; background-color: rgb(245, 245, 245); border:1px solid #d0d0d0; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+               style="max-width:600px; width:100%; background-color: rgb(245, 245, 245);
+               border:1px solid #d0d0d0;
+               font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
 
           <!-- Header -->
           <tr>
@@ -71,42 +73,30 @@
                      style="margin-bottom:24px; border-collapse:collapse; font-size:14px;">
                 <tbody>
                   <tr>
-                    <th align="left" style="padding:6px 0; color:#666; font-weight:600; width:110px;">
-                      Starting
-                    </th>
-                    <td style="padding:6px 0;">
-                      {{ event.start_date }}
-                    </td>
+                    <th align="left" style="padding:6px 0; color:#666; font-weight:600; width:110px;">Starting</th>
+                    <td style="padding:6px 0;">{{ event.start_date }}</td>
                   </tr>
                   <tr>
-                    <th align="left" style="padding:6px 0; color:#666; font-weight:600;">
-                      Goes To
-                    </th>
-                    <td style="padding:6px 0;">
-                      {{ event.end_date }}
-                    </td>
+                    <th align="left" style="padding:6px 0; color:#666; font-weight:600;">Goes To</th>
+                    <td style="padding:6px 0;">{{ event.end_date }}</td>
                   </tr>
                   <tr>
-                    <th align="left" style="padding:6px 0; color:#666; font-weight:600;">
-                      Location
-                    </th>
+                    <th align="left" style="padding:6px 0; color:#666; font-weight:600;">Location</th>
                     <td style="padding:6px 0;">
                       {{ event.get_address_display }} {{ event.get_city_display }} {{ event.get_state_display }}
                     </td>
                   </tr>
                   <tr>
-                    <th align="left" style="padding:6px 0; color:#666; font-weight:600;">
-                      Hosted by
-                    </th>
-                    <td style="padding:6px 0;">
-                      {{ event.owner.profile.name }}
-                    </td>
+                    <th align="left" style="padding:6px 0; color:#666; font-weight:600;">Hosted by</th>
+                    <td style="padding:6px 0;">{{ event.owner.profile.name }}</td>
                   </tr>
                 </tbody>
               </table>
 
               <!-- RSVP Card -->
-              <div style="background:#ffffff; border:1px solid #dddddd; padding:18px; border-radius:6px; max-width:420px; margin:0 auto;">
+              <div 
+                style="background:#ffffff; border:1px solid #dddddd;
+                  padding:18px; border-radius:6px; max-width:420px; margin:0 auto;">
 
                 <h3 style="margin:0 0 16px 0; font-size:16px; font-weight:600; color:#333;">
                   RSVP
@@ -123,13 +113,13 @@
                   {% if user.profile.is_complete %}
                   <ul style="list-style-type: none; margin: 8px 18px 24px; padding: 0; #dc1414; font-weight: 800;">
                   <li>
-                    {{ user.profile.first_name }} {{ user.profile.last_name }}
+                    {{ user.profile.get_full_name }}
                   </li>
                   <li>
-                  {{ user.profile.email }}
+                  {{ user.profile.get_email }}
                   </li>
                   <li>
-                  {{ user.profile.phone }}
+                  {{ user.profile.get_phone }}
                   </li>
                   </ul>
 
@@ -137,7 +127,9 @@
                   <div style="margin: 8px 18px 24px; padding: 0; #dc1414; font-weight: 800;">
                     <p style="list-style-type: none; color: #dc1414; font-weight: 800;">
                       Your profile is missing required contact information.</p>
-                    <a href="{{ SITE_URL }}{% url 'app:profile_update' %}?next={{ request.path }}">Add missing contact information</a>
+                    <a href="{{ SITE_URL }}{% url 'app:profile_update' %}?next={{ request.path }}"
+                      >Add missing contact information
+                    </a>
                   </div>
                   {% endif %}
 
@@ -146,7 +138,8 @@
                   {% for field in form %}
                   <div style="margin-bottom:12px;">
                     {{ field }}
-                    <ul style="list-style-type: none; margin: 1rem 0 0; padding: 0 .25rem 0; color: #dc1414; font-weight: 800;">
+                    <ul style="list-style-type: none; margin: 1rem 0 0; padding: 0 .25rem 0; color: #dc1414;
+                        font-weight: 800;">
                     {% for error in field.errors %}
                       <li>{{ error }}</li>
                     {% endfor %}
@@ -157,26 +150,89 @@
                   {% endif %}
 
 
-                  {% if not user.is_authenticated or user.profile.is_complete %}
-                  <fieldset style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; padding: 0.5rem; font-weight: 800; margin-bottom: 18px;">
-                    <legend>Divisions</legend>
+                  {% if user.is_authenticated %}
 
-                    {% for division in event.divisions.all %}
-                    <label style="display: flex; align-items: center; gap: 0.5rem;">
-                      <input id="{{ division.get_key }}" type="checkbox" name="divisions[]" value="{{ division.get_key }}">
-                      {{ division.get_name_display }} {{ division.get_gender_display }}
-                    </label>
+                    <fieldset style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; padding: 0.5rem; font-weight: 800; margin-bottom: 18px; min-height: 3rem;">
+                      <legend>Registered</legend>
+                      {% for team in registered_teams %}
+                        <label>
+                          <strong>{{ team.name }}</strong> {{ team.get_gender_display }} {{ team.get_division_display }}
+                          <img src="/assets/icons/check-mark.svg" style="margin-left: 0.2rem; height: 1.1rem; width: 1.1rem">
+                        </label>
+                      {% endfor %}
+                    </fieldset>
+
+                    <fieldset style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; padding: 0.5rem; font-weight: 800; margin-bottom: 18px; min-height: 3rem;">
+                      <legend>Instant Registration</legend>
+                      {% for team in teams %}
+                      {% if team.get_key in event_division_keys and team not in registered_teams %}
+
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                          <input type="checkbox" name="team{{ team.id }}"></input>
+                            {{ team.name }} <small>{{ team.get_division_display }} {{ team.get_gender_display }}</small>
+                        </label>
+
+                      {% endif %}
+                      {% endfor %}
+                    </fieldset>
+
+                  <fieldset style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; padding: 0.5rem; font-weight: 800; margin-bottom: 18px; min-height: 3rem;">
+                    <legend>RSVP (request division)</legend>
+                    {% for team in teams %}
+                    {% if team.get_key not in event_division_keys %}
+
+                      <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" name="rsvp{{ team.id }}"></input>
+                          {{ team.name }} <small>{{ team.get_division_display }} {{ team.get_gender_display }}</small>
+                      </label>
+
+                    {% endif %}
                     {% endfor %}
-
                   </fieldset>
+
+                  <a href="{% url 'play:team_create' %}?next={{ request.path }}">
+                    Create Team
+                  </a></br>
+
+                  {% else %}
+                    <fieldset style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; padding: 0.5rem; font-weight: 800; margin-bottom: 18px; min-height: 3rem;">
+                      <legend>Instant Registration</legend>
+                      {% for division in event.divisions.all %}
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                          <input type="checkbox" name="instant_divisions[]" value="{{ division.get_key }}">
+                          {{ division.get_name_display }} {{ division.get_gender_display }}
+                        </label>
+                      {% endfor %}
+                    </fieldset>
+
+                    <details style="background-color: rgb(195, 195, 185); padding: .5rem; margin-bottom: .5rem;">
+                      <summary>
+                        <strong>Request Division/s</strong>
+                      </summary>
+
+                      {% for gender in genders %}
+                      <fieldset 
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+                          gap: 0.5rem; padding: 0.5rem;
+                          font-weight: 800; margin-bottom: 18px; min-height: 3rem;">
+                        <legend>{{ gender}}</legend>
+                        {% for name in division_choices %}
+                        <input id="{{ name }}-{{ gender }}" type="checkbox" name="divisions[]" value="{{ name }}-{{ gender }}"> 
+                          {{ name }}
+                        {% endfor %}
+                      </fieldset>
+                      {% endfor %}
+
+                    </details>
+
+                  {% endif %}
+
                   <button type="submit"
                           style="display:block; width:100%; padding:12px 18px; font-size:15px; font-weight:600; 
                             color:#ffffff; text-decoration:none; background-color:#2e7d32; border:1px solid #256428; 
-                            border-radius:4px; cursor: pointer;">
+                            border-radius:4px; cursor: pointer; margin-top: 1rem;">
                     Confirm RSVP
                   </button>
-
-                  {% endif %}
 
                 </form>
               </div>

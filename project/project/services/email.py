@@ -20,7 +20,7 @@ from django.urls import reverse
 
 from project.services import email_config
 from models.models import Registration, User
-from mailbox.models import Rsvp
+from mailbox.models import Announcement, Rsvp
 
 import logging
 import inspect
@@ -174,3 +174,19 @@ class SendEmail:
             cta_viewname='explore:event',
             view_kwargs={'event_id': rsvp.event.id}
         )
+
+    @staticmethod
+    def announcement(announcements: list[Announcement]): 
+        for an in announcements:
+            context = {
+                    'heading':  an.title,
+                    'body_text': an.body,
+                    'cta_label': 'RegisterFor.Events'
+                    }
+
+            SendEmail.__send_transactional(
+                to_user=an.recipient,
+                template='email/cta.html',
+                context=context,
+                cta_viewname='base:home',
+            )

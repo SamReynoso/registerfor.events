@@ -2,15 +2,6 @@
 
 {% block content %}
 <section class="main-section pb-2">
-  <ul class="action-link__container mt-2">
-    <li>
-      <a href="{% url 'invoice:issued' invoice_id=registration.invoice.id %}" class="action-link">
-        Invoice Issued
-      </a>
-    </li>
-  </ul>
-</section>
-<section class="main-section pb-2">
   {% include "components/event_preview_card.html" with event=registration.event %}
 </section>
 
@@ -23,6 +14,11 @@
   <ul class="action-link__container mt-2">
     <li>
       <a href="{% url 'play:registration_modify' registration_id=registration.id %}" class="action-link">Modify Registration</a>
+    </li>
+    <li>
+      <a href="{% url 'invoice:issued' invoice_id=registration.invoice.id %}" class="action-link">
+        View Invoice
+      </a>
     </li>
   </ul>
 

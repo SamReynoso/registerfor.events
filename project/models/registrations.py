@@ -4,18 +4,6 @@ from mailbox.models import Rsvp
 from models.models import Division, Registration, RegistrationItem, Team
 
 from project.services.email import SendEmail
-# from project.utils.alerts import host_canceled_registration_alert_team_owner
-# from project.services.email import send_registration_canceled_email
-# from project.services.email import send_host_new_registration_email
-
-
-    # TODO: 
-    # Added methods for scripting later to move status to running and completed
-    # Add a lock method that is time based something like below:
-    # def status_lock(self):
-    #     today = timezone.localdate()
-    #     if today >= self.start_date:
-    #         return True
 
 import logging
 
@@ -157,6 +145,9 @@ class RegCRUD:
         registration = RegCRUD.create(owner=rsvp.sender, event=rsvp.event)
         registration_items = []
         for team in rsvp.teams.all():
+            Division.objects.get_or_create(event=rsvp.event,
+                                    name=team.division,
+                                    gender=team.gender)
             record = RegCRUD.__create_item_record(registration=registration,
                                                   team=team)
             item = RegistrationItem(

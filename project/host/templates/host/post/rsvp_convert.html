@@ -2,48 +2,33 @@
 
 {% block content %}
 
-<h1>Invitations</h1>
-
-<div class="content-container">
+<section class="main-section">
   <h1 style="margin-bottom: 1rem">RSVP</h1>
 
-  <div style="display: flex; flex-direction: row; justify-content: space-around; margin-bottom: 1rem;">
-
-    <div class="img-poster__container-medium">
-      <img src="{{ rsvp.event.get_poster_url }}" class="img-fill">
-    </div>
-
-    <div>
-      <h2>Event Info</h2>
-      <dl>
-        <dt>Name</dt><dd><a href="{% url 'explore:event' rsvp.event.id %}">{{ rsvp.event.name }}</a></dd>
-        <dt>Sport</dt><dd>{{ rsvp.event.get_sport_display }}</dd>
-        <dt>Starts</dt><dd>{{ rsvp.event.start_date }}</dd>
-        <dt>Ends</dt><dd>{{ rsvp.event.end_date }}</dd>
-        <dt>Host</dt>
-        <dd>
-          <a href="{% url 'explore:profile' rsvp.event.owner.profile.id %}">
-            {{ rsvp.event.owner.profile.get_full_name }}
-          </a>
-        </dd>
-        <dt>Status</dt><dd>{{ rsvp.event.get_status_display }}</dd>
-      </dl>
-    </div>
-  </div>
+    {% include 'components/event_preview_card.html' with event=rsvp.event %}
 
   <div style="max-width: 400px; margin: auto;">
     {% include 'components/rsvp_details_card.html' %}
   </div>
+</section>
 
-</div>
 
 <section class="main-section">
   <h1>Convert to Registration</h1>
 
   <form method='post' class="form">
 
-    <h2>Convert this RSVP to a registration for this event.</h2>
+    <div class="paragraph mb-2 pb-2">
+      <span class="paragraph__heading">Convert to Add Teams and Divisions</span>
+      <hr>
+      <p>
+        Converting a RSVP to a registration will create public divisions that other can sign up to
+        if it doesn't already exist.
+      </p>
+    </div>
+
     {% csrf_token %}
+
     <button type="submit">Convert</button>
 
   </form>

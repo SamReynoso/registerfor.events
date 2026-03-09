@@ -15,7 +15,7 @@ urlpatterns = [
          name='event'),
 
 
-    path('event/<int:event_id>/invitations/',
+    path('event/<int:event_id>/rsvps/',
          views.invitations,
          name='invitations'),
 

@@ -218,7 +218,9 @@ def event_announcement_create(request, event_id: int):
                         event=event,
                         )
                         )
+
             Announcement.objects.bulk_create(announcements)
+            SendEmail.announcement(announcements)
             return redirect('host:event', event_id=event_id)
     form = AnnouncementForm()
     context = {'event': event, 'form': form}

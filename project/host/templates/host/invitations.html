@@ -37,7 +37,7 @@
         <td>{{ rsvp.first_name }} {{ rsvp.last_name }}</td>
         <td>{{ rsvp.email}}</td>
         <td>{{ rsvp.phone}}</td>
-        <td>{{ rsvp.divisions.count }}</td>
+        <td>{{ rsvp.divisions.count|add:rsvp.teams.count }}</td>
         <td>
           <a href="{% url 'host:rsvp_convert' rsvp_id=rsvp.id %}" class="inline-icon__link">
             <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>

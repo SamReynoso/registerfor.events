@@ -4,11 +4,11 @@
 
 <section class="main-section">
   <h1>Event</h1>
-  <h2 class="ml-2">
-    {{ event.name }}
-    <a href="{% url 'explore:event' event_id=event.id %}" class="inline-icon__link">
+  <h2>
+    <a href="{% url 'explore:event' event_id=event.id %}" class="inline-icon__link mr-1">
       <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
     </a>
+    {{ event.name }}
   </h2>
 
   <ul class="action-link__container">
@@ -111,7 +111,6 @@
   </div>
 
   <div class="action-link__container">
-    <a href="{% url 'host:invitations' event_id=event.id %}" class="action-link">Invite</a>
     <a href="{% url 'host:event_announcement_create' event_id=event.id %}" class="action-link">Announce</a>
     <a href="{% url 'invoice:event_invoices' event_id=event.id %}" class="action-link">Invoice</a>
   </div>
@@ -150,6 +149,23 @@
     </tbody>
 
   </table>
+</section>
+
+<section class="main-section">
+  <h2>RSVP</h2>
+
+  <div class="paragraph">
+    <span class="paragraph__heading">You may have more interest in this event.</span>
+    <hr>
+    <p>
+      Other teams my be trying to join this event but you haven't added the divisions yet. Checkout your RSVPs to see 
+      if there is enough interest to expand the event.
+    </p>
+  </div>
+
+  <div class="action-link__container">
+    <a href="{% url 'host:invitations' event_id=event.id %}" class="action-link"> Checkout RSVP</a>
+  </div>
 </section>
 
 <section class="main-section danger-section">

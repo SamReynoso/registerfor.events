@@ -4,7 +4,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.conf import settings
 from django.db import models
 
-from models.models import User
+from models.models import Event, User
+from project import choices
 
 
 class Alert(models.Model):
@@ -92,7 +93,7 @@ class Rsvp(models.Model):
                                null=True,
                                on_delete=models.SET_NULL,
                                related_name='invitations')
-    event = models.ForeignKey('models.Event',
+    event = models.ForeignKey(Event,
                               on_delete=models.CASCADE,
                               related_name='rsvps')
     teams = models.ManyToManyField('models.Team',
@@ -102,6 +103,7 @@ class Rsvp(models.Model):
 
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
+    team_name = models.CharField(max_length=30)
     email = models.EmailField()
     phone = PhoneNumberField()
 
@@ -118,6 +120,17 @@ class Rsvp(models.Model):
         if self.sender:
             self.first_name = self.sender.profile.first_name
         return super().save(*args, **kwargs)
+
+    def get_2_way(self):
+        results = {}
+        for division in choices.DivisionChoices:
+            for gender in choices.Genders:
+                results[(division, gender)] = self.objects.filter(
+                        id=self.id,
+                        division=division,
+                        gender=gender)
+
+        return results
 
 
 # class Notification(models.Model):

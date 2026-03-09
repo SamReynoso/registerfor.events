@@ -245,7 +245,7 @@ th:last-child {
     <div class="invoice-meta">
         <div><strong>Invoice #:</strong> {{ invoice.id }}</div>
         <div><strong>Issue Date:</strong> {{ invoice.created_at }}</div>
-        <div><strong>Due Date:</strong> {{ invoice.due_date }}</div>
+        <div><strong>Due Date:</strong> {{ invoice.due_date|default:'N/A' }}</div>
     </div>
 </div>
 
@@ -255,7 +255,7 @@ th:last-child {
         <div class="section-title">From</div>
         <div class="block">
             {{ invoice.owner.profile.first_name }} {{ invoice.owner.profile.last_name }}<br>
-            {{ invoice.owner.profile.email }}<br>
+            {{ invoice.owner.email }}<br>
             {{ invoice.owner.profile.phone }}
         </div>
     </div>
@@ -276,7 +276,7 @@ th:last-child {
     <strong>{{ invoice.event.name }}</strong><br>
     {{ invoice.event.start_date }} – {{ invoice.event.end_date }}<br>
     
-    {%if invoice.event.address%}{{ invoice.event.address }}, {%endif%}{{ invoice.event.city }}, {{ invoice.event.state }}
+    {%if invoice.event.address%}{{ invoice.event.address }}, {%endif%}{{ invoice.event.get_city_display }}, {{ invoice.event.get_state_display }}
 </div>
 
 <!-- ===== Items Table ===== -->
@@ -315,7 +315,7 @@ th:last-child {
 <!-- ===== Payment Terms ===== -->
 <div class="footer">
     <strong>Payment Terms:</strong><br>
-    Payment is due by {{ invoice.due_date }}.  
+    Payment is due by {{ invoice.due_date|default:'N/A' }}.  
     Please reference invoice #{{ invoice.id }} when submitting payment.
 
     {% if invoice.notes %}

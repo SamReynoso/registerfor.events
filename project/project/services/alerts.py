@@ -1,5 +1,5 @@
-from mailbox.models import Alert
-from models.models import Event, Registration
+from mailbox.models import Alert, Rsvp
+from models.models import Event, Registration, RegistrationItem
 import logging
 
 
@@ -18,15 +18,14 @@ class Alerts:
         logger.info("Createtd new event alert")
 
     @staticmethod
-    def new_registrationel(registration: Registration):
+    def new_registration(registration: Registration):
         Alert.objects.create(
                 recipient=registration.event.owner,
                 type='new_registration',
-                title=f"New event registration for '{registration.event.name}.'",
-                body="A new team has registered for you event.",
+                title=f"New Event",
+                body=f"A new team has registered for you event '{registration.event.name}'.",
                 # target=registration.owner
                 )
-
 
     @staticmethod
     def registration_withdrawn(registration: Registration):
@@ -37,28 +36,37 @@ class Alerts:
                     "Registration withdrawn by "
                     f"'{registration.owner.profile.name}.'"
                     ),
-                body='A team withdrew from your event ' +
+                body=f"A team withdrew from your event '{registration.event.name}'." +
                 f"'{registration.event.name}'",
                 # target=registration.owner
                 )
 
-
     @staticmethod
-    def team_deleted(registration: Registration):
+    def team_deleted(registration_item: RegistrationItem):
         Alert.objects.create(
-                recipient=registration.event.owner,
+                recipient=registration_item.registration.event.owner,
                 type='team_withdrawn_by_deletion',
-                title=f"A Registration withdrawn from '{registration.team.name}.'",
-                body=f"A team in you event '{registration.event.name}' was "
+                title=f"Registration Withdrawn",
+                body=f"A team in you event '{registration_item.registration.event.name}' was "
                 f"deleted and has been withdrawn.",
                 # target=registration.event
                 )
 
+    @staticmethod
+    def rsvp_created(rsvp: Rsvp):
+        Alert.objects.create(
+                recipient=rsvp.event.owner,
+                type='event_created',
+                title=f'New RSVP',
+                body=f"New RSVP for Event '{rsvp.event.name}' was created.",
+                # target=event.owner,
+                )
+        logger.info("Createtd new event alert")
 
     @staticmethod
     def registration_canceled(registration: Registration):
         Alert.objects.create(
-                recipient=registration.team.owner,
+                recipient=registration.owner,
                 type='host_canceled_registration',
                 title="Registration canceled by host.",
                 body=f"The event host of '{registration.event.name}' canceled"

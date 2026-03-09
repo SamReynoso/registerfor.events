@@ -78,6 +78,7 @@ def invitations(request, event_id: int):
     if event.owner != request.user:
         return HttpResponseForbidden("You don't own this event.")
     rsvps = Rsvp.objects.filter(event=event)
+
     context = {
             'event': event,
             'rsvps': rsvps,

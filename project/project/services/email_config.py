@@ -53,9 +53,17 @@ EVENT_CANCELED: dict[str, Any]  = {
 
 
 ''' RSVP '''
-RSVP_TEMPLATE = 'email/rsvp.hmtl'
+RSVP_TEMPLATE = 'email/rsvp.html'
 RSVP: dict[str, Any]  = {
         'heading': 'New RSVP',
         'body_text': 'Someone new is going to your event.',
         'cta_label': 'View event',
+        }
+
+
+''' RSVP '''
+RSVP_TEMPLATE = 'email/rsvp.html'
+RSVP: dict[str, Any]  = {
+        'heading': 'New Announcement',
+        'cta_label': 'RegisterFor.Events',
         }
