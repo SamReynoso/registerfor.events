@@ -16,6 +16,7 @@ urlpatterns = [
     path('host/', include('host.urls')),
 
     path('mailbox/', include('mailbox.urls')),
+    path('pricing/', include('pricing.urls')),
     path('invoice/', include('invoice.urls')),
     path('share/', include('share.urls')),
     path('app/', include('app.urls')),

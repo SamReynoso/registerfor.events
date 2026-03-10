@@ -1,0 +1,36 @@
+{% extends "pricing/base.html" %}
+
+{% block content %}
+
+
+<section class="main-section">
+  <h2>Default Pricing</h2>
+
+
+
+  {% include 'components/event_preview_card.html' %}
+
+  <form method="post" class="form">
+    {% csrf_token %}
+
+    <h3>Set Price</h3>
+  <div class="paragraph mt-2 mb-2">
+
+    <span class="paragraph__heading">Warning</span>
+    <hr>
+    <p>
+      Applying this price will overwrite all division prices that have already been set.
+    </p>
+
+  </div>
+
+    <table class="form-as-table">
+    {{ form.as_table }}
+    </table>
+
+    <button type="submit">Create Event</button>
+  </form>
+
+</section>
+
+{% endblock content %}

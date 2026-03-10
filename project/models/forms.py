@@ -40,6 +40,10 @@ class EventForm(forms.ModelForm):
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
+class EventPriceForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ['unit_price']
 
 class EventPosterForm(forms.ModelForm):
     class Meta:

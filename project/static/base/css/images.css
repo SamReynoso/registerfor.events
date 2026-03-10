@@ -45,7 +45,7 @@
   border: 1px solid var(--border-color);
 }
 
-.img-team-photo__container-medium{
+.img-team-photo__container-medium {
   width: 150px;
   aspect-ratio: 1;
   border: 1px solid var(--border-color);

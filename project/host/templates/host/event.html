@@ -3,7 +3,7 @@
 {% block content %}
 
 <section class="main-section">
-  <h2>Event</h2>
+  <strong>Event</strong>
   <h2>
     <a href="{% url 'explore:event' event_id=event.id %}" class="inline-icon__link mr-1">
       <img src="/assets/icons/magnifying-glass.svg" class="inline-icon"><a></td>
@@ -18,9 +18,8 @@
     </div>
 
     <div>
-      <h3>Event Info</h3>
-
       <dl>
+        <dt><h3>Info</h3></dt><dd></dd>
         <dt>Sport</dt><dd>{{ event.get_sport_display }}</dd>
         <dt>City</dt><dd>{{ event.get_city_display }}</dd>
         <dt>State</dt><dd>{{ event.get_state_display }}</dd>
@@ -36,6 +35,21 @@
     <li><a href="{% url 'host:event_update' event_id=event.id %}" class="action-link">Update Event</a></li>
   </ul>
 
+</section>
+
+<section class="main-section">
+  <h2>Pricing</h2>
+
+  <div class="paragraph mt-2">
+    <span class="paragraph__heading">Set Your Prices</span>
+    <hr>
+    <p>
+      Set prices for all division, a single team, and everything in between.
+    </p>
+    <ul class="action-link__container">
+      <a href="{% url 'pricing:pricing' event_id=event.id %}" class="action-link">Event Pricing</a>
+    </ul>
+  </div>
 </section>
 
 <section id="lifecycle" class="main-section">
@@ -98,7 +112,7 @@
     </ul>
   </div>
 
-
+</section>
 
 <section class="main-section">
 

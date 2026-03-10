@@ -1,0 +1,63 @@
+{% extends "pricing/base.html" %}
+
+{% block content %}
+
+
+<section class="main-section">
+  <h2>Pricing</h2>
+
+  {% include 'components/event_preview_card.html' %}
+
+  <div class="paragraph mt-2 mb-2">
+
+    <span class="paragraph__heading">Control Pricing For Your Event</span>
+    <hr>
+    <p>
+      Set pricing for this event it's divisions and more. Below are your options for setting pricing control.
+    </p>
+
+  </div>
+</section>
+
+<section class="main-section">
+  <div class="paragraph mb-2">
+
+    <span class="paragraph__heading">Default Event Pricing</span>
+    <hr>
+    <p>
+      Follow this link to set the default price for all divisions, and adjust the price with more
+      procission with later options.
+    </p>
+
+    <ul class="action-link__container">
+      <li>
+        <a href="{% url 'pricing:default' event_id=event.id %}" class="action-link">
+          Default Price
+        </a>
+      </li>
+    </ul>
+
+  </div>
+</section>
+
+<section class="main-section">
+  <div class="paragraph mb-2">
+
+    <span class="paragraph__heading">Division Pricing</span>
+    <hr>
+    <p>
+      Select a division and set the default price for all its members.
+    </p>
+
+    <ul class="action-link__container">
+      <li>
+        <a href="{% url 'pricing:divisions' event_id=event.id %}" class="action-link">
+          Select Division
+        </a>
+      </li>
+    </ul>
+
+  </div>
+</section>
+
+{% endblock content %}

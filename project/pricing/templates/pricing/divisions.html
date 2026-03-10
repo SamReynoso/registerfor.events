@@ -1,0 +1,23 @@
+{% extends "pricing/base.html" %}
+
+{% block content %}
+
+
+<section class="main-section">
+  <h2>Division Pricing</h2>
+
+  {% include 'components/event_preview_card.html' %}
+
+  <div class="paragraph mt-2 mb-2">
+
+    <span class="paragraph__heading">Per Division Pricing</span>
+    <hr>
+    <p>
+      Select a division from the table below to set pricing for all division members. By default this will not affect 
+      registerd teams with pricing already set, but can be overridden to remove any previous price.
+    </p>
+
+  </div>
+</section>
+
+{% endblock content %}
