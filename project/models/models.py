@@ -1,5 +1,4 @@
-from django.contrib.auth.models import AbstractUser
-from invoice.models import EventRecord, Invoice, ItemRecord
+# from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
 from project.utils.project_models import (
         uuid_upload_avatar,
@@ -12,20 +11,10 @@ from django.db import models
 from project import choices
 
 
-class User(AbstractUser):
-    ...
-
-    def save(self, *args, **kwargs):
-        if self.pk is None:
-            ...
-        return super().save(*args, **kwargs)
-
-
-
 class Profile(models.Model):
     id = settings.DEFAULT_AUTO_FIELD
 
-    user = models.OneToOneField(User,
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 related_name='profile',
                                 on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30, blank=True)
@@ -79,10 +68,9 @@ class Event(models.Model):
     Status = choices.EventStatus
 
     id = settings.DEFAULT_AUTO_FIELD
-    owner = models.ForeignKey(User,
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='events',
                               on_delete=models.CASCADE)
-    record = models.OneToOneField(EventRecord, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=150)
     address = models.CharField(max_length=150, blank=True)
@@ -172,7 +160,7 @@ class Division(models.Model):
 class Team(models.Model):
     id = settings.DEFAULT_AUTO_FIELD
 
-    owner = models.ForeignKey(User,
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='teams',
                               on_delete=models.CASCADE)
     name = models.CharField(max_length=150)
@@ -204,15 +192,18 @@ class Team(models.Model):
 
 class Registration(models.Model):
 
-    owner = models.ForeignKey(User,
+    id = settings.DEFAULT_AUTO_FIELD
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name="registration_records",
                               on_delete=models.CASCADE)
     event = models.ForeignKey(Event,
                               related_name='registrations',
                               on_delete=models.CASCADE)
-    invoice = models.OneToOneField(Invoice, on_delete=models.CASCADE)
 
-    id = settings.DEFAULT_AUTO_FIELD
+    unit_price = models.DecimalField(max_digits=10,
+                                     decimal_places=2,
+                                     null=True,
+                                     blank=True)
 
     status = models.CharField(
         max_length=20,
@@ -265,7 +256,10 @@ class RegistrationItem(models.Model):
     division = models.ForeignKey(Division,
                                  related_name='items',
                                  on_delete=models.CASCADE)
-    record = models.OneToOneField(ItemRecord, on_delete=models.CASCADE)
+
+    invoice = models.ForeignKey('invoice.Invoice',
+                                related_name='items',
+                                on_delete=models.CASCADE)
 
 
     unit_price = models.DecimalField(max_digits=10,
@@ -275,10 +269,6 @@ class RegistrationItem(models.Model):
     @property
     def team_name(self):
         return self.team.name
-
-    @property
-    def invoice(self):
-        return self.registration.invoice
 
     @property
     def contact_name(self):

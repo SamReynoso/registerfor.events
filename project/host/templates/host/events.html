@@ -38,7 +38,7 @@
           <td>{{ event.get_sport_display }}</td>
           <td>{{ event.get_status_display }}</td>
           <td>
-            <a href="{% url "host:event" event_id=event.id %}" class="inline-icon__link">
+            <a href="{% url 'host:event' event_id=event.id %}" class="inline-icon__link">
               <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
               <a>
           </td>

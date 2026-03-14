@@ -1,0 +1,74 @@
+{% extends "pricing/base.html" %}
+
+{% block content %}
+
+<section class="main-section">
+  <h2>Division Pricing</h2>
+
+
+
+  {% include 'components/event_preview_card.html' with event=division.event %}
+
+</section>
+
+<section class="main-section">
+  <form method="post" class="form mb-2">
+    {% csrf_token %}
+
+    <h3>Set Division Price</h3>
+  <div class="paragraph mt-2 mb-2">
+
+    <span class="paragraph__heading">
+    </span>
+    <hr>
+    <p>
+      This price will be used for all members of this division. Do this before setting registration level pricing, or 
+      those setting will be deleted.
+    </p>
+
+  </div>
+
+    {% if form.errors %}<p>{{ form.error }}</p>{% endif %}
+    <table class="form-as-table">
+    {{ form.as_table }}
+    </table>
+
+    <button type="submit">Create Event</button>
+  </form>
+
+
+  <h3>Division Members</h3>
+  <table class="item-table">
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Contact Name</th>
+        <th>Price</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in division.items.all %}
+      <tr>
+        {% if item.team %}
+        <td>
+            {{ item.team.name }}
+        </td>
+        {% else %}
+        <td>TBA</td>
+        {% endif %}
+        <td>{{ item.contact_name }}</td>
+        <td>{{ item.unit_price }}</td>
+        <td>
+          <a href="{% url 'pricing:registration' registration_id=item.registration.id %}" class="inline-icon__link">
+            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</section>
+
+{% endblock %}

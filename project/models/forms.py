@@ -1,5 +1,5 @@
 from django import forms
-from models.models import Division, Profile, Event, Team
+from models.models import Division, Profile, Event, Registration, RegistrationItem, Team
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -40,10 +40,30 @@ class EventForm(forms.ModelForm):
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
+
 class EventPriceForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ['unit_price']
+
+
+class DivisionPriceForm(forms.ModelForm):
+    class Meta:
+        model = Division
+        fields = ['unit_price']
+
+
+class RegistrationPriceForm(forms.ModelForm):
+    class Meta:
+        model = Registration
+        fields = ['unit_price']
+
+
+class RegistrationItemPriceForm(forms.ModelForm):
+    class Meta:
+        model = RegistrationItem
+        fields = ['unit_price']
+
 
 class EventPosterForm(forms.ModelForm):
     class Meta:

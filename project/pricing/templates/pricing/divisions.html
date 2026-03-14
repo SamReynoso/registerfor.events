@@ -14,10 +14,39 @@
     <hr>
     <p>
       Select a division from the table below to set pricing for all division members. By default this will not affect 
-      registerd teams with pricing already set, but can be overridden to remove any previous price.
+      registered teams with pricing already set, but can be overridden to remove any previous price.
     </p>
 
   </div>
+
+  <table>
+    <tr>
+      <th>Division</th>
+      <th>Teams</th>
+      <th>Price</th>
+      <th></th>
+    </tr>
+  {% for division in event.divisions.all %}
+    <tr>
+      <td>
+        {{ division.get_name_display }}
+        {{ division.get_gender_display }}
+      </td>
+      <td>
+        {{ division.items.count }}
+      </td>
+      <td>
+        ${{ division.unit_price }}
+      </td>
+      <td>
+        <a href="{% url 'pricing:division' division_id=division.id %}" class="inline-icon__link">
+          <img src="/assets/icons/circle.svg" class="inline-icon">
+        </a>
+
+      </td>
+    </tr>
+  {% endfor %}
+  </table>
 </section>
 
 {% endblock content %}

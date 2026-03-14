@@ -19,11 +19,12 @@ from django.conf import settings
 from django.urls import reverse
 
 from project.services import email_config
-from models.models import Registration, User
+from models.models import Event, Registration
 from mailbox.models import Announcement, Rsvp
 
 import logging
 import inspect
+from django.contrib.auth.models import User
 
 logger = logging.getLogger(__name__)
 
@@ -140,13 +141,14 @@ class SendEmail:
 
 
     @staticmethod
-    def event_created(user: User):
+    def event_created(user: User, event: Event):
         context = email_config.EVENT_CREATED
         SendEmail.__send_transactional(
             to_user=user,
             template=email_config.EVENT_CREATED_TEMPLATE,
             context=context,
-            cta_viewname='host:hosting',
+            cta_viewname='host:event',
+            view_kwargs={'event_id': event.id}
         )
         logger.info("Emailed user about Event Creation")
 

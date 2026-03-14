@@ -1,0 +1,77 @@
+{% extends "pricing/base.html" %}
+
+{% block content %}
+
+<section class="main-section">
+  <h2>Registration Pricing</h2>
+
+
+
+  {% include 'components/event_preview_card.html' with event=registration.event %}
+
+</section>
+
+<section class="main-section">
+  <form method="post" class="form mb-2">
+    {% csrf_token %}
+
+    <h3>Set Registration Price</h3>
+  <div class="paragraph mt-2 mb-2">
+
+    <span class="paragraph__heading">
+    </span>
+    <hr>
+    <p>
+      This price for all teams in this division. Do this before setting individual prices, or 
+      those setting will be deleted.
+    </p>
+
+  </div>
+
+    {% if form.errors %}<p>{{ form.error }}</p>{% endif %}
+    <table class="form-as-table">
+    {{ form.as_table }}
+    </table>
+
+    <button type="submit">Update Price</button>
+  </form>
+
+  <h3 class="mt-1">Contact</h3>
+  <dl>
+    <dt>Name</dt>
+    <dd>{{ registration.contact_name }}</dd>
+    <dt>Email</dt>
+    <dd>{{ registration.contact_email}}</dd>
+    <dt>Phone</dt>
+    <dd>{{ registration.contact_phone}}</dd>
+  </dl>
+
+  <h3>Registration Members</h3>
+  <table class="item-table">
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Division</th>
+        <th>Price</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in registration.items.all %}
+      <tr>
+        <td>{{ item.team.name }}</td>
+        <td>{{ item.team.get_division_display }} {{ item.team.get_gender_display }}</td>
+        <td>{{ item.unit_price }}</td>
+        <td>
+          <a href="{% url 'pricing:item' registration_item_id=item.id %}" class="inline-icon__link">
+            <img src="/assets/icons/magnifying-glass.svg" class="inline-icon">
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</section>
+
+{% endblock %}

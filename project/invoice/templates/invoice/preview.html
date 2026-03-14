@@ -48,7 +48,7 @@
     </div>
   </div>
 
-  <ul class="action-link__container">
+  <ul class="action-link__container mt-2">
     <li>
     <a href="{% url 'invoice:view_pdf' invoice_id=invoice.id %}" class="action-link">View PDF</a>
     </li>
@@ -198,7 +198,7 @@
         <div>
             <strong>Event Owner</strong><br>
             {{ invoice.owner.profile.first_name }} {{ invoice.owner.profile.last_name }}<br>
-            {{ invoice.owner.profile.email }}
+            {{ invoice.owner.email }}
         </div>
 
         <div>
@@ -214,7 +214,7 @@
     <ul style="margin-top:10px;">
         {% for item in invoice.items.all %}
             <li>
-                {{ item.team_name }} — {{ item.division }} ({{ item.gender }})
+                {{ item.team_name }} — {{ item.division.get_name_display }} {{ item.division.get_gender_display }}
             </li>
         {% endfor %}
     </ul>
@@ -227,15 +227,15 @@
     <div class="grid-2">
         <div>
             <strong>Name</strong><br>
-            {{ invoice.contact.first_name }} {{ invoice.contact.last_name }}
+            {{ invoice.recipient.profile.first_name }} {{ invoice.recipient.profile.last_name }}
         </div>
         <div>
             <strong>Email</strong><br>
-            {{ invoice.contact.email }}
+            {{ invoice.recipient.email }}
         </div>
         <div>
             <strong>Phone</strong><br>
-            {{ invoice.contact.phone }}
+            {{ invoice.recipient.profile.phone }}
         </div>
     </div>
   </div>
@@ -248,7 +248,6 @@
             <tr>
                 <th>Team Name</th>
                 <th>Division</th>
-                <th>Gender</th>
                 <th>Unit Price</th>
             </tr>
         </thead>
@@ -256,8 +255,7 @@
             {% for item in invoice.items.all %}
             <tr>
                 <td>{{ item.team_name }}</td>
-                <td>{{ item.division }}</td>
-                <td>{{ item.gender }}</td>
+                <td>{{ item.team.get_division_display }} {{ item.team.get_gender_display }}</td>
                 <td>${{ item.unit_price|floatformat:2 }}</td>
             </tr>
             {% endfor %}

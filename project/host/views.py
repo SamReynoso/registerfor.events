@@ -54,7 +54,6 @@ def registration(request, registration_id: int):
 
 @login_required(login_url='/login/')
 def registration_item(request, registration_item_id: int):
-    print('hello')
     item = get_object_or_404(RegistrationItem, id=registration_item_id)
     if item.registration.owner != request.user:
         return HttpResponseForbidden(

@@ -25,10 +25,8 @@ def events(request):
 
 def event_invoices(request, event_id: int):
     event = get_object_or_404(Event, id=event_id)
-    invoices = Invoice.objects.filter(event=event.record).all()
     context = {
             'event': event,
-            'invoices': invoices
                }
     return render(request, 'invoice/event_invoices.html', context)
 

@@ -1,0 +1,51 @@
+{% extends "pricing/base.html" %}
+
+{% block content %}
+
+<section class="main-section">
+  <h2>Item Pricing</h2>
+
+
+
+  {% include 'components/registration_item_preview_card.html' %}
+
+  <h3 class="mt-1">Contact</h3>
+  <dl>
+    <dt>Name</dt>
+    <dd>{{ registration.contact_name }}</dd>
+    <dt>Email</dt>
+    <dd>{{ registration.contact_email}}</dd>
+    <dt>Phone</dt>
+    <dd>{{ registration.contact_phone}}</dd>
+  </dl>
+
+</section>
+
+<section class="main-section">
+  <form method="post" class="form mb-2">
+    {% csrf_token %}
+
+    <h3>Set Registration Price</h3>
+  <div class="paragraph mt-2 mb-2">
+
+    <span class="paragraph__heading">
+    </span>
+    <hr>
+    <p>
+      This price for all teams in this division. Do this before setting individual prices, or 
+      those setting will be deleted.
+    </p>
+
+  </div>
+
+    {% if form.errors %}<p>{{ form.error }}</p>{% endif %}
+    <table class="form-as-table">
+    {{ form.as_table }}
+    </table>
+
+    <button type="submit">Update Price</button>
+  </form>
+
+</section>
+
+{% endblock %}

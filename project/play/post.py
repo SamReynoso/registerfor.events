@@ -1,4 +1,5 @@
 from django.utils.http import url_has_allowed_host_and_scheme
+from invoice.models import Invoice
 from models.registrations import RegCRUD
 from project.services.alerts import Alerts
 from project.services.email import SendEmail
@@ -112,13 +113,18 @@ def register_for_event(request, event_id: int):
             return HttpResponseForbidden('Your profile is incomplete.')
 
         if registration is None:
-            registration = RegCRUD.create(owner=request.user, event=event)
+            registration, invoice = RegCRUD.create(
+                    owner=request.user,
+                    event=event
+                    )
+        else: 
+            invoice = Invoice.objects.get(registration=registration)
 
         added_teams = []
         for team in teams:
            if request.POST.get(f'team{team.id}') == 'on':
                 added_teams.append(team)
-        RegCRUD.bulk_create_items(registration, added_teams)
+        RegCRUD.bulk_create_items(registration, invoice, added_teams)
         SendEmail.host_registration(registration)
         Alerts.new_registration(registration)
 

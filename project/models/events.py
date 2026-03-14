@@ -1,5 +1,4 @@
 from models.models import Event
-from invoice.models import EventRecord
 
 import logging
 
@@ -18,37 +17,10 @@ class EventCRUD:
                 'end_date',
                 )
 
-    @staticmethod
-    def __create_record(event: Event):
-        record = EventRecord.objects.create(
-                name=event.name,
-                address=event.address,
-                city=event.city,
-                state=event.state,
-                sport=event.sport,
-                start_date=event.start_date,
-                end_date=event.end_date,
-                )
-        return record
-
-
-    @staticmethod
-    def __update_record(event: Event, commit=True):
-        assert event.pk, f'event.pk is {event.pk}'
-
-        for k in EventCRUD.__attr_names:
-            setattr(event.record, k, getattr(event, k))
-        if commit:
-            event.record.save()
-        return event.record
-
-
 
     @staticmethod
     def create(*args, **kwargs):
         event = Event(*args, **kwargs)
-        record = EventCRUD.__create_record(event)
-        event.record = record
         event.save()
         logger.info("Created Event", extra={"event_id": event.id})
 
@@ -59,23 +31,19 @@ class EventCRUD:
         for k, v in kwargs.items():
             if k not in EventCRUD.__attr_names:
                 raise ValueError(
-                        f'{k} is not a attribute handles by {EventCRUD.__class__.__name__}'
+                        f'{k} is not a attribute handles by '
+                        f'{EventCRUD.__class__.__name__}'
                         )
             setattr(event, k, v)
-
-        EventCRUD.__update_record(event)
         return event.save()
 
 
     @staticmethod
     def save(event):
         if event.pk:
-            EventCRUD.__update_record(event)
-            logger.info("Record updated")
+            logger.info("Record Updated")
         else:
-            logger.info("New Event saved")
-            record = EventCRUD.__create_record(event)
-            event.record = record
+            logger.info("New Event Created")
             return event.save()
         return event.save()
 

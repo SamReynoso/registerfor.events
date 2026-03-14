@@ -4,7 +4,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.conf import settings
 from django.db import models
 
-from models.models import Event, User
+from models.models import Event
 from project import choices
 
 
@@ -12,7 +12,7 @@ class Alert(models.Model):
     target = GenericForeignKey("content_type", "object_id")
 
     recipient = models.ForeignKey(
-            User,
+            settings.AUTH_USER_MODEL,
             on_delete=models.CASCADE,
             related_name='alerts')
     type = models.CharField(max_length=50)
@@ -34,7 +34,7 @@ class Alert(models.Model):
 
 
 class Conversation(models.Model):
-    participants = models.ManyToManyField(User,
+    participants = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                           related_name='conversations')
 
 
@@ -43,11 +43,11 @@ class DirectMessage(models.Model):
             Conversation,
             on_delete=models.CASCADE,
             related_name='direct_messages')
-    sender = models.ForeignKey(User,
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL,
                                null=True,
                                on_delete=models.SET_NULL,
                                related_name='sent_direct_messages')
-    recipient = models.ForeignKey(User,
+    recipient = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   null=True,
                                   on_delete=models.SET_NULL,
                                   related_name='direct_messages')
@@ -61,12 +61,12 @@ class DirectMessage(models.Model):
 
 class Announcement(models.Model):
     sender = models.ForeignKey(
-            User,
+            settings.AUTH_USER_MODEL,
             on_delete=models.SET_NULL,
             null=True,
             related_name='sent_announcements')
     recipient = models.ForeignKey(
-            User,
+            settings.AUTH_USER_MODEL,
             on_delete=models.CASCADE,
             related_name='announcements')
     title = models.CharField(max_length=255)
@@ -86,10 +86,10 @@ class Announcement(models.Model):
 
 
 class Rsvp(models.Model):
-    owner = models.ForeignKey(User,
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='rsvps',
                               on_delete=models.CASCADE)
-    sender = models.ForeignKey(User,
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL,
                                null=True,
                                on_delete=models.SET_NULL,
                                related_name='invitations')

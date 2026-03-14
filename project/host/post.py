@@ -30,7 +30,7 @@ def event_create(request):
             event.owner = request.user
             EventCRUD.save(event)
             Alerts.event_created(event)
-            SendEmail.event_created(event.owner)
+            SendEmail.event_created(event.owner, event)
             return redirect('host:event', event_id=event.id)
     else:
         form = EventForm()

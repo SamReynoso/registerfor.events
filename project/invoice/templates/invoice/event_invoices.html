@@ -29,7 +29,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for invoice in invoices %}
+      {% for invoice in event.invoices.all %}
         <tr>
           <td>{{ invoice.id }}</td>
           <td>{{ invoice.contact.first_name }} {{ invoice.contact.last_name }}</td>
